@@ -1,0 +1,28 @@
+import S from '@sanity/desk-tool/structure-builder';
+import { BsLink45Deg, BsGearFill } from 'react-icons/bs';
+
+export default () =>
+  S.list()
+    .title('Content')
+    .items([
+      // Any spread in any pages we don't manually add here
+      ...S.documentTypeListItems().filter(
+        (item) =>
+          item.getId() !== 'siteNavigation' &&
+          item.getId() !== 'siteSettings'
+      ),
+      // Site navigation
+      S.listItem()
+        .title('Navigation')
+        .icon(BsLink45Deg)
+        .child(
+          S.document().schemaType('siteNavigation').documentId('siteNavigation')
+        ),
+      // Site settings
+      S.listItem()
+        .title('Settings')
+        .icon(BsGearFill)
+        .child(
+          S.document().schemaType('siteSettings').documentId('siteSettings')
+        ),
+    ]);

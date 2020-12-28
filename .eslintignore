@@ -1,0 +1,6 @@
+.git
+.next
+node_modules
+out
+studio/node_modules
+studio/dist

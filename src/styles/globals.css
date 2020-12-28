@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  :root {
+    --reach-tabs: 1;
+  }
+
+  /* Replace default focus styles */
+  a:focus,
+  button:focus,
+  input:focus,
+  textarea:focus,
+  select:focus,
+  [tabindex]:focus {
+    @apply ring outline-none;
+  }
+
+  /* See https://piccalil.li/quick-tip/a-safer-way-to-vertically-fill-the-viewport/ for details */
+  html,
+  body,
+  #__next {
+    height: -webkit-fill-available;
+  }
+
+  /* Use Smooth Scroll for jump links */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .cta {
+    @apply px-8 py-2 inline-block font-bold text-white rounded-full bg-green-dark;
+  }
+
+  /* Turn off animations for people who have the prefers-reduced-motion query enabled */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  @variants responsive {
+    .text-shadow {
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.125);
+    }
+    .drop-shadow {
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.125));
+    }
+  }
+}
