@@ -14,25 +14,30 @@ import {
 
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
+import { useGlobalContext } from '@lib/index';
 import { useOnClickOutside } from '@lib/hooks/index';
 
 function Nav() {
-  // const [tabIndex, setTabIndex] = React.useState(
-  //   () => siteNavigation.filter((navItem) => navItem.subMenu).length
-  // );
+  const { siteNavigation } = useGlobalContext();
 
-  // function closeTab() {
-  //   setTabIndex(siteNavigation.filter((navItem) => navItem.subMenu).length);
-  // }
+  const [tabIndex, setTabIndex] = React.useState(
+    () => siteNavigation.items.filter((navItem) => navItem.subMenu).length
+  );
 
-  // const ref = React.useRef();
-  // useOnClickOutside(ref, closeTab);
+  function closeTab() {
+    setTabIndex(
+      siteNavigation.items.filter((navItem) => navItem.subMenu).length
+    );
+  }
+
+  const ref = React.useRef();
+  useOnClickOutside(ref, closeTab);
 
   return (
     <Tabs
-      // ref={ref}
-      // index={tabIndex}
-      // onChange={(index) => setTabIndex(index)}
+      ref={ref}
+      index={tabIndex}
+      onChange={(index) => setTabIndex(index)}
       className="relative text-white bg-green-dark"
     >
       <div className="relative z-20 shadow">
@@ -40,7 +45,7 @@ function Nav() {
           <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
             <nav className="flex space-x-10">
               <TabList as="ul" className="hidden lg:flex">
-                {/* {siteNavigation.map((navItem) =>
+                {siteNavigation.items.map((navItem) =>
                   navItem.subMenu ? (
                     <NavButton
                       key={navItem._key}
@@ -51,14 +56,14 @@ function Nav() {
                   ) : (
                     <NavLink key={navItem._key} navItem={navItem} />
                   )
-                )} */}
+                )}
               </TabList>
             </nav>
           </div>
         </Container>
       </div>
       <TabPanels>
-        {/* {siteNavigation.map(
+        {siteNavigation.items.map(
           (navItem, index) =>
             navItem.subMenu && (
               <TabPanel key={navItem._key}>
@@ -68,7 +73,7 @@ function Nav() {
                 />
               </TabPanel>
             )
-        )} */}
+        )}
       </TabPanels>
       {/* Mobile menu, show/hide based on mobile menu state.
           Entering: "duration-200 ease-out"
@@ -144,7 +149,7 @@ function SubMenu({ siteNavigation, isActive }) {
           <div className="py-8 bg-gray-light sm:py-12">
             <HorizontalPadding as="nav">
               <ul className="grid grid-flow-col grid-cols-3 grid-rows-6 gap-6">
-                {siteNavigation.map(
+                {siteNavigation.items.map(
                   (navItem) =>
                     navItem.subMenu &&
                     navItem.subMenu.map((subMenu) => (

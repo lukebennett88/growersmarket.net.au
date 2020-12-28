@@ -4,7 +4,11 @@ import 'typeface-montserrat';
 import 'intersection-observer';
 
 import '../styles/globals.css';
-import { shopifyClient, ShopifyContextProvider } from '@lib/index';
+import {
+  apolloClient,
+  GlobalContext,
+  ShopifyContextProvider,
+} from '@lib/index';
 import { Layout } from '@components/layout';
 import { config } from '../../config';
 
@@ -14,19 +18,19 @@ interface AppProps {
 }
 
 function App({ Component, pageProps }: AppProps) {
+  const { siteNavigation, siteSettings } = pageProps;
   return (
-    <>
-      {/* <GlobalContext.Provider
-        value={{
-          siteNavigation: pageProps.siteNavigation,
-          siteSettings: pageProps.siteSettings,
-        }}
-      > */}
+    <GlobalContext.Provider
+      value={{
+        siteNavigation,
+        siteSettings,
+      }}
+    >
       <ShopifyContextProvider
         shopName={process.env.NEXT_PUBLIC_SHOPIFY_SHOP_NAME}
         accessToken={process.env.NEXT_PUBLIC_SHOPIFY_ACCESS_TOKEN}
       >
-        <ApolloProvider client={shopifyClient}>
+        <ApolloProvider client={apolloClient}>
           <DefaultSeo
             titleTemplate={`%s | ${config.title}`}
             description={config.description}
@@ -42,8 +46,7 @@ function App({ Component, pageProps }: AppProps) {
           </Layout>
         </ApolloProvider>
       </ShopifyContextProvider>
-      {/* </GlobalContext.Provider> */}
-    </>
+    </GlobalContext.Provider>
   );
 }
 

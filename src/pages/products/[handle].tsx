@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { gql, useMutation } from '@apollo/client';
 
-import { shopifyClient } from '@lib/shopify-client';
+import { apolloClient } from '@lib/apollo-client';
 import { HorizontalPadding } from '@components/index';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 
@@ -233,7 +233,7 @@ function ProductPage({ product }) {
 
 async function getStaticPaths() {
   let cursor = {};
-  const { data } = await shopifyClient.query({
+  const { data } = await apolloClient.query({
     query: gql`
       query GetProducts {
         products(first: 250) {
@@ -261,7 +261,7 @@ async function getStaticPaths() {
 }
 
 async function getStaticProps({ params }) {
-  const { data } = await shopifyClient.query({
+  const { data } = await apolloClient.query({
     query: gql`
       query ProductQuery($handle: String!) {
         productByHandle(handle: $handle) {
@@ -299,10 +299,64 @@ async function getStaticProps({ params }) {
       }
     `,
     variables: { handle: params.handle },
+    context: {
+      clientName: 'shopify',
+    },
   });
+
+  const sanityData = await apolloClient.query({
+    query: gql`
+      query SanityQuery {
+        SiteSettings(id: "siteSettings") {
+          title
+          description
+          siteUrl
+          shareImage {
+            asset {
+              url
+            }
+          }
+          phoneNumber
+          address {
+            streetAddress
+            suburb
+            googleMaps {
+              link
+              embed
+            }
+          }
+          socialLinks {
+            _key
+            socialNetwork
+            link
+          }
+        }
+        SiteNavigation(id: "siteNavigation") {
+          items {
+            _key
+            title
+            subMenu {
+              _key
+              title
+              route
+              link
+            }
+            route
+            link
+          }
+        }
+      }
+    `,
+    context: {
+      clientName: 'sanity',
+    },
+  });
+
   return {
     props: {
       product: data.productByHandle,
+      siteNavigation: sanityData.data.SiteNavigation,
+      siteSettings: sanityData.data.SiteSettings,
     },
   };
 }
