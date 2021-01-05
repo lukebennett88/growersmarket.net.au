@@ -10,6 +10,7 @@ import {
   ProductCard,
 } from '@components/index';
 import { apolloClient } from '@lib/index';
+import { SANITY_DATA } from '@queries/index';
 
 function HomePage({ products }) {
   return (
@@ -253,55 +254,14 @@ async function getStaticProps() {
       }
     `,
     context: {
-      clientName: 'shopify',
+      clientName: 'SHOPIFY',
     },
   });
 
   const sanityData = await apolloClient.query({
-    query: gql`
-      query SanityQuery {
-        SiteSettings(id: "siteSettings") {
-          title
-          description
-          siteUrl
-          shareImage {
-            asset {
-              url
-            }
-          }
-          phoneNumber
-          address {
-            streetAddress
-            suburb
-            googleMaps {
-              link
-              embed
-            }
-          }
-          socialLinks {
-            _key
-            socialNetwork
-            link
-          }
-        }
-        SiteNavigation(id: "siteNavigation") {
-          items {
-            _key
-            title
-            subMenu {
-              _key
-              title
-              route
-              link
-            }
-            route
-            link
-          }
-        }
-      }
-    `,
+    query: SANITY_DATA,
     context: {
-      clientName: 'sanity',
+      clientName: 'SANITY',
     },
   });
 

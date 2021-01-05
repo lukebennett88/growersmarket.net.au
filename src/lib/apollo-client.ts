@@ -20,7 +20,7 @@ const shopifyLink = new HttpLink({
 
 const apolloClient = new ApolloClient({
   link: ApolloLink.split(
-    (operation) => operation.getContext().clientName === 'sanity',
+    (operation) => operation.getContext().clientName === 'SANITY',
     sanityLink,
     shopifyLink
   ),

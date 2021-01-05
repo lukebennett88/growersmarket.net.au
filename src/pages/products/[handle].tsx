@@ -6,6 +6,7 @@ import { gql, useMutation } from '@apollo/client';
 import { apolloClient } from '@lib/apollo-client';
 import { HorizontalPadding } from '@components/index';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
+import { SANITY_DATA } from '@queries/index';
 
 function ProductPage({ product }) {
   // Number of items to add to cart
@@ -300,55 +301,14 @@ async function getStaticProps({ params }) {
     `,
     variables: { handle: params.handle },
     context: {
-      clientName: 'shopify',
+      clientName: 'SHOPIFY',
     },
   });
 
   const sanityData = await apolloClient.query({
-    query: gql`
-      query SanityQuery {
-        SiteSettings(id: "siteSettings") {
-          title
-          description
-          siteUrl
-          shareImage {
-            asset {
-              url
-            }
-          }
-          phoneNumber
-          address {
-            streetAddress
-            suburb
-            googleMaps {
-              link
-              embed
-            }
-          }
-          socialLinks {
-            _key
-            socialNetwork
-            link
-          }
-        }
-        SiteNavigation(id: "siteNavigation") {
-          items {
-            _key
-            title
-            subMenu {
-              _key
-              title
-              route
-              link
-            }
-            route
-            link
-          }
-        }
-      }
-    `,
+    query: SANITY_DATA,
     context: {
-      clientName: 'sanity',
+      clientName: 'SANITY',
     },
   });
 

@@ -20,6 +20,9 @@
       ],
       "@lib/*": [
         "src/lib/*"
+      ],
+      "@queries/*": [
+        "src/queries/*"
       ]
     },
     "resolveJsonModule": true,
