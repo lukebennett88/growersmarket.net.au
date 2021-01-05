@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { HiSearch, HiOutlineUser, HiOutlineShoppingCart } from 'react-icons/hi';
+import { HiSearch } from 'react-icons/hi';
 
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
+import { CartIcon, SignInIcon } from './vectors';
 
 function Shopbar() {
   return (
@@ -37,14 +38,14 @@ function Shopbar() {
                 </span>
               </div>
               <div className="flex items-center space-x-2">
-                <HiOutlineUser className="w-7 h-7" />
+                <SignInIcon className="w-7 h-7" />
                 <span className="text-xs leading-tight">
                   Sign <br />
                   In
                 </span>
               </div>
               <div className="flex items-center space-x-2">
-                <HiOutlineShoppingCart className="w-7 h-7" />
+                <CartIcon className="w-7 h-7" />
                 <span className="text-xs leading-tight">
                   Your <br />
                   Cart
