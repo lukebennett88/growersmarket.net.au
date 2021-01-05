@@ -21,12 +21,12 @@ function Nav() {
   const { siteNavigation } = useGlobalContext();
 
   const [tabIndex, setTabIndex] = React.useState(
-    () => siteNavigation.items.filter((navItem) => navItem.subMenu).length
+    () => siteNavigation?.items.filter((navItem) => navItem.subMenu).length
   );
 
   function closeTab() {
     setTabIndex(
-      siteNavigation.items.filter((navItem) => navItem.subMenu).length
+      siteNavigation?.items.filter((navItem) => navItem.subMenu).length
     );
   }
 
@@ -45,7 +45,7 @@ function Nav() {
           <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
             <nav className="flex space-x-10">
               <TabList as="ul" className="hidden lg:flex">
-                {siteNavigation.items.map((navItem) =>
+                {siteNavigation?.items.map((navItem) =>
                   navItem.subMenu ? (
                     <NavButton
                       key={navItem._key}
@@ -63,7 +63,7 @@ function Nav() {
         </Container>
       </div>
       <TabPanels>
-        {siteNavigation.items.map(
+        {siteNavigation?.items.map(
           (navItem, index) =>
             navItem.subMenu && (
               <TabPanel key={navItem._key}>
@@ -149,7 +149,7 @@ function SubMenu({ siteNavigation, isActive }) {
           <div className="py-8 bg-gray-light sm:py-12">
             <HorizontalPadding as="nav">
               <ul className="grid grid-flow-col grid-cols-3 grid-rows-6 gap-6">
-                {siteNavigation.items.map(
+                {siteNavigation?.items.map(
                   (navItem) =>
                     navItem.subMenu &&
                     navItem.subMenu.map((subMenu) => (
