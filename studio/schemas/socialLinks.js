@@ -1,4 +1,4 @@
-import {IoShareSocial as icon} from 'react-icons/io5'
+import { IoShareSocial as icon } from 'react-icons/io5';
 
 export default {
   title: 'Social Links',
@@ -12,14 +12,9 @@ export default {
       type: 'string',
       options: {
         layout: 'radio',
-        list: [
-          'Facebook',
-          'Instagram',
-          'LinkedIn',
-          'Twitter'
-        ],
-        direction: "horizontal",
-      }
+        list: ['Facebook', 'Instagram', 'LinkedIn', 'Twitter'],
+        direction: 'horizontal',
+      },
     },
     {
       title: 'Link',
