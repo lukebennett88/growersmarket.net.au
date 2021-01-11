@@ -4,6 +4,7 @@ import { NextSeo } from 'next-seo';
 import { gql } from '@apollo/client';
 
 import {
+  Carousel,
   Container,
   HorizontalPadding,
   ProductGrid,
@@ -16,7 +17,7 @@ function HomePage({ products }) {
   return (
     <>
       <NextSeo title="Home" />
-      <Slides />
+      <Carousel />
       <div className="grid gap-12 pb-12 lg:grid-cols-2">
         <ThisWeeksSpecials products={products.edges} />
         <TopSellingFruit products={products.edges} />
@@ -34,45 +35,6 @@ function HomePage({ products }) {
         </div>
       </div>
     </>
-  );
-}
-
-// TODO: source this data from Sanity
-const slides = [
-  {
-    heading: 'Get Christmas Ready with us',
-    cta: {
-      label: 'Shop Christmas Essentials now',
-      slug: '/',
-    },
-    backgroundImage: '',
-  },
-];
-
-function Slides() {
-  return (
-    <ul>
-      {slides.map((slide) => (
-        <li key={slide.heading} className="relative py-12 bg-gray-light">
-          <Container as="article">
-            <HorizontalPadding variant={HorizontalPadding.variant.GRAY}>
-              <div className="max-w-lg">
-                <h2 className="text-5xl italic text-green-dark">
-                  <span className="inline-block max-w-prose">
-                    {slide.heading}
-                  </span>
-                </h2>
-                <p className="mt-8">
-                  <Link href={slide.cta.slug}>
-                    <a className="cta">{slide.cta.label}</a>
-                  </Link>
-                </p>
-              </div>
-            </HorizontalPadding>
-          </Container>
-        </li>
-      ))}
-    </ul>
   );
 }
 

@@ -1,3 +1,4 @@
+export * from './carousel';
 export * from './container';
 export * from './horizontal-padding';
 export * from './layout';
