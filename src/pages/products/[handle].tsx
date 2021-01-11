@@ -4,22 +4,19 @@ import Image from 'next/image';
 import { gql, useMutation } from '@apollo/client';
 
 import { apolloClient } from '@lib/apollo-client';
-import { HorizontalPadding } from '@components/index';
+import { Container, HorizontalPadding } from '@components/index';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 import { SANITY_DATA } from '@queries/index';
+import Link from 'next/link';
 
-function ProductPage({ product }) {
+function ProductPage({ product, topSellingProducts }) {
   // Number of items to add to cart
   const [quantity, setQuantity] = React.useState(1);
 
-  // Currently selected image
-  const [activeImage, setActiveImage] = React.useState(
-    product.images?.edges[0]?.node
-  );
   // Variant to add to cart
   const variantId = product.variants.edges[0].node.id;
 
-  // Mutation to run
+  // GraphQL mutation to be used by Apollo
   const CREATE_CHECKOUT = gql`
     mutation($input: CheckoutCreateInput!) {
       checkoutCreate(input: $input) {
@@ -40,8 +37,9 @@ function ProductPage({ product }) {
   `;
 
   // Mutation to create a new checkout
-  const [createCheckout, { data }] = useMutation(CREATE_CHECKOUT);
+  const [createCheckout] = useMutation(CREATE_CHECKOUT);
 
+  // Function to run mutation
   function handleCreateCheckout() {
     createCheckout({
       variables: {
@@ -57,178 +55,221 @@ function ProductPage({ product }) {
     });
   }
 
+  function decrement() {
+    return setQuantity((prevQty) => (prevQty > 1 ? prevQty - 1 : prevQty));
+  }
+
+  function increment() {
+    return setQuantity((prevQty) => prevQty + 1);
+  }
+
   return (
     <>
       <Head>
         <title>{product.title}</title>
       </Head>
-      <div className="relative py-16 bg-gray-light">
-        <HorizontalPadding>
-          <div className="relative px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto text-lg max-w-prose">
-              <h1>
-                <span className="block text-base font-semibold tracking-wide text-center uppercase text-green-dark">
-                  {product.title}
-                </span>
-                <span className="block mt-2 text-3xl font-extrabold leading-8 tracking-tight text-center text-gray-900 sm:text-4xl">
-                  $
-                  {Number(product.priceRange?.minVariantPrice?.amount).toFixed(
-                    2
+
+      <Container>
+        <div className="relative grid lg:grid-cols-3">
+          <div className="py-16 lg:col-span-2">
+            <HorizontalPadding>
+              <div className="grid gap-12 lg:grid-cols-3">
+                <div>
+                  <h1 className="text-2xl font-bold">{product.title}</h1>
+                  {product.images?.edges?.[0] && (
+                    <div className="mt-4">
+                      <Image
+                        width={600}
+                        height={400}
+                        layout="responsive"
+                        src={product.images.edges[0].node.originalSrc}
+                        alt={product.images.edges[0].node.altText}
+                        className="object-cover mx-auto"
+                      />
+                    </div>
                   )}
-                </span>
-              </h1>
-            </div>
-          </div>
-          <div className="grid w-full gap-8 mt-16 lg:grid-cols-2">
-            <div className="grid gap-4 lg:grid-cols-5">
-              {product.images.edges.length > 1 && (
-                <div className="grid grid-flow-row gap-4">
-                  {product.images?.edges?.map(({ node }) => (
-                    <div
-                      key={node.id}
-                      className="relative h-0 aspect-w-1 aspect-h-1"
-                    >
+                </div>
+                <div className="lg:col-span-2">
+                  <div className="text-2xl">
+                    <span className="font-bold">
+                      $
+                      {Number(
+                        product.priceRange?.minVariantPrice?.amount
+                      ).toFixed(2)}{' '}
+                    </span>
+                    <span className="uppercase"> / each</span>
+                  </div>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: product.descriptionHtml,
+                    }}
+                    className="mt-4 prose border-t max-w-prose border-gray-dark"
+                  />
+                  <div className="flex justify-between mt-12">
+                    <span className="relative z-0 inline-flex rounded-full">
                       <button
                         type="button"
-                        onClick={() => setActiveImage(node)}
-                        className="absolute inset-0 rounded-lg focus:z-10"
+                        onClick={decrement}
+                        className="relative inline-flex items-center py-2 pl-3 pr-2 text-white rounded-l-full bg-green-dark focus:z-10 focus:outline-none focus:ring-2"
                       >
-                        <Image
-                          width={400}
-                          height={400}
-                          src={node.originalSrc}
-                          alt={node.altText}
-                          className="object-cover h-full bg-green-100 rounded-lg"
-                        />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          className="w-5 h-5"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M18 12H6"
+                          />
+                        </svg>
                       </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <div className="lg:col-span-4">
-                {activeImage?.originalSrc && (
-                  <Image
-                    width={600}
-                    height={400}
-                    src={activeImage.originalSrc}
-                    alt={activeImage.altText}
-                    className="object-cover mx-auto rounded-lg"
-                  />
-                )}
-              </div>
-            </div>
-            <div className="space-y-8">
-              <div>
-                <span className="block font-semibold tracking-wider uppercase text-green-dark">
-                  Quantity
-                </span>
-                <span className="relative z-0 inline-flex rounded-full shadow-sm">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setQuantity((prevCount) =>
-                        prevCount > 1 ? prevCount - 1 : 1
-                      )
-                    }
-                    className="relative inline-flex items-center py-2 pl-3 pr-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-full hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-green-dark focus:border-green-dark"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M18 12H6"
-                      />
-                    </svg>
-                  </button>
-                  <span className="relative inline-flex items-center w-12 px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-green-dark focus:border-green-dark">
-                    <span className="flex-1 text-center">{quantity}</span>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setQuantity((prevCount) => prevCount + 1)}
-                    className="relative inline-flex items-center py-2 pl-2 pr-3 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-full hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-green-dark focus:border-green-dark"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                      />
-                    </svg>
-                  </button>
-                </span>
-              </div>
-              {product.options.map(
-                (option) =>
-                  option.name !== 'Title' && (
-                    <label
-                      key={option.id}
-                      htmlFor={option.name}
-                      className="block w-full max-w-xs"
-                    >
-                      <span className="block font-semibold tracking-wider uppercase text-green-dark">
-                        {option.name}
+                      <span className="relative inline-flex items-center w-12 px-4 py-2 -ml-px text-sm font-medium text-gray-700 border border-transparent bg-gray-light hover:bg-gray-50 focus:z-10 focus:outline-none">
+                        <span className="flex-1 font-bold text-center text-green-dark">
+                          {quantity}
+                        </span>
                       </span>
-                      <select
-                        name={option.name}
-                        id={option.name}
-                        className="w-full border-gray-300 rounded-md shadow-sm focus:ring-1 focus:ring-green-dark focus:border-green-dark"
+                      <button
+                        type="button"
+                        onClick={increment}
+                        className="relative inline-flex items-center py-2 pl-2 pr-3 -ml-px text-sm font-medium text-white border border-transparent rounded-r-full bg-green-dark focus:z-10 focus:outline-none focus:ring-2"
                       >
-                        {option.values.map((value) => (
-                          <option key={value} value={value}>
-                            {value}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  )
-              )}
-              <div>
-                <button
-                  className="inline-flex items-center justify-center w-full max-w-xs space-x-3 cta"
-                  onClick={handleCreateCheckout}
-                >
-                  <span>Add to Cart</span>
-                  <HiOutlineShoppingCart className="w-7 h-7" />
-                </button>
-              </div>
-              {data?.checkoutCreate?.checkout?.webUrl && (
-                <div>
-                  <a
-                    href={data?.checkoutCreate?.checkout?.webUrl}
-                    className="inline-flex items-center justify-center w-full max-w-xs px-4 py-2 text-base font-bold text-center text-green-700 duration-150 ease-in-out transform border border-transparent rounded-full bg-yellow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-dark hover:-translate-y-px hover:shadow"
-                  >
-                    Checkout
-                  </a>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          className="w-5 h-5"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          />
+                        </svg>
+                      </button>
+                    </span>
+
+                    <button
+                      className="inline-flex items-center justify-center space-x-3 cta"
+                      // onClick={addToCart}
+                    >
+                      <span>Add to Cart</span>
+                      <HiOutlineShoppingCart className="w-7 h-7" />
+                    </button>
+                  </div>
                 </div>
-              )}
+              </div>
+              <div className="w-full pt-12 mt-12 border-t border-gray-dark">
+                <h2 className="text-xl font-bold">More info</h2>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: product.descriptionHtml,
+                  }}
+                  className="prose"
+                />
+              </div>
+            </HorizontalPadding>
+          </div>
+          <TopSellingProducts topSellingProducts={topSellingProducts} />
+        </div>
+        <DeliverySchedule />
+      </Container>
+    </>
+  );
+}
+
+function TopSellingProducts({ topSellingProducts }) {
+  return (
+    <div className="bg-gray-light">
+      <div className="py-16 lg:sticky lg:top-44 lg:max-w-lg">
+        <HorizontalPadding>
+          <h2 className="text-2xl font-bold">Our Top Selling Fruit</h2>
+          <ul className="grid gap-8 mt-4">
+            {topSellingProducts.edges.map(({ node }) => (
+              <li key={node.id} className="grid grid-cols-2 gap-4">
+                <Link href={node.handle}>
+                  <a className="block bg-white">
+                    <Image
+                      width={480}
+                      height={360}
+                      layout="responsive"
+                      src={node.media.edges[0].node.previewImage.transformedSrc}
+                      alt=""
+                    />
+                  </a>
+                </Link>
+                <div className="flex flex-col">
+                  <div className="font-bold">
+                    <h3 className="text-sm">{node.title}</h3>
+                    <div className="text-2xl">
+                      <sup className="text-sm">$</sup>
+                      <span>
+                        {Number(node.priceRange.minVariantPrice.amount).toFixed(
+                          2
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="pt-4 mt-auto">
+                    {/* // TODO: Make these buttons work */}
+                    <button className="inline-flex items-center justify-center px-6 py-1 space-x-3 text-sm whitespace-nowrap cta">
+                      <span>Add to Cart</span>
+                      <HiOutlineShoppingCart className="w-6 h-6" />
+                    </button>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-16 text-center">
+            {/* // TODO: make this link work */}
+            <Link href="/">
+              <a className="inline-block px-16 py-2 text-sm font-bold border rounded-full text-green-dark border-green-dark">
+                See More
+              </a>
+            </Link>
+          </div>
+        </HorizontalPadding>
+      </div>
+    </div>
+  );
+}
+
+function DeliverySchedule() {
+  return (
+    <HorizontalPadding>
+      <div className="relative py-8">
+        <HorizontalPadding variant={HorizontalPadding.variant.BLACK}>
+          <Image
+            src="https://burst.shopifycdn.com/photos/red-apple-against-white-background.jpg?width=1472&amp;format=pjpg&amp;exif=0&amp;iptc=0"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+          />
+          <div className="relative py-8">
+            <h2 className="space-y-3">
+              <span className="inline-block px-4 text-3xl font-bold leading-loose uppercase text-green-dark bg-yellow">
+                Check Out Our
+              </span>
+              <br />
+              <span className="inline-block px-4 text-3xl font-bold leading-loose uppercase text-green-dark bg-yellow">
+                Delivery Schedule
+              </span>
+            </h2>
+            <div className="mt-5">
+              <Link href="/faq/">
+                <a className="text-white bg-green-dark cta">Find Out More</a>
+              </Link>
             </div>
           </div>
         </HorizontalPadding>
       </div>
-      <div className="py-16 bg-white">
-        <HorizontalPadding>
-          <div
-            dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
-            className="mt-8 prose-lg text-gray-500 max-w-prose"
-          />
-        </HorizontalPadding>
-      </div>
-    </>
+    </HorizontalPadding>
   );
 }
 
@@ -297,6 +338,33 @@ async function getStaticProps({ params }) {
             }
           }
         }
+        products(
+          first: 3
+          sortKey: BEST_SELLING
+          query: "product_type:Fruit, available_for_sale:true"
+        ) {
+          edges {
+            node {
+              handle
+              id
+              media(first: 1) {
+                edges {
+                  node {
+                    previewImage {
+                      transformedSrc
+                    }
+                  }
+                }
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                }
+              }
+              title
+            }
+          }
+        }
       }
     `,
     variables: { handle: params.handle },
@@ -315,6 +383,7 @@ async function getStaticProps({ params }) {
   return {
     props: {
       product: data.productByHandle,
+      topSellingProducts: data.products,
       siteNavigation: sanityData.data.SiteNavigation,
       siteSettings: sanityData.data.SiteSettings,
     },
