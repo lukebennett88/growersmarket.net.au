@@ -68,7 +68,7 @@ function ProductCard({ product }: ProductCardProps) {
           </div>
         </a>
       </Link>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 mt-4">
         <Link href={`/products/${product.node.handle}`}>
           <a className="relative inline-block focus:z-10">
             <h3 className="text-sm">{product.node.title}</h3>
