@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { gql, useMutation } from '@apollo/client';
 
 import { apolloClient } from '@lib/apollo-client';
-import { Container, HorizontalPadding } from '@components/index';
-import { HiOutlineShoppingCart } from 'react-icons/hi';
+import { Carousel, Container, HorizontalPadding } from '@components/index';
+import { HiChevronRight, HiOutlineShoppingCart } from 'react-icons/hi';
 import { SANITY_DATA } from '@queries/index';
 import Link from 'next/link';
 
@@ -68,7 +68,13 @@ function ProductPage({ product, topSellingProducts }) {
       <Head>
         <title>{product.title}</title>
       </Head>
-
+      <Carousel />
+      <Breadcrumbs
+        productType={product.productType}
+        collection={product.collections?.edges?.[0]?.node.title}
+        title={product.title}
+        handle={product.handle}
+      />
       <Container>
         <div className="relative grid lg:grid-cols-3">
           <div className="py-16 lg:col-span-2">
@@ -180,6 +186,56 @@ function ProductPage({ product, topSellingProducts }) {
         <DeliverySchedule />
       </Container>
     </>
+  );
+}
+
+function Breadcrumbs({ productType, collection, title, handle }) {
+  return (
+    <nav className="flex py-2 text-white bg-green-dark" aria-label="Breadcrumb">
+      <HorizontalPadding>
+        <ol className="flex items-center space-x-4">
+          <li>
+            <div>
+              <Link href="/">
+                <a className="text-sm font-medium">Home</a>
+              </Link>
+            </div>
+          </li>
+          <li>
+            <div className="flex items-center">
+              <HiChevronRight className="flex-shrink-0 w-5 h-5" />
+              {/* // TODO: Fix this link */}
+              <Link href="/">
+                <a className="ml-4 text-sm font-medium">{productType}</a>
+              </Link>
+            </div>
+          </li>
+          {collection && (
+            <li>
+              <div className="flex items-center">
+                <HiChevronRight className="flex-shrink-0 w-5 h-5" />
+                {/* // TODO: Fix this link */}
+                <Link href="/">
+                  <a aria-current="page" className="ml-4 text-sm font-medium">
+                    {collection}
+                  </a>
+                </Link>
+              </div>
+            </li>
+          )}
+          <li>
+            <div className="flex items-center">
+              <HiChevronRight className="flex-shrink-0 w-5 h-5" />
+              <Link href={`/products/${handle}`}>
+                <a aria-current="page" className="ml-4 text-sm font-bold">
+                  {title}
+                </a>
+              </Link>
+            </div>
+          </li>
+        </ol>
+      </HorizontalPadding>
+    </nav>
   );
 }
 
@@ -308,7 +364,16 @@ async function getStaticProps({ params }) {
       query ProductQuery($handle: String!) {
         productByHandle(handle: $handle) {
           availableForSale
+          collections(first: 1) {
+            edges {
+              node {
+                title
+                handle
+              }
+            }
+          }
           descriptionHtml
+          handle
           id
           images(first: 250) {
             edges {
@@ -329,6 +394,7 @@ async function getStaticProps({ params }) {
               amount
             }
           }
+          productType
           title
           variants(first: 250) {
             edges {
