@@ -137,10 +137,6 @@ const config = {
         slug: 'my-orders',
       },
       {
-        label: 'My Credit Slips',
-        slug: 'my-credit-slips',
-      },
-      {
         label: 'My Addresses',
         slug: 'my-addresses',
       },
