@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { signIn, signOut, useSession } from 'next-auth/client';
 import { HiSearch } from 'react-icons/hi';
 
 import { Container } from './container';
@@ -7,6 +8,8 @@ import { HorizontalPadding } from './horizontal-padding';
 import { CartIcon, SignInIcon } from './vectors';
 
 function Shopbar() {
+  const [session] = useSession();
+
   return (
     <div className="font-bold bg-white">
       <Container>
@@ -37,13 +40,37 @@ function Shopbar() {
                   <HiSearch className="w-5 h-5" />
                 </span>
               </div>
-              <div className="flex items-center space-x-2">
-                <SignInIcon className="w-7 h-7" />
-                <span className="text-xs leading-tight">
-                  Sign <br />
-                  In
-                </span>
-              </div>
+              {session ? (
+                <a
+                  href="/api/auth/signout"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signOut();
+                  }}
+                  className="flex items-center space-x-2"
+                >
+                  <SignInIcon className="w-7 h-7" />
+                  <span className="text-xs leading-tight">
+                    Sign <br />
+                    Out
+                  </span>
+                </a>
+              ) : (
+                <a
+                  href="/signin"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signIn();
+                  }}
+                  className="flex items-center space-x-2"
+                >
+                  <SignInIcon className="w-7 h-7" />
+                  <span className="text-xs leading-tight">
+                    Sign <br />
+                    In
+                  </span>
+                </a>
+              )}
               <div className="flex items-center space-x-2">
                 <CartIcon className="w-7 h-7" />
                 <span className="text-xs leading-tight">
