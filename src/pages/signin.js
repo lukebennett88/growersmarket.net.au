@@ -1,18 +1,9 @@
-import * as React from 'react';
 import { providers, signIn } from 'next-auth/client';
 
 import { HorizontalPadding } from '@components/index';
 import { SignInIcon } from '@components/vectors';
 import { apolloClient } from '@lib/index';
 import { SANITY_DATA } from '@queries/index';
-
-interface Provider {
-  callbackUrl: string;
-  id: string;
-  name: string;
-  signinUrl: string;
-  type: string;
-}
 
 function SignInPage({ providers }) {
   return (
@@ -24,7 +15,7 @@ function SignInPage({ providers }) {
         </div>
         <div className="mt-4 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
           <div className="space-y-4">
-            {Object.values(providers).map((provider: Provider) => (
+            {Object.values(providers).map((provider) => (
               <div key={provider.name}>
                 <button
                   onClick={() => signIn(provider.id)}
