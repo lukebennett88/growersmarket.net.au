@@ -14,6 +14,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
+    "outDir": "dist",
     "paths": {
       "@components/*": [
         "src/components/*"
@@ -27,8 +28,9 @@
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "sourceMap": true,
     "strict": false,
-    "target": "esnext",
+    "target": "esnext"
   },
   "exclude": [
     "node_modules"
