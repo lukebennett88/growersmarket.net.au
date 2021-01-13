@@ -13,19 +13,24 @@ import {
 import { apolloClient } from '@lib/index';
 import { SANITY_DATA } from '@queries/index';
 
-function HomePage({ products }) {
+function HomePage({
+  specials,
+  bestSellingFruit,
+  bestSellingVegetables,
+  bestSellingBoxes,
+}) {
   return (
     <>
       <NextSeo title="Home" />
       <Carousel />
       <div className="grid gap-12 pb-12 lg:grid-cols-2">
-        <ThisWeeksSpecials products={products.edges} />
-        <TopSellingFruit products={products.edges} />
+        <ThisWeeksSpecials products={specials.edges} />
+        <TopSellingFruit products={bestSellingFruit.edges} />
         <div className="col-span-full">
           <Container>
             <div className="grid gap-12 mx-auto lg:grid-cols-2">
-              <TopSellingVegetables products={products.edges} />
-              <TopSellingBoxes products={products.edges} />
+              <TopSellingVegetables products={bestSellingVegetables.edges} />
+              <TopSellingBoxes products={bestSellingBoxes.edges} />
             </div>
             <div className="grid gap-12 mt-12 lg:grid-cols-5">
               <FrequentlyAskedQuestions />
@@ -82,7 +87,7 @@ function TopSellingVegetables({ products }) {
 function TopSellingBoxes({ products }) {
   return (
     <ProductGrid
-      heading="Our Top Selling Vegetables"
+      heading="Our Top Selling Boxes"
       variant={ProductGrid.variant.GRAY}
       columns={2}
     >
@@ -183,12 +188,48 @@ async function getStaticProps() {
   const { data } = await apolloClient.query({
     query: gql`
       query ShopifyQuery {
-        products(first: 8) {
+        specials: collectionByHandle(handle: "specials") {
+          products(first: 8, sortKey: CREATED) {
+            edges {
+              node {
+                handle
+                id
+                images(first: 1) {
+                  edges {
+                    node {
+                      altText
+                      id
+                      originalSrc
+                    }
+                  }
+                }
+                priceRange {
+                  minVariantPrice {
+                    amount
+                  }
+                }
+                title
+                variants(first: 1) {
+                  edges {
+                    node {
+                      id
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        bestSellingFruit: products(
+          first: 4
+          sortKey: BEST_SELLING
+          query: "product_type:Fruit, available_for_sale:true"
+        ) {
           edges {
             node {
               handle
               id
-              images(first: 250) {
+              images(first: 1) {
                 edges {
                   node {
                     altText
@@ -203,7 +244,75 @@ async function getStaticProps() {
                 }
               }
               title
-              variants(first: 250) {
+              variants(first: 1) {
+                edges {
+                  node {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+        bestSellingVegetables: products(
+          first: 2
+          sortKey: BEST_SELLING
+          query: "product_type:Vegetables, available_for_sale:true"
+        ) {
+          edges {
+            node {
+              handle
+              id
+              images(first: 1) {
+                edges {
+                  node {
+                    altText
+                    id
+                    originalSrc
+                  }
+                }
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                }
+              }
+              title
+              variants(first: 1) {
+                edges {
+                  node {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+        bestSellingBoxes: products(
+          first: 2
+          sortKey: BEST_SELLING
+          query: "product_type:Pre-Packed Boxes, available_for_sale:true"
+        ) {
+          edges {
+            node {
+              handle
+              id
+              images(first: 1) {
+                edges {
+                  node {
+                    altText
+                    id
+                    originalSrc
+                  }
+                }
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                }
+              }
+              title
+              variants(first: 1) {
                 edges {
                   node {
                     id
@@ -229,7 +338,10 @@ async function getStaticProps() {
 
   return {
     props: {
-      products: data.products,
+      specials: data.specials.products,
+      bestSellingFruit: data.bestSellingFruit,
+      bestSellingVegetables: data.bestSellingVegetables,
+      bestSellingBoxes: data.bestSellingBoxes,
       siteNavigation: sanityData.data.SiteNavigation,
       siteSettings: sanityData.data.SiteSettings,
     },
