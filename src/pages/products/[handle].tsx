@@ -39,7 +39,6 @@ function ProductPage({ product, topSelling }) {
 
   // State for showing add to cart toast notifications
   const [showDialog, setShowDialog] = React.useState(false);
-  console.log(showDialog);
 
   const addItemToCart = useAddItemToCart();
   async function handleAddToCart() {
