@@ -3,12 +3,11 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { gql } from '@apollo/client';
 
-import { apolloClient } from '@lib/apollo-client';
+import { apolloClient, getAllProducts } from '@lib/index';
 import { Carousel, Container, HorizontalPadding } from '@components/index';
 import { HiChevronRight, HiOutlineShoppingCart } from 'react-icons/hi';
 import { SANITY_DATA } from '@queries/index';
 import Link from 'next/link';
-import { getAllProducts } from '@lib/get-products';
 
 function ProductPage({ product, topSellingProducts }) {
   // Number of items to add to cart
@@ -294,30 +293,10 @@ function DeliverySchedule() {
 }
 
 async function getStaticPaths() {
-  let cursor = {};
-  const { data } = await apolloClient.query({
-    query: gql`
-      query GetProducts {
-        products(first: 250) {
-          pageInfo {
-            hasNextPage
-          }
-          edges {
-            cursor
-            node {
-              handle
-            }
-          }
-        }
-      }
-    `,
-    variables: { cursor },
-  });
-
-  cursor = data.products?.edges[data.products.edges.length - 1].cursor;
+  const products = await getAllProducts();
 
   return {
-    paths: data.products.edges.map(({ node }) => `/products/${node.handle}`),
+    paths: products.map(({ node }) => `/products/${node.handle}`),
     fallback: false,
   };
 }
