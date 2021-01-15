@@ -1,13 +1,14 @@
 import * as React from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import { gql, useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 import { apolloClient } from '@lib/apollo-client';
 import { Carousel, Container, HorizontalPadding } from '@components/index';
 import { HiChevronRight, HiOutlineShoppingCart } from 'react-icons/hi';
 import { SANITY_DATA } from '@queries/index';
 import Link from 'next/link';
+import { getAllProducts } from '@lib/get-products';
 
 function ProductPage({ product, topSellingProducts }) {
   // Number of items to add to cart
@@ -16,49 +17,12 @@ function ProductPage({ product, topSellingProducts }) {
   // Variant to add to cart
   const variantId = product.variants.edges[0].node.id;
 
-  // GraphQL mutation to be used by Apollo
-  const CREATE_CHECKOUT = gql`
-    mutation($input: CheckoutCreateInput!) {
-      checkoutCreate(input: $input) {
-        checkout {
-          id
-          webUrl
-          lineItems(first: 250) {
-            edges {
-              node {
-                title
-                quantity
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-
-  // Mutation to create a new checkout
-  const [createCheckout] = useMutation(CREATE_CHECKOUT);
-
-  // Function to run mutation
-  function handleCreateCheckout() {
-    createCheckout({
-      variables: {
-        input: {
-          lineItems: [
-            {
-              variantId,
-              quantity,
-            },
-          ],
-        },
-      },
-    });
-  }
-
+  // Increment quantity
   function decrement() {
     return setQuantity((prevQty) => (prevQty > 1 ? prevQty - 1 : prevQty));
   }
 
+  // Decrement quantity
   function increment() {
     return setQuantity((prevQty) => prevQty + 1);
   }
