@@ -16,7 +16,6 @@ import { config } from '../../config';
 
 function App({ Component, pageProps }: AppProps) {
   const { siteNavigation, siteSettings } = pageProps;
-  console.log(pageProps.session);
   return (
     <GlobalContext.Provider
       value={{

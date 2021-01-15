@@ -60,7 +60,7 @@ function Shopbar() {
                   href="/signin"
                   onClick={(e) => {
                     e.preventDefault();
-                    signIn();
+                    signIn(null, { callbackUrl: 'http://localhost:3000/' });
                   }}
                   className="flex items-center space-x-2"
                 >
