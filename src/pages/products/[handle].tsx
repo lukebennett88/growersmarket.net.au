@@ -84,12 +84,6 @@ function ProductPage({ product, topSelling }) {
                     </span>
                     <span className="uppercase"> / each</span>
                   </div>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: product.descriptionHtml,
-                    }}
-                    className="mt-4 prose border-t max-w-prose border-gray-dark"
-                  />
                   <div className="flex justify-between mt-12">
                     <QuantityPicker
                       increment={increment}
@@ -104,16 +98,13 @@ function ProductPage({ product, topSelling }) {
                       <HiOutlineShoppingCart className="w-7 h-7" />
                     </button>
                   </div>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: product.descriptionHtml,
+                    }}
+                    className="mt-4 prose border-t max-w-prose border-gray-dark"
+                  />
                 </div>
-              </div>
-              <div className="w-full pt-12 mt-12 border-t border-gray-dark">
-                <h2 className="text-xl font-bold">More info</h2>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: product.descriptionHtml,
-                  }}
-                  className="prose"
-                />
               </div>
             </HorizontalPadding>
           </div>
