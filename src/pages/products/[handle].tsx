@@ -117,7 +117,12 @@ function ProductPage({ product, topSelling }) {
               </div>
             </HorizontalPadding>
           </div>
-          <TopSellingProducts topSelling={topSelling} />
+          {product.productType && (
+            <TopSellingProducts
+              topSelling={topSelling}
+              productType={product.productType}
+            />
+          )}
         </div>
         <DeliverySchedule />
       </Container>
@@ -182,12 +187,12 @@ function Breadcrumbs({ productType, collection, title, handle }) {
   );
 }
 
-function TopSellingProducts({ topSelling }) {
+function TopSellingProducts({ topSelling, productType }) {
   return (
     <div className="bg-gray-light">
       <div className="py-16 lg:sticky lg:top-44 lg:max-w-lg">
         <HorizontalPadding>
-          <h2 className="text-2xl font-bold">Our Top Selling Fruit</h2>
+          <h2 className="text-2xl font-bold">Our Top Selling {productType}</h2>
           <ul className="grid gap-8 mt-4">
             {topSelling.edges.map(({ node }) => (
               <li key={node.id} className="grid grid-cols-2 gap-4">
