@@ -10,6 +10,7 @@ import {
   getSiteNavigation,
   getSiteSettings,
   getTopSelling,
+  useAddItemToCart,
 } from '@lib/index';
 import { Carousel, Container, HorizontalPadding } from '@components/index';
 import { QuantityPicker } from '@components/quantity-picker';
@@ -29,6 +30,16 @@ function ProductPage({ product, topSelling }) {
   // Decrement quantity
   function increment() {
     return setQuantity((prevQty) => prevQty + 1);
+  }
+
+  const addItemToCart = useAddItemToCart();
+
+  async function handleAddToCart() {
+    try {
+      await addItemToCart(variantId, quantity);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -87,7 +98,7 @@ function ProductPage({ product, topSelling }) {
                     />
                     <button
                       className="inline-flex items-center justify-center space-x-3 cta"
-                      // onClick={addToCart}
+                      onClick={handleAddToCart}
                     >
                       <span>Add to Cart</span>
                       <HiOutlineShoppingCart className="w-7 h-7" />
