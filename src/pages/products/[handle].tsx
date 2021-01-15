@@ -223,6 +223,7 @@ function TopSellingProducts({ topSelling }) {
                       layout="responsive"
                       src={node.media.edges[0].node.previewImage.transformedSrc}
                       alt=""
+                      className="object-cover"
                     />
                   </a>
                 </Link>
