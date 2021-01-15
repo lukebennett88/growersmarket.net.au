@@ -36,14 +36,16 @@ function Toast({ showDialog, setShowDialog, image, title, quantity }) {
                 <div className="flex items-start">
                   <div className="flex-shrink-0 pt-0.5">
                     <div className="w-10 h-10">
-                      <Image
-                        width={40}
-                        height={40}
-                        layout="responsive"
-                        src={image.originalSrc}
-                        alt={image.altText}
-                        className="object-cover"
-                      />
+                      {image && (
+                        <Image
+                          width={40}
+                          height={40}
+                          layout="responsive"
+                          src={image.originalSrc}
+                          alt={image.altText}
+                          className="object-cover"
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="flex-1 w-0 ml-3">

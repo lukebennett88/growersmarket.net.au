@@ -123,7 +123,7 @@ function ProductPage({ product, topSelling }) {
       </Container>
       <Toast
         title={product.title}
-        image={product.images.edges[0].node}
+        image={product.images?.edges?.[0]?.node}
         quantity={quantity}
         showDialog={showDialog}
         setShowDialog={setShowDialog}
