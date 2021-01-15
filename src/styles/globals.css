@@ -5,6 +5,7 @@
 @layer components {
   :root {
     --reach-tabs: 1;
+    --reach-dialog: 1;
   }
 
   /* Replace default focus styles */

@@ -12,8 +12,13 @@ import {
   getTopSelling,
   useAddItemToCart,
 } from '@lib/index';
-import { Carousel, Container, HorizontalPadding } from '@components/index';
-import { QuantityPicker } from '@components/quantity-picker';
+import {
+  Carousel,
+  Container,
+  HorizontalPadding,
+  QuantityPicker,
+  Toast,
+} from '@components/index';
 
 function ProductPage({ product, topSelling }) {
   // Number of items to add to cart
@@ -32,13 +37,18 @@ function ProductPage({ product, topSelling }) {
     return setQuantity((prevQty) => prevQty + 1);
   }
 
-  const addItemToCart = useAddItemToCart();
+  // State for showing add to cart toast notifications
+  const [showDialog, setShowDialog] = React.useState(false);
+  console.log(showDialog);
 
+  const addItemToCart = useAddItemToCart();
   async function handleAddToCart() {
     try {
       await addItemToCart(variantId, quantity);
+      setShowDialog(true);
     } catch (error) {
       console.error(error);
+      setShowDialog(false);
     }
   }
 
@@ -112,6 +122,13 @@ function ProductPage({ product, topSelling }) {
         </div>
         <DeliverySchedule />
       </Container>
+      <Toast
+        title={product.title}
+        image={product.images.edges[0].node}
+        quantity={quantity}
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+      />
     </>
   );
 }
