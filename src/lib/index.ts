@@ -6,5 +6,6 @@ export * from './get-site-settings';
 export * from './get-tailwind-config';
 export * from './get-top-selling';
 export * from './global-context';
+export * from './hooks';
 export * from './local-storage';
 export * from './shopify-context';
