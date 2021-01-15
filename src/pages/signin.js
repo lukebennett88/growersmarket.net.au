@@ -2,8 +2,7 @@ import { providers, signIn } from 'next-auth/client';
 
 import { HorizontalPadding } from '@components/index';
 import { SignInIcon } from '@components/vectors';
-import { apolloClient } from '@lib/index';
-import { SANITY_DATA } from '@queries/index';
+import { getSiteNavigation, getSiteSettings } from '@lib/index';
 
 function SignInPage({ providers }) {
   return (
@@ -33,16 +32,12 @@ function SignInPage({ providers }) {
 }
 
 SignInPage.getInitialProps = async (context) => {
-  const sanityData = await apolloClient.query({
-    query: SANITY_DATA,
-    context: {
-      clientName: 'SANITY',
-    },
-  });
+  const siteNavigation = await getSiteNavigation();
+  const siteSettings = await getSiteSettings();
   return {
     providers: await providers(context),
-    siteNavigation: sanityData.data.SiteNavigation,
-    siteSettings: sanityData.data.SiteSettings,
+    siteNavigation,
+    siteSettings,
   };
 };
 

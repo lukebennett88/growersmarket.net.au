@@ -2,8 +2,7 @@ import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { HiChevronLeft } from 'react-icons/hi';
 
-import { apolloClient } from '@lib/index';
-import { SANITY_DATA } from '@queries/index';
+import { getSiteNavigation, getSiteSettings } from '@lib/index';
 
 function NotFoundPage() {
   return (
@@ -28,17 +27,13 @@ function NotFoundPage() {
 }
 
 async function getStaticProps() {
-  const sanityData = await apolloClient.query({
-    query: SANITY_DATA,
-    context: {
-      clientName: 'SANITY',
-    },
-  });
+  const siteNavigation = await getSiteNavigation();
+  const siteSettings = await getSiteSettings();
 
   return {
     props: {
-      siteNavigation: sanityData.data.SiteNavigation,
-      siteSettings: sanityData.data.SiteSettings,
+      siteNavigation,
+      siteSettings,
     },
     revalidate: 60,
   };

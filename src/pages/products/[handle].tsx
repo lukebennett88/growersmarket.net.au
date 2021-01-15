@@ -1,15 +1,19 @@
 import * as React from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
-import { gql } from '@apollo/client';
-
-import { apolloClient, getAllProducts } from '@lib/index';
-import { Carousel, Container, HorizontalPadding } from '@components/index';
-import { HiChevronRight, HiOutlineShoppingCart } from 'react-icons/hi';
-import { SANITY_DATA } from '@queries/index';
 import Link from 'next/link';
+import Image from 'next/image';
+import { HiChevronRight, HiOutlineShoppingCart } from 'react-icons/hi';
 
-function ProductPage({ product, topSellingProducts }) {
+import {
+  getAllProducts,
+  getProduct,
+  getSiteNavigation,
+  getSiteSettings,
+  getTopSelling,
+} from '@lib/index';
+import { Carousel, Container, HorizontalPadding } from '@components/index';
+
+function ProductPage({ product, topSelling }) {
   // Number of items to add to cart
   const [quantity, setQuantity] = React.useState(1);
 
@@ -144,7 +148,7 @@ function ProductPage({ product, topSellingProducts }) {
               </div>
             </HorizontalPadding>
           </div>
-          <TopSellingProducts topSellingProducts={topSellingProducts} />
+          <TopSellingProducts topSelling={topSelling} />
         </div>
         <DeliverySchedule />
       </Container>
@@ -202,14 +206,14 @@ function Breadcrumbs({ productType, collection, title, handle }) {
   );
 }
 
-function TopSellingProducts({ topSellingProducts }) {
+function TopSellingProducts({ topSelling }) {
   return (
     <div className="bg-gray-light">
       <div className="py-16 lg:sticky lg:top-44 lg:max-w-lg">
         <HorizontalPadding>
           <h2 className="text-2xl font-bold">Our Top Selling Fruit</h2>
           <ul className="grid gap-8 mt-4">
-            {topSellingProducts.edges.map(({ node }) => (
+            {topSelling.edges.map(({ node }) => (
               <li key={node.id} className="grid grid-cols-2 gap-4">
                 <Link href={node.handle}>
                   <a className="block bg-white">
@@ -294,7 +298,6 @@ function DeliverySchedule() {
 
 async function getStaticPaths() {
   const products = await getAllProducts();
-
   return {
     paths: products.map(({ node }) => `/products/${node.handle}`),
     fallback: false,
@@ -302,100 +305,21 @@ async function getStaticPaths() {
 }
 
 async function getStaticProps({ params }) {
-  const { data } = await apolloClient.query({
-    query: gql`
-      query ProductQuery($handle: String!) {
-        productByHandle(handle: $handle) {
-          availableForSale
-          collections(first: 1) {
-            edges {
-              node {
-                title
-                handle
-              }
-            }
-          }
-          descriptionHtml
-          handle
-          id
-          images(first: 250) {
-            edges {
-              node {
-                id
-                altText
-                originalSrc
-              }
-            }
-          }
-          options {
-            id
-            name
-            values
-          }
-          priceRange {
-            minVariantPrice {
-              amount
-            }
-          }
-          productType
-          title
-          variants(first: 250) {
-            edges {
-              node {
-                id
-              }
-            }
-          }
-        }
-        products(
-          first: 3
-          sortKey: BEST_SELLING
-          query: "product_type:Fruit, available_for_sale:true"
-        ) {
-          edges {
-            node {
-              handle
-              id
-              media(first: 1) {
-                edges {
-                  node {
-                    previewImage {
-                      transformedSrc
-                    }
-                  }
-                }
-              }
-              priceRange {
-                minVariantPrice {
-                  amount
-                }
-              }
-              title
-            }
-          }
-        }
-      }
-    `,
-    variables: { handle: params.handle },
-    context: {
-      clientName: 'SHOPIFY',
-    },
+  const product = await getProduct({ handle: params.handle });
+  const topSelling = await getTopSelling({
+    query: `product_type:${product.productType}, available_for_sale:true`,
   });
-
-  const sanityData = await apolloClient.query({
-    query: SANITY_DATA,
-    context: {
-      clientName: 'SANITY',
-    },
-  });
+  const siteNavigation = await getSiteNavigation();
+  const siteSettings = await getSiteSettings();
 
   return {
     props: {
-      product: data.productByHandle,
-      topSellingProducts: data.products,
-      siteNavigation: sanityData.data.SiteNavigation,
-      siteSettings: sanityData.data.SiteSettings,
+      product,
+      topSelling,
+      siteNavigation,
+      siteSettings,
     },
+    revalidate: 60,
   };
 }
 

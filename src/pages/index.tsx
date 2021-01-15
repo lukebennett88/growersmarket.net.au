@@ -10,8 +10,7 @@ import {
   ProductGrid,
   ProductCard,
 } from '@components/index';
-import { apolloClient } from '@lib/index';
-import { SANITY_DATA } from '@queries/index';
+import { apolloClient, getSiteNavigation, getSiteSettings } from '@lib/index';
 
 function HomePage({
   specials,
@@ -329,12 +328,8 @@ async function getStaticProps() {
     },
   });
 
-  const sanityData = await apolloClient.query({
-    query: SANITY_DATA,
-    context: {
-      clientName: 'SANITY',
-    },
-  });
+  const siteNavigation = await getSiteNavigation();
+  const siteSettings = await getSiteSettings();
 
   return {
     props: {
@@ -342,8 +337,8 @@ async function getStaticProps() {
       bestSellingFruit: data.bestSellingFruit,
       bestSellingVegetables: data.bestSellingVegetables,
       bestSellingBoxes: data.bestSellingBoxes,
-      siteNavigation: sanityData.data.SiteNavigation,
-      siteSettings: sanityData.data.SiteSettings,
+      siteNavigation,
+      siteSettings,
     },
     revalidate: 60,
   };
