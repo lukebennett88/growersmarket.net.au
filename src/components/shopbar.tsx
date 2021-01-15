@@ -71,13 +71,15 @@ function Shopbar() {
                   </span>
                 </a>
               )}
-              <div className="flex items-center space-x-2">
-                <CartIcon className="w-7 h-7" />
-                <span className="text-xs leading-tight">
-                  Your <br />
-                  Cart
-                </span>
-              </div>
+              <Link href="/cart">
+                <a className="flex items-center space-x-2">
+                  <CartIcon className="w-7 h-7" />
+                  <span className="text-xs leading-tight">
+                    Your <br />
+                    Cart
+                  </span>
+                </a>
+              </Link>
             </div>
           </div>
         </HorizontalPadding>
