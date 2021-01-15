@@ -30,6 +30,9 @@ const options: InitOptions = {
     secret: process.env.JWT_SECRET,
   },
   adapter: Adapters.Prisma.Adapter({ prisma }),
+  pages: {
+    signIn: '/signin',
+  },
 };
 
 const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, options);
