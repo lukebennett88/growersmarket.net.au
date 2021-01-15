@@ -12,6 +12,7 @@ import {
   getTopSelling,
 } from '@lib/index';
 import { Carousel, Container, HorizontalPadding } from '@components/index';
+import { QuantityPicker } from '@components/quantity-picker';
 
 function ProductPage({ product, topSelling }) {
   // Number of items to add to cart
@@ -79,54 +80,11 @@ function ProductPage({ product, topSelling }) {
                     className="mt-4 prose border-t max-w-prose border-gray-dark"
                   />
                   <div className="flex justify-between mt-12">
-                    <span className="relative z-0 inline-flex rounded-full">
-                      <button
-                        type="button"
-                        onClick={decrement}
-                        className="relative inline-flex items-center py-2 pl-3 pr-2 text-white rounded-l-full bg-green-dark focus:z-10 focus:outline-none focus:ring-2"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          className="w-5 h-5"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M18 12H6"
-                          />
-                        </svg>
-                      </button>
-                      <span className="relative inline-flex items-center w-12 px-4 py-2 -ml-px text-sm font-medium text-gray-700 border border-transparent bg-gray-light hover:bg-gray-50 focus:z-10 focus:outline-none">
-                        <span className="flex-1 font-bold text-center text-green-dark">
-                          {quantity}
-                        </span>
-                      </span>
-                      <button
-                        type="button"
-                        onClick={increment}
-                        className="relative inline-flex items-center py-2 pl-2 pr-3 -ml-px text-sm font-medium text-white border border-transparent rounded-r-full bg-green-dark focus:z-10 focus:outline-none focus:ring-2"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          className="w-5 h-5"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                          />
-                        </svg>
-                      </button>
-                    </span>
-
+                    <QuantityPicker
+                      increment={increment}
+                      decrement={decrement}
+                      quantity={quantity}
+                    />
                     <button
                       className="inline-flex items-center justify-center space-x-3 cta"
                       // onClick={addToCart}
