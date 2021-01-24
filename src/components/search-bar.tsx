@@ -24,7 +24,13 @@ function Searchbar() {
       indexName="products_recently_ordered_count_desc"
       searchClient={algoliaClient}
     >
-      <Combobox openOnFocus aria-label="Search for products">
+      <Combobox
+        openOnFocus
+        // TODO: Navigate to product page when you select an item from the list
+        // (e.g. hit the return key)
+        // onSelect={(item) => console.log(item)}
+        aria-label="Search for products"
+      >
         <Configure hitsPerPage={6} />
         <SearchBox />
         <div className="relative">
@@ -88,7 +94,9 @@ const Results = connectStateResults(({ searchState, searchResults, error }) => {
   if (searchResults && searchResults.nbHits === 0)
     return (
       <ResultsWrapper>
-        No results have been found for "{searchState.query}"
+        <p className="px-8 py-2 -mx-4">
+          No results have been found for "{searchState.query}"
+        </p>
       </ResultsWrapper>
     );
 
