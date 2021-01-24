@@ -244,7 +244,7 @@ function TopSellingProducts({ topSelling, productType }) {
           <div className="mt-16 text-center">
             {/* // TODO: make this link work */}
             <Link href="/">
-              <a className="inline-block px-16 py-2 text-sm font-bold border rounded-full text-green-dark border-green-dark">
+              <a className="inline-block px-16 py-2 text-sm font-bold border rounded-full text-green-dark border-green-dark hover:bg-white focus:bg-white">
                 See More
               </a>
             </Link>
