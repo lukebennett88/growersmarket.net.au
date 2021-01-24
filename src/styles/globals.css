@@ -6,6 +6,7 @@
   :root {
     --reach-tabs: 1;
     --reach-dialog: 1;
+    --reach-combobox: 1;
   }
 
   /* Replace default focus styles */
@@ -32,6 +33,10 @@
 
   .cta {
     @apply px-8 py-2 inline-block font-bold text-white rounded-full bg-green-dark;
+  }
+
+  [data-reach-combobox-option][aria-selected='true'] {
+    @apply bg-gray-200;
   }
 
   /* Turn off animations for people who have the prefers-reduced-motion query enabled */
