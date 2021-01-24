@@ -24,7 +24,7 @@ function Searchbar() {
       indexName="products_recently_ordered_count_desc"
       searchClient={algoliaClient}
     >
-      <Combobox aria-label="Search for products">
+      <Combobox openOnFocus aria-label="Search for products">
         <Configure hitsPerPage={6} />
         <SearchBox />
         <div className="relative">
