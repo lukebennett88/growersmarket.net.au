@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRouter } from 'next/router';
 import {
   InstantSearch,
   Configure,
@@ -11,14 +12,21 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { HiSearch } from 'react-icons/hi';
 import {
-  Combobox,
+  Combobox as ReachCombobox,
   ComboboxInput,
   ComboboxList,
-  ComboboxOption,
+  ComboboxOption as ReachComboboxOption,
   ComboboxPopover,
 } from '@reach/combobox';
 
+import type {
+  ComboboxProps as ReachComboboxProps,
+  ComboboxOptionProps as ReachComboboxOptionProps,
+} from '@reach/combobox';
+
 function Searchbar() {
+  const router = useRouter();
+
   return (
     <InstantSearch
       indexName="products_recently_ordered_count_desc"
@@ -28,7 +36,7 @@ function Searchbar() {
         openOnFocus
         // TODO: Navigate to product page when you select an item from the list
         // (e.g. hit the return key)
-        // onSelect={(item) => console.log(item)}
+        onSelect={(_, data) => router.push(`/products/${data.handle}`)}
         aria-label="Search for products"
       >
         <Configure hitsPerPage={6} />
@@ -77,6 +85,127 @@ function ResultsWrapper({ children }) {
   );
 }
 
+const ComboboxContext = React.createContext<ComboboxContextValue>({} as any);
+
+function Combobox({ onSelect: onSelectProp, ...props }: ComboboxProps) {
+  const {
+    addOptionData,
+    getOptionData,
+    removeOptionData,
+  } = useOptionDataFactory();
+
+  const onSelectRef = React.useRef(onSelectProp);
+  React.useEffect(() => {
+    onSelectRef.current = onSelectProp;
+  });
+
+  const onSelect = React.useCallback(
+    function onSelect(value: string) {
+      onSelectRef.current?.(value, getOptionData(value));
+    },
+    [getOptionData]
+  );
+
+  const context: ComboboxContextValue = React.useMemo(
+    () => ({
+      addOptionData,
+      getOptionData,
+      removeOptionData,
+      onSelect,
+    }),
+    [onSelect, addOptionData, getOptionData, removeOptionData]
+  );
+
+  return (
+    <ComboboxContext.Provider value={context}>
+      <ReachCombobox {...props} as="div" onSelect={onSelect} />
+    </ComboboxContext.Provider>
+  );
+}
+
+function ComboboxOption({ selectData, ...props }: ComboboxOptionProps) {
+  const { addOptionData, removeOptionData } = React.useContext(ComboboxContext);
+  React.useEffect(() => {
+    addOptionData(props.value, selectData);
+    return () => removeOptionData(props.value);
+  }, [props.value, selectData, addOptionData, removeOptionData]);
+
+  return <ReachComboboxOption {...props} as="li" />;
+}
+
+type ComboboxDOMProps = Omit<
+  React.ComponentPropsWithoutRef<'div'>,
+  keyof ReachComboboxProps
+>;
+
+type ComboboxOptionDOMProps = Omit<
+  React.ComponentPropsWithoutRef<'li'>,
+  keyof ReachComboboxOptionProps
+>;
+
+interface ComboboxProps extends ReachComboboxProps, ComboboxDOMProps {
+  onSelect?(value: string, data?: any): void;
+}
+
+interface ComboboxOptionProps
+  extends ReachComboboxOptionProps,
+    ComboboxOptionDOMProps {
+  /**
+   * Custom data that will be passed to the `onSelect` of the `Combobox` as a
+   * second argument.
+   */
+  selectData?: any;
+}
+
+/**
+ * Uses a ref object which stores the index as a key and custom data as value
+ * for each ComboboxOption. Hides the ref so that we can only mutate it through
+ * the returned functions. 🙈
+ */
+function useOptionDataFactory(): {
+  addOptionData: AddOptionData;
+  getOptionData: GetOptionData;
+  removeOptionData: RemoveOptionData;
+} {
+  const optionData = React.useRef<OptionData>({});
+
+  const addOptionData = React.useCallback<AddOptionData>(
+    (value: string, data: any) => (optionData.current[value] = data),
+    []
+  );
+
+  const getOptionData = React.useCallback<GetOptionData>(
+    (value: string) => optionData.current[value],
+    []
+  );
+
+  const removeOptionData = React.useCallback<RemoveOptionData>(
+    (value: string) => delete optionData.current[value],
+    []
+  );
+
+  return {
+    addOptionData,
+    getOptionData,
+    removeOptionData,
+  };
+}
+
+type OptionData = Record<string, any>;
+
+type AddOptionData = (value: string, data: any) => void;
+
+type GetOptionData = (value: string) => any | undefined;
+
+type RemoveOptionData = (value: string) => void;
+
+interface ComboboxContextValue {
+  onSelect(value: string, data?: any): any;
+  getOptionData: GetOptionData;
+  addOptionData: AddOptionData;
+  removeOptionData: RemoveOptionData;
+}
+
 const Results = connectStateResults(({ searchState, searchResults, error }) => {
   if (!searchResults) {
     return null;
@@ -108,7 +237,13 @@ const Results = connectStateResults(({ searchState, searchResults, error }) => {
         </h3>
         <ComboboxList>
           {searchResults.hits.map((hit) => (
-            <ComboboxOption key={hit.id} value={hit.title}>
+            <ComboboxOption
+              key={hit.id}
+              value={hit.title}
+              selectData={{
+                handle: hit.handle,
+              }}
+            >
               <Link href={`/products/${hit.handle}`}>
                 <a className="flex items-center px-8 py-2 -mx-4 focus:outline-none focus:bg-gray-200 hover:bg-gray-100">
                   <div className="bg-white h-11 w-11">
