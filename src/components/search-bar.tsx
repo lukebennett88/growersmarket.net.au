@@ -25,44 +25,51 @@ import type {
 } from '@reach/combobox';
 
 function Searchbar() {
-  const router = useRouter();
-
   return (
     <InstantSearch
       indexName="products_recently_ordered_count_desc"
       searchClient={algoliaClient}
     >
-      <Combobox
-        openOnFocus
-        // TODO: Navigate to product page when you select an item from the list
-        // (e.g. hit the return key)
-        onSelect={(_, data) => router.push(`/products/${data.handle}`)}
-        aria-label="Search for products"
-      >
-        <Configure hitsPerPage={6} />
-        <SearchBox />
-        <div className="relative">
-          <Results />
-        </div>
-      </Combobox>
+      <SearchBox />
     </InstantSearch>
   );
 }
 
 const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
+  const router = useRouter();
+  const ref = React.useRef();
+
   return (
-    <div className="relative hidden sm:block">
-      <ComboboxInput
-        value={currentRefinement}
-        onChange={(event) => refine(event.currentTarget.value)}
-        type="text"
-        placeholder="Search all products"
-        className="pl-5 rounded-full"
-      />
-      <span className="absolute inset-y-0 inline-flex items-center right-4">
-        <HiSearch className="w-5 h-5" />
-      </span>
-    </div>
+    <Combobox
+      openOnFocus
+      // TODO: Navigate to product page when you select an item from the list
+      // (e.g. hit the return key)
+      onSelect={(_, data) => {
+        router.push(`/products/${data.handle}`);
+        ref.current.blur();
+      }}
+      aria-label="Search for products"
+    >
+      <Configure hitsPerPage={6} />
+      <div className="relative hidden sm:block">
+        <ComboboxInput
+          ref={ref}
+          value={currentRefinement}
+          onChange={(event) => {
+            refine(event.currentTarget.value);
+          }}
+          type="text"
+          placeholder="Search all products"
+          className="pl-5 rounded-full"
+        />
+        <span className="absolute inset-y-0 inline-flex items-center right-4">
+          <HiSearch className="w-5 h-5" />
+        </span>
+      </div>
+      <div className="relative">
+        <Results />
+      </div>
+    </Combobox>
   );
 });
 
