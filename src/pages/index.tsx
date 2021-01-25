@@ -42,7 +42,6 @@ function HomePage({
   );
 }
 
-// TODO: Set up 'Specials' collection in Shopify
 function ThisWeeksSpecials({ products }) {
   return (
     <ProductGrid heading="This week's specials">
@@ -53,7 +52,6 @@ function ThisWeeksSpecials({ products }) {
   );
 }
 
-// TODO: Write page query to get top selling fruit
 function TopSellingFruit({ products }) {
   return (
     <ProductGrid
@@ -67,7 +65,6 @@ function TopSellingFruit({ products }) {
   );
 }
 
-// TODO: Write page query to get top selling vegetables
 function TopSellingVegetables({ products }) {
   return (
     <ProductGrid
@@ -82,7 +79,6 @@ function TopSellingVegetables({ products }) {
   );
 }
 
-// TODO: Write page query to get top selling boxes
 function TopSellingBoxes({ products }) {
   return (
     <ProductGrid
