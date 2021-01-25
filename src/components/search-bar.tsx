@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import { useRouter } from 'next/router';
 import {
@@ -37,15 +38,14 @@ function Searchbar() {
 
 const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
   const router = useRouter();
-  const ref = React.useRef();
+  const ref = React.useRef(null);
 
   return (
     <Combobox
       openOnFocus
-      // TODO: Navigate to product page when you select an item from the list
-      // (e.g. hit the return key)
       onSelect={(_, data) => {
         router.push(`/products/${data.handle}`);
+        refine('');
         ref.current.blur();
       }}
       aria-label="Search for products"
