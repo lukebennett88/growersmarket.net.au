@@ -71,11 +71,11 @@ function Shopbar() {
                     Your <br />
                     Cart
                   </span>
-                  {count > 0 && (
+                  {count > 0 ? (
                     <span className="absolute top-0 right-0 flex items-center justify-center w-4 h-4 text-xs text-white transform translate-x-full -translate-y-1/2 rounded-full bg-green-dark">
                       {count}
                     </span>
-                  )}
+                  ) : null}
                 </a>
               </Link>
             </div>
