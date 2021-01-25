@@ -3,13 +3,13 @@ import { providers, signIn, signOut, useSession } from 'next-auth/client';
 import { HorizontalPadding } from '@components/index';
 import { SignInIcon } from '@components/vectors';
 import { getSiteNavigation, getSiteSettings } from '@lib/index';
-import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 
 function SignInPage({ providers }) {
   const [session] = useSession();
   return (
     <HorizontalPadding>
-      <Head><title>Sign {session ? 'out' : "in"}</title></Head>
+      <NextSeo title={`Sign ${session ? 'out' : "in"}`} />
       <div className="py-24">
         <div className="flex items-center justify-center space-x-6">
           <SignInIcon className="w-16" />
