@@ -7,10 +7,11 @@ import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
 import { CartIcon, SignInIcon } from './vectors';
 import { Searchbar } from './search-bar';
+import { useCartCount } from '@lib/index';
 
 function Shopbar() {
   const [session] = useSession();
-
+  const count = useCartCount();
   return (
     <div className="font-bold bg-white">
       <Container>
@@ -64,12 +65,17 @@ function Shopbar() {
                 </a>
               )}
               <Link href="/cart">
-                <a className="flex items-center space-x-2">
+                <a className="relative flex items-center space-x-2">
                   <CartIcon className="w-7 h-7" />
                   <span className="text-xs leading-tight">
                     Your <br />
                     Cart
                   </span>
+                  {count > 0 && (
+                    <span className="absolute top-0 right-0 flex items-center justify-center w-4 h-4 text-xs text-white transform translate-x-full -translate-y-1/2 rounded-full bg-green-dark">
+                      {count}
+                    </span>
+                  )}
                 </a>
               </Link>
             </div>
