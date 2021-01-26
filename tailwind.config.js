@@ -27,7 +27,17 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Montserrat', ...defaultTheme.fontFamily.sans]
-      }
+      },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            fontFamily: `${theme('fontFamily.sans')} !important`,
+            img: {
+              width: `${theme('width.auto')} !important`,
+            }
+          },
+        },
+      }),
     }
   },
   variants: {
