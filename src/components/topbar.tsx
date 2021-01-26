@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
 import { useGlobalContext } from '@lib/index';
+import { HiMenu } from 'react-icons/hi';
 
 function Topbar() {
   const { siteSettings } = useGlobalContext();
@@ -11,7 +12,14 @@ function Topbar() {
       <Container>
         <HorizontalPadding variant={HorizontalPadding.variant.GREEN}>
           <div className="flex items-center justify-end py-3 space-x-3">
-            <span className="hidden sm:block">
+            <button
+              type="button"
+              className="flex flex-col items-center mr-auto font-bold md:hidden"
+            >
+              <HiMenu className="w-5 h-5" />
+              <span className="sr-only">Menu</span>
+            </button>
+            <span className="hidden md:block">
               {siteSettings && (
                 <a
                   href={siteSettings?.address?.googleMaps.link}
@@ -23,7 +31,7 @@ function Topbar() {
                 </a>
               )}
             </span>
-            <span aria-hidden className="hidden sm:block">
+            <span aria-hidden className="hidden md:block">
               |
             </span>
             <span>
