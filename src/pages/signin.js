@@ -1,7 +1,8 @@
 import { HorizontalPadding } from '@components/index';
+import { NextSeo } from 'next-seo';
+
 import { SignInIcon } from '@components/vectors';
 import { getSiteNavigation, getSiteSettings } from '@lib/index';
-import { NextSeo } from 'next-seo';
 
 function SignInPage() {
   return (
@@ -27,13 +28,16 @@ function SignInPage() {
   );
 }
 
-SignInPage.getInitialProps = async () => {
+async function getServerSideProps() {
   const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();
-  return {
-    siteNavigation,
-    siteSettings,
-  };
-};
 
-export { SignInPage as default };
+  return {
+    props: {
+      siteNavigation,
+      siteSettings,
+    },
+  };
+}
+
+export { SignInPage as default, getServerSideProps };
