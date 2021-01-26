@@ -9,7 +9,6 @@ import {
   Highlight,
 } from 'react-instantsearch-dom';
 import { algoliaClient } from '@lib/algolia-client';
-import Link from 'next/link';
 import Image from 'next/image';
 import { HiSearch } from 'react-icons/hi';
 import {
@@ -67,7 +66,7 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
         </span>
       </div>
       <div className="relative">
-        <Results />
+        <Results refine={refine} />
       </div>
     </Combobox>
   );
@@ -213,46 +212,56 @@ interface ComboboxContextValue {
   removeOptionData: RemoveOptionData;
 }
 
-const Results = connectStateResults(({ searchState, searchResults, error }) => {
-  if (!searchResults) {
-    return null;
-  }
+const Results = connectStateResults(
+  ({ searchState, searchResults, error, refine }) => {
+    const router = useRouter();
 
-  if (error) {
-    console.error(error);
-    return null;
-  }
+    if (!searchResults) {
+      return null;
+    }
 
-  if (!searchState || !searchState.query) {
-    return null;
-  }
+    if (error) {
+      console.error(error);
+      return null;
+    }
 
-  if (searchResults && searchResults.nbHits === 0)
-    return (
-      <ResultsWrapper>
-        <p className="px-8 py-2 -mx-4">
-          No results have been found for "{searchState.query}"
-        </p>
-      </ResultsWrapper>
-    );
+    if (!searchState || !searchState.query) {
+      return null;
+    }
 
-  if (searchResults && searchResults.nbHits !== 0) {
-    return (
-      <ResultsWrapper>
-        <h3 className="px-4 py-4 text-base text-left uppercase border-b">
-          Products
-        </h3>
-        <ComboboxList>
-          {searchResults.hits.map((hit) => (
-            <ComboboxOption
-              key={hit.id}
-              value={hit.title}
-              selectData={{
-                handle: hit.handle,
-              }}
-            >
-              <Link href={`/products/${hit.handle}`}>
-                <a className="flex items-center px-8 py-2 -mx-4 focus:outline-none focus:bg-gray-200 hover:bg-gray-100">
+    if (searchResults && searchResults.nbHits === 0)
+      return (
+        <ResultsWrapper>
+          <p className="px-8 py-2 -mx-4">
+            No results have been found for "{searchState.query}"
+          </p>
+        </ResultsWrapper>
+      );
+
+    if (searchResults && searchResults.nbHits !== 0) {
+      return (
+        <ResultsWrapper>
+          <h3 className="px-4 py-4 text-base text-left uppercase border-b">
+            Products
+          </h3>
+          <ComboboxList>
+            {searchResults.hits.map((hit) => (
+              <ComboboxOption
+                key={hit.id}
+                value={hit.title}
+                selectData={{
+                  handle: hit.handle,
+                }}
+              >
+                <a
+                  href={`/products/${hit.handle}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push(`/products/${hit.handle}`);
+                    refine('');
+                  }}
+                  className="flex items-center px-8 py-2 -mx-4 focus:outline-none focus:bg-gray-200 hover:bg-gray-100"
+                >
                   <div className="bg-white h-11 w-11">
                     {hit.image && (
                       <Image
@@ -269,14 +278,14 @@ const Results = connectStateResults(({ searchState, searchResults, error }) => {
                     <Highlight attribute="title" hit={hit} tagName="mark" />
                   </div>
                 </a>
-              </Link>
-            </ComboboxOption>
-          ))}
-        </ComboboxList>
-        <Query />
-      </ResultsWrapper>
-    );
+              </ComboboxOption>
+            ))}
+          </ComboboxList>
+          <Query />
+        </ResultsWrapper>
+      );
+    }
   }
-});
+);
 
 export { Searchbar };
