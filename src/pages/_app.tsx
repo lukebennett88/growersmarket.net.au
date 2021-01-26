@@ -1,6 +1,5 @@
 import { AppProps } from 'next/app';
 import { DefaultSeo } from 'next-seo';
-import { Provider as NextAuthProvider } from 'next-auth/client';
 import { ApolloProvider } from '@apollo/client';
 import 'typeface-montserrat';
 import 'intersection-observer';
@@ -28,21 +27,19 @@ function App({ Component, pageProps }: AppProps) {
         accessToken={process.env.NEXT_PUBLIC_SHOPIFY_ACCESS_TOKEN}
       >
         <ApolloProvider client={apolloClient}>
-          <NextAuthProvider session={pageProps.session}>
-            <DefaultSeo
-              titleTemplate={`%s | ${config.title}`}
-              description={config.description}
-              openGraph={{
-                type: 'website',
-                locale: 'en_AU',
-                url: config.siteUrl,
-                site_name: config.title,
-              }}
-            />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </NextAuthProvider>
+          <DefaultSeo
+            titleTemplate={`%s | ${config.title}`}
+            description={config.description}
+            openGraph={{
+              type: 'website',
+              locale: 'en_AU',
+              url: config.siteUrl,
+              site_name: config.title,
+            }}
+          />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </ApolloProvider>
       </ShopifyContextProvider>
     </GlobalContext.Provider>
