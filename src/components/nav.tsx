@@ -42,9 +42,9 @@ function Nav() {
     >
       <div className="relative z-20 shadow">
         <Container>
-          <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
-            <nav className="flex space-x-10">
-              <TabList as="ul" className="hidden lg:flex">
+          <div className="hidden lg:flex-1 lg:flex lg:items-center lg:justify-between">
+            <HorizontalPadding as="nav">
+              <TabList as="ul" className="flex -mx-4">
                 {siteNavigation?.items.map((navItem) =>
                   navItem.subMenu ? (
                     <NavButton
@@ -58,7 +58,7 @@ function Nav() {
                   )
                 )}
               </TabList>
-            </nav>
+            </HorizontalPadding>
           </div>
         </Container>
       </div>
@@ -140,12 +140,12 @@ function SubMenu({ siteNavigation, isActive }) {
       leaveFrom="opacity-100 translate-y-0"
       leaveTo="opacity-0 -translate-y-1"
     >
-      <div className="absolute inset-x-0 z-10 hidden transform shadow-lg md:block">
+      <div className="absolute inset-x-0 z-10 hidden transform shadow-lg lg:block">
         <div className="absolute inset-0 flex">
           <div aria-hidden className="w-1/2 bg-gray-light" />
           <div aria-hidden className="w-1/2 bg-white" />
         </div>
-        <div className="relative grid grid-cols-1 mx-auto max-w-screen-2xl lg:grid-cols-2">
+        <div className="relative grid grid-cols-2 mx-auto max-w-screen-2xl">
           <div className="py-8 bg-gray-light sm:py-12">
             <HorizontalPadding as="nav">
               <ul className="grid grid-flow-col grid-cols-3 grid-rows-6 gap-6">
@@ -165,7 +165,7 @@ function SubMenu({ siteNavigation, isActive }) {
               </ul>
             </HorizontalPadding>
           </div>
-          <div className="py-8 pl-6 pr-4 bg-white sm:py-12 sm:pr-6 lg:pr-8">
+          <div className="py-12 pl-6 pr-8 bg-white">
             <div>
               <ul className="grid grid-cols-2 gap-12">
                 {Array(2)
