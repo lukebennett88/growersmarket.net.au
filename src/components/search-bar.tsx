@@ -10,7 +10,7 @@ import {
 } from 'react-instantsearch-dom';
 import { algoliaClient } from '@lib/algolia-client';
 import Image from 'next/image';
-import { HiSearch } from 'react-icons/hi';
+import { HiSearch, HiX } from 'react-icons/hi';
 import {
   Combobox as ReachCombobox,
   ComboboxInput,
@@ -37,35 +37,47 @@ function Searchbar() {
 
 const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
   const router = useRouter();
-  const ref = React.useRef(null);
-
+  const inputRef = React.useRef(null);
   return (
     <Combobox
       openOnFocus
       onSelect={(_, data) => {
         router.push(`/products/${data.handle}`);
         refine('');
-        ref.current.blur();
+        inputRef.current.blur();
       }}
       aria-label="Search for products"
     >
       <Configure hitsPerPage={6} />
-      <div className="relative hidden sm:block">
+      <div className="relative">
         <ComboboxInput
-          ref={ref}
+          ref={inputRef}
           value={currentRefinement}
           onChange={(event) => {
             refine(event.currentTarget.value);
           }}
           type="text"
           placeholder="Search all products"
-          className="pl-5 rounded-full"
+          className="w-full pl-5 rounded-full sm:w-auto"
         />
         <span className="absolute inset-y-0 inline-flex items-center right-4">
-          <HiSearch className="w-5 h-5" />
+          {currentRefinement ? (
+            <button
+              type="button"
+              onClick={() => {
+                refine('');
+                inputRef.current.focus();
+              }}
+            >
+              <span className="sr-only">Clear</span>
+              <HiX className="w-5 h-5" />
+            </button>
+          ) : (
+            <HiSearch className="w-5 h-5" />
+          )}
         </span>
       </div>
-      <div className="relative">
+      <div className="relative -mx-4 sm:mx-0">
         <Results refine={refine} />
       </div>
     </Combobox>
@@ -84,7 +96,7 @@ function ResultsWrapper({ children }) {
   return (
     <ComboboxPopover
       portal={false}
-      className="absolute right-0 z-30 mt-6 overflow-hidden text-left bg-white rounded-b-lg shadow-2xl w-96 md:rounded-t-lg"
+      className="absolute right-0 z-30 w-full mt-6 overflow-hidden text-left bg-white rounded-b-lg shadow-2xl sm:w-96 md:rounded-t-lg"
     >
       {children}
     </ComboboxPopover>

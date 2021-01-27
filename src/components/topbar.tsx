@@ -8,17 +8,10 @@ import { HiMenu } from 'react-icons/hi';
 function Topbar() {
   const { siteSettings } = useGlobalContext();
   return (
-    <div className="font-bold text-white bg-green-dark">
+    <div className="text-sm font-bold text-white bg-green-dark">
       <Container>
         <HorizontalPadding variant={HorizontalPadding.variant.GREEN}>
-          <div className="flex items-center justify-end py-3 space-x-3">
-            <button
-              type="button"
-              className="flex flex-col items-center mr-auto font-bold md:hidden"
-            >
-              <HiMenu className="w-5 h-5" />
-              <span className="sr-only">Menu</span>
-            </button>
+          <div className="flex items-center justify-end py-2 space-x-6">
             <span className="hidden md:block">
               {siteSettings && (
                 <a
@@ -36,11 +29,23 @@ function Topbar() {
             </span>
             <span>
               {siteSettings && (
-                <a href={`tel:${siteSettings?.phoneNumber}`}>
-                  Contact: {siteSettings?.phoneNumber}
-                </a>
+                <a
+                  href={`tel:${siteSettings?.phoneNumber}`}
+                  dangerouslySetInnerHTML={{
+                    __html: `Contact: ${siteSettings?.phoneNumber
+                      .split(' ')
+                      .join('&nbsp;')}`,
+                  }}
+                />
               )}
             </span>
+            <button
+              type="button"
+              className="flex items-center p-2 mr-auto space-x-2 font-bold rounded-md md:hidden"
+            >
+              <span>Menu</span>
+              <HiMenu className="w-5 h-5" />
+            </button>
           </div>
         </HorizontalPadding>
       </Container>
