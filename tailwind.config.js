@@ -2,11 +2,16 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const aspectRatio = require('@tailwindcss/aspect-ratio');
 const forms = require('@tailwindcss/forms');
 const typography = require('@tailwindcss/typography');
+const tailwindFilters = require('tailwindcss-filters');
 
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    backdropFilter: {
+      'none': 'none',
+      'blur': 'blur(8px)',
+    },
     extend: {
       colors: {
         "green": {
@@ -42,11 +47,16 @@ module.exports = {
     extend: {}
   },
   plugins: [
-    // https://github.com/tailwindlabs/tailwindcss-aspect-ratio#readme
+    // Apect ratio plugin docs: https://github.com/tailwindlabs/tailwindcss-aspect-ratio#readme
     aspectRatio,
-    // https://github.com/tailwindlabs/tailwindcss-forms#readme
+
+    // Forms plugin docs: https://github.com/tailwindlabs/tailwindcss-forms#readme
     forms,
-    // See https://github.com/tailwindlabs/tailwindcss-typography for details
+
+    // Forms plugin docs: https://github.com/tailwindlabs/tailwindcss-typography#readme
     typography,
+
+    // Filters plugin docs: https://github.com/benface/tailwindcss-filters#readme
+    tailwindFilters,
   ]
 };
