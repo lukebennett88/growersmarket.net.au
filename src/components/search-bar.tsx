@@ -10,7 +10,7 @@ import {
 } from 'react-instantsearch-dom';
 import { algoliaClient } from '@lib/algolia-client';
 import Image from 'next/image';
-import { HiSearch, HiX } from 'react-icons/hi';
+import { HiOutlineSearch, HiOutlineX } from 'react-icons/hi';
 import {
   Combobox as ReachCombobox,
   ComboboxInput,
@@ -60,7 +60,7 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
           placeholder="Search all products"
           className="w-full pl-5 rounded-full sm:w-auto"
         />
-        <span className="absolute inset-y-0 inline-flex items-center right-4">
+        <span className="absolute inset-y-0 inline-flex items-center text-gray-500 right-4">
           {currentRefinement ? (
             <button
               type="button"
@@ -70,10 +70,10 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
               }}
             >
               <span className="sr-only">Clear</span>
-              <HiX className="w-5 h-5" />
+              <HiOutlineX className="w-5 h-5" />
             </button>
           ) : (
-            <HiSearch className="w-5 h-5" />
+            <HiOutlineSearch className="w-5 h-5" />
           )}
         </span>
       </div>
