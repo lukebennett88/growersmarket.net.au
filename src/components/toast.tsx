@@ -20,9 +20,9 @@ function Toast({ showDialog, setShowDialog, image, title, quantity }) {
           exit="closed"
           variants={{ open: { opacity: 1 }, closed: { opacity: 0 } }}
           transition={transition}
-          className="fixed inset-0 z-10 px-4 py-32 sm:px-6"
+          className="fixed inset-0 z-10 flex flex-col px-4 py-32 bg-black bg-opacity-25 sm:px-6 backdrop-blur"
         >
-          <div className="flex items-end justify-end w-full mx-auto pointer-events-none sm:items-start max-w-screen-2xl">
+          <div className="flex items-end justify-end flex-1 w-full mx-auto pointer-events-none max-w-screen-2xl">
             <AnimatedDialogContent
               aria-label="New item added to cart"
               initial="closed"

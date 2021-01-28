@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 
 import { useAddItemToCart } from '@lib/hooks';
+import { Toast } from './toast';
 
 interface ProductCardProps {
   product: {
@@ -36,18 +37,24 @@ interface ProductCardProps {
 }
 
 function ProductCard({ product }: ProductCardProps) {
+  // ID padded to addItemToCart function
   const variantId = product.node.variants.edges[0].node.id;
 
+  // Number of items to add to cart
+  const QUANTITY = 1;
+
+  // State for showing add to cart toast notifications
+  const [showDialog, setShowDialog] = React.useState(false);
+
+  // Code to add products to cart
   const addItemToCart = useAddItemToCart();
-
-  async function addToCart() {
-    const quantity = 1;
-
+  async function handleAddToCart() {
     try {
-      await addItemToCart(variantId, quantity);
-      alert('Successfully added that item to your cart!');
+      await addItemToCart(variantId, QUANTITY);
+      setShowDialog(true);
     } catch (error) {
-      alert(error);
+      console.error(error);
+      setShowDialog(false);
     }
   }
 
@@ -84,12 +91,19 @@ function ProductCard({ product }: ProductCardProps) {
       <div className="pt-3 mt-auto">
         <button
           className="inline-flex items-center justify-center w-full space-x-3 cta"
-          onClick={addToCart}
+          onClick={handleAddToCart}
         >
           <span>Add to Cart</span>
           <HiOutlineShoppingCart className="w-7 h-7" />
         </button>
       </div>
+      <Toast
+        title={product.node.title}
+        image={product.node.images?.edges?.[0]?.node}
+        quantity={QUANTITY}
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+      />
     </li>
   );
 }
