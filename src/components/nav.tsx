@@ -87,7 +87,7 @@ function Nav() {
   );
 }
 
-interface NavButtonProps {
+interface INavButton {
   navItem: {
     title: string;
   };
@@ -96,12 +96,7 @@ interface NavButtonProps {
   isSelected?: boolean;
 }
 
-function NavButton({
-  navItem,
-  tabIndex,
-  closeTab,
-  isSelected,
-}: NavButtonProps) {
+function NavButton({ navItem, tabIndex, closeTab, isSelected }: INavButton) {
   const { pathname } = useRouter();
   const { focusedIndex, selectedIndex } = useTabsContext();
 

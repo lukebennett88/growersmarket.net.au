@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { Error } from './error';
 
-interface InputProps {
+interface IInput {
   className?: string;
   errors?: any;
   label: string;
@@ -35,7 +35,7 @@ function Input({
   register,
   required = true,
   type = 'text',
-}: InputProps) {
+}: IInput) {
   const MIN_LENGTH = type === 'tel' ? 8 : 2;
   return (
     <div>

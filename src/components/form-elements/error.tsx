@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-interface ErrorProps {
+interface IError {
   message: string;
 }
 
-function Error({ message }: ErrorProps) {
+function Error({ message }: IError) {
   return (
     <p
       role="alert"

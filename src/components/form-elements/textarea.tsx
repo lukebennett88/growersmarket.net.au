@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { Error } from './error';
 
-interface TextareaProps {
+interface ITextarea {
   className?: string;
   errors?: any;
   label: string;
@@ -35,7 +35,7 @@ function Textarea({
   register,
   required = true,
   rows = 6,
-}: TextareaProps) {
+}: ITextarea) {
   return (
     <div>
       <label htmlFor={name}>

@@ -19,7 +19,7 @@ const ShopifyContext = React.createContext<ShopifyContextShape>({
 });
 
 // Create React Provider for Shopify cart
-interface ShopifyContextProviderProps {
+interface IShopifyContextProvider {
   shopName: string;
   accessToken: string;
   children: React.ReactNode;
@@ -29,7 +29,7 @@ function ShopifyContextProvider({
   shopName,
   accessToken,
   children,
-}: ShopifyContextProviderProps) {
+}: IShopifyContextProvider) {
   if (shopName == null || accessToken == null) {
     throw new Error(
       'Unable to build shopify-buy client object. Please make sure that your access token and domain are correct.'

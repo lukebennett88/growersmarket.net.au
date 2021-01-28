@@ -6,7 +6,7 @@ import { HiOutlineShoppingCart } from 'react-icons/hi';
 import { useAddItemToCart } from '@lib/hooks';
 import { Toast } from './toast';
 
-interface ProductCardProps {
+interface IProductCard {
   product: {
     node: {
       handle: string;
@@ -36,7 +36,7 @@ interface ProductCardProps {
   };
 }
 
-function ProductCard({ product }: ProductCardProps) {
+function ProductCard({ product }: IProductCard) {
   // ID padded to addItemToCart function
   const variantId = product.node.variants.edges[0].node.id;
 

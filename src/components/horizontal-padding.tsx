@@ -8,7 +8,7 @@ enum Variant {
   TRANSPARENT,
 }
 
-interface HorizontalPaddingProps {
+interface IHorizontalPadding {
   as?: string;
   children: React.ReactNode;
   variant?: Variant;
@@ -26,7 +26,7 @@ function HorizontalPadding({
   children,
   as,
   variant = Variant.TRANSPARENT,
-}: HorizontalPaddingProps) {
+}: IHorizontalPadding) {
   return React.createElement(
     as || 'div',
     {

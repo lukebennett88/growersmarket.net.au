@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-interface ContainerProps {
+interface IContainer {
   as?: string;
   children: React.ReactNode;
 }
 
-function Container({ children, as }: ContainerProps) {
+function Container({ children, as }: IContainer) {
   return React.createElement(
     'div' || as,
     {
