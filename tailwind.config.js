@@ -4,9 +4,7 @@ const forms = require('@tailwindcss/forms');
 const typography = require('@tailwindcss/typography');
 
 module.exports = {
-  purge: {
-    content: ['./src/**/*.{js,ts,jsx,tsx}']
-  },
+  purge: ['./src/**/*.{js,jsx,ts,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
