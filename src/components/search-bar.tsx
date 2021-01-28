@@ -70,10 +70,10 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
               }}
             >
               <span className="sr-only">Clear</span>
-              <HiOutlineX className="w-5 h-5" />
+              <HiOutlineX aria-hidden className="w-5 h-5" />
             </button>
           ) : (
-            <HiOutlineSearch className="w-5 h-5" />
+            <HiOutlineSearch aria-hidden className="w-5 h-5" />
           )}
         </span>
       </div>
