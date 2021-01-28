@@ -1,4 +1,6 @@
 export * from './apollo-client';
+export * from './get-all-products-by-type';
+export * from './get-product-types';
 export * from './get-product';
 export * from './get-products';
 export * from './get-site-navigation';
