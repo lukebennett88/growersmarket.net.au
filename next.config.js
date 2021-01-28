@@ -1,12 +1,9 @@
 module.exports = {
   target: 'serverless',
   future: {
-    webpack5: true
+    webpack5: true,
   },
   images: {
-    domains: [
-      'cdn.shopify.com',
-      'burst.shopifycdn.com',
-    ]
-  }
+    domains: ['cdn.shopify.com', 'burst.shopifycdn.com'],
+  },
 };

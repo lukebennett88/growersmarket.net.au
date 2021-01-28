@@ -15,7 +15,7 @@ function SignInPage() {
         </div>
         <div className="mt-4 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
           <div className="space-y-4">
-              <button
+            <button
               type="button"
               className="w-full bg-white border cta border-green-dark text-green-dark"
             >
