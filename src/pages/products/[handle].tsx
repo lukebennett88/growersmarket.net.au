@@ -197,33 +197,20 @@ function TopSellingProducts({ topSelling, productType }) {
             {topSelling.edges.map(({ node }) => (
               <li key={node.id} className="grid grid-cols-2 gap-4">
                 <div className="bg-white">
-                  {node.media?.edges?.[0]?.node?.previewImage && (
-                    <Link href={node.handle}>
-                      <a aria-hidden tabIndex={-1} className="block bg-white">
-                        <Image
-                          width={480}
-                          height={360}
-                          layout="responsive"
-                          src={
-                            node.media.edges[0].node.previewImage.transformedSrc
-                          }
-                          alt=""
-                          className="object-cover"
-                        />
-                      </a>
-                    </Link>
-                  )}
-                </div>
-                <div className="flex flex-col col-start-2">
-                  <div className="font-bold">
-                    <Link href={node.handle}>
-                      <a className="block">
-                        <h3 className="text-sm">{node.title}</h3>
-                      </a>
-                    </Link>
-                    <div className="text-2xl">
-                      <sup className="text-sm">$</sup>
-                      <span>
+        {node.images?.edges?.[0]?.node?.originalSrc && (
+          <Link href={node.handle}>
+            <a aria-hidden tabIndex={-1} className="block bg-white">
+              <Image
+                width={480}
+                height={360}
+                layout="responsive"
+                src={node.images?.edges?.[0]?.node.originalSrc}
+                alt={node.images?.edges?.[0]?.node.altText || ''}
+                className="object-cover"
+              />
+            </a>
+          </Link>
+        )}
                         {Number(node.priceRange.minVariantPrice.amount).toFixed(
                           2
                         )}

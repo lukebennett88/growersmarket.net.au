@@ -64,13 +64,15 @@ function ProductCard({ product }: IProductCard) {
         <a aria-hidden tabIndex={-1} className="inline-block">
           <div className="relative h-0 aspect-w-4 aspect-h-3">
             <div className="absolute inset-0 flex">
-              <Image
-                width={600}
-                height={400}
-                src={product.node.images.edges[0].node.originalSrc}
-                alt={product.node.images.edges[0].node.altText}
-                className="flex-1 object-cover"
-              />
+              {product.node.images?.edges?.[0]?.node?.originalSrc && (
+                <Image
+                  width={600}
+                  height={400}
+                  src={product.node.images.edges[0].node.originalSrc}
+                  alt={product.node.images.edges[0].node.altText || ''}
+                  className="flex-1 object-cover"
+                />
+              )}
             </div>
           </div>
         </a>

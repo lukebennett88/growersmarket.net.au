@@ -42,7 +42,7 @@ function Toast({ showDialog, setShowDialog, image, title, quantity }) {
                           height={40}
                           layout="responsive"
                           src={image.originalSrc}
-                          alt={image.altText}
+                          alt={image.altText || ''}
                           className="object-cover"
                         />
                       )}
