@@ -37,7 +37,7 @@ const GET_PRODUCT = gql`
       }
       productType
       title
-      variants(first: 250) {
+      variants(first: 1) {
         edges {
           node {
             id

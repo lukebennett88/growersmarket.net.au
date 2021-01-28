@@ -8,12 +8,12 @@ const GET_TOP_SELLING = gql`
         node {
           handle
           id
-          media(first: 1) {
+          images(first: 1) {
             edges {
               node {
-                previewImage {
-                  transformedSrc
-                }
+                id
+                altText
+                originalSrc
               }
             }
           }
@@ -23,6 +23,13 @@ const GET_TOP_SELLING = gql`
             }
           }
           title
+          variants(first: 1) {
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     }

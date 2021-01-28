@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 
-import { useAddItemToCart } from '@lib/hooks';
+import { useHandleAddToCart } from '@lib/hooks';
 import { Toast } from './toast';
 
 interface IProductCard {
@@ -46,17 +46,12 @@ function ProductCard({ product }: IProductCard) {
   // State for showing add to cart toast notifications
   const [showDialog, setShowDialog] = React.useState(false);
 
-  // Code to add products to cart
-  const addItemToCart = useAddItemToCart();
-  async function handleAddToCart() {
-    try {
-      await addItemToCart(variantId, QUANTITY);
-      setShowDialog(true);
-    } catch (error) {
-      console.error(error);
-      setShowDialog(false);
-    }
-  }
+  // Function to add products to cart
+  const { handleAddToCart } = useHandleAddToCart({
+    variantId,
+    quantity: QUANTITY,
+    setShowDialog,
+  });
 
   return (
     <li className="flex flex-col">

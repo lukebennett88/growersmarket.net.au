@@ -10,7 +10,7 @@ import {
   getSiteNavigation,
   getSiteSettings,
   getTopSelling,
-  useAddItemToCart,
+  useHandleAddToCart,
 } from '@lib/index';
 import {
   Carousel,
@@ -40,16 +40,11 @@ function ProductPage({ product, topSelling }) {
   // State for showing add to cart toast notifications
   const [showDialog, setShowDialog] = React.useState(false);
 
-  const addItemToCart = useAddItemToCart();
-  async function handleAddToCart() {
-    try {
-      await addItemToCart(variantId, quantity);
-      setShowDialog(true);
-    } catch (error) {
-      console.error(error);
-      setShowDialog(false);
-    }
-  }
+  const { handleAddToCart } = useHandleAddToCart({
+    variantId,
+    quantity,
+    setShowDialog,
+  });
 
   return (
     <>
@@ -195,8 +190,38 @@ function TopSellingProducts({ topSelling, productType }) {
           <h2 className="text-2xl font-bold">Our Top Selling {productType}</h2>
           <ul className="grid gap-8 mt-4">
             {topSelling.edges.map(({ node }) => (
-              <li key={node.id} className="grid grid-cols-2 gap-4">
-                <div className="bg-white">
+              <TopSellingProduct key={node.id} node={node} />
+            ))}
+          </ul>
+          <div className="mt-16 text-center">
+            {/* // TODO: make this link work */}
+            <Link href="/">
+              <a className="inline-block px-16 py-2 text-sm font-bold border rounded-full text-green-dark border-green-dark hover:bg-white focus:bg-white">
+                See More
+              </a>
+            </Link>
+          </div>
+        </HorizontalPadding>
+      </div>
+    </div>
+  );
+}
+
+function TopSellingProduct({ node }) {
+  const variantId = node.variants.edges[0].node.id;
+
+  // State for showing add to cart toast notifications
+  const [showDialog, setShowDialog] = React.useState(false);
+
+  const { handleAddToCart } = useHandleAddToCart({
+    variantId,
+    quantity: 1,
+    setShowDialog,
+  });
+  console.log(node.media?.edges?.[0]?.node?.previewImage?.transformedSrc);
+  return (
+    <li className="grid grid-cols-2 gap-4">
+      <div className="bg-white">
         {node.images?.edges?.[0]?.node?.originalSrc && (
           <Link href={node.handle}>
             <a aria-hidden tabIndex={-1} className="block bg-white">
@@ -211,34 +236,41 @@ function TopSellingProducts({ topSelling, productType }) {
             </a>
           </Link>
         )}
-                        {Number(node.priceRange.minVariantPrice.amount).toFixed(
-                          2
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="pt-4 mt-auto">
-                    {/* // TODO: Make these buttons work */}
-                    <button className="inline-flex items-center justify-center px-6 py-1 space-x-3 text-sm whitespace-nowrap cta">
-                      <span>Add to Cart</span>
-                      <HiOutlineShoppingCart className="w-6 h-6" />
-                    </button>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-16 text-center">
-            {/* // TODO: make this link work */}
-            <Link href="/">
-              <a className="inline-block px-16 py-2 text-sm font-bold border rounded-full text-green-dark border-green-dark hover:bg-white focus:bg-white">
-                See More
-              </a>
-            </Link>
-          </div>
-        </HorizontalPadding>
       </div>
-    </div>
+      <div className="flex flex-col col-start-2">
+        <div className="font-bold">
+          <Link href={node.handle}>
+            <a className="block">
+              <h3 className="text-sm">{node.title}</h3>
+            </a>
+          </Link>
+          <div className="text-2xl">
+            <sup className="text-sm">$</sup>
+            <span>
+              {Number(node.priceRange.minVariantPrice.amount).toFixed(2)}
+            </span>
+          </div>
+        </div>
+        <div className="pt-4 mt-auto">
+          {/* // TODO: Make these buttons work */}
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className="inline-flex items-center justify-center px-6 py-1 space-x-3 text-sm whitespace-nowrap cta"
+          >
+            <span>Add to Cart</span>
+            <HiOutlineShoppingCart className="w-6 h-6" />
+          </button>
+        </div>
+      </div>
+      <Toast
+        title={node.title}
+        image={node.images?.edges?.[0]?.node}
+        quantity={1}
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+      />
+    </li>
   );
 }
 
