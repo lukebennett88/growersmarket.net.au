@@ -1,12 +1,19 @@
 import * as React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { DialogContent, DialogOverlay } from '@reach/dialog';
+import { AnimatePresence, motion } from 'framer-motion';
+import { HiMenu, HiX } from 'react-icons/hi';
 
+import { useGlobalContext } from '@lib/index';
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
-import { useGlobalContext } from '@lib/index';
-import { HiMenu } from 'react-icons/hi';
+import { Logo } from './vectors/logo';
 
 function Topbar() {
-  const { siteSettings } = useGlobalContext();
+  const { siteSettings, siteNavigation } = useGlobalContext();
+  const [isOpen, setIsOpen] = React.useState(false);
+  const toggle = () => setIsOpen((prev) => !prev);
   return (
     <div className="text-sm font-bold text-white bg-green-dark">
       <Container>
@@ -41,6 +48,7 @@ function Topbar() {
             </span>
             <button
               type="button"
+              onClick={toggle}
               className="flex items-center p-2 mr-auto space-x-2 font-bold rounded-md md:hidden"
             >
               <span>Menu</span>
@@ -49,7 +57,95 @@ function Topbar() {
           </div>
         </HorizontalPadding>
       </Container>
+      <MobileMenu
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        siteNavigation={siteNavigation}
+      />
     </div>
+  );
+}
+
+function MobileMenu({ isOpen, setIsOpen, siteNavigation }) {
+  const router = useRouter();
+  const close = () => setIsOpen(false);
+  const MotionDialogOverlay = motion.custom(DialogOverlay);
+  const MotionDialogContent = motion.custom(DialogContent);
+  const transition = { min: 0, max: 100, bounceDamping: 9 };
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <MotionDialogOverlay
+          onDismiss={close}
+          initial="closed"
+          animate="open"
+          exit="closed"
+          variants={{ open: { opacity: 1 }, closed: { opacity: 0 } }}
+          transition={transition}
+          className="fixed inset-0 z-40 flex justify-end bg-black bg-opacity-75 pl-14"
+        >
+          <MotionDialogContent
+            aria-label="Site navigation"
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={{ open: { x: 0 }, closed: { x: '100%' } }}
+            transition={transition}
+            className="relative flex flex-col flex-1 w-full max-w-xs pt-5 pb-4 bg-green-dark"
+          >
+            <div className="absolute top-0 left-0 p-1 -ml-14">
+              <button
+                type="button"
+                onClick={close}
+                className="flex items-center justify-center w-12 h-12 rounded-full focus:outline-none focus:bg-gray-600"
+              >
+                <HiX className="w-6 h-6 text-white" aria-hidden />
+                <span className="sr-only">Close sidebar</span>
+              </button>
+            </div>
+            <Link href="/">
+              <a className="flex items-center flex-shrink-0 px-4">
+                <Logo className="w-auto h-16" />
+                <span className="sr-only">Growers Market</span>
+              </a>
+            </Link>
+            <div className="flex-1 h-0 mt-5 overflow-y-auto">
+              <nav className="flex flex-col h-full">
+                <div className="space-y-1">
+                  {siteNavigation.items.map((navItem) => (
+                    <Link key={navItem._key} href={navItem.route}>
+                      <a
+                        className={`flex items-center px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out border-l-4 border-transparent hover:border-yellow hover:bg-gray-50 hover:text-gray-900 group ${
+                          router.route === `/${navItem.route}`
+                            ? 'border-yellow bg-gray-50 text-gray-900'
+                            : ''
+                        }`}
+                      >
+                        {navItem.title}
+                      </a>
+                    </Link>
+                  ))}
+                </div>
+                <div className="pt-10 mt-auto space-y-1">
+                  <a
+                    href="#"
+                    className="flex items-center px-4 py-2 text-sm font-medium text-white rounded-md group hover:text-gray-900 hover:bg-gray-50"
+                  >
+                    Help
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-4 py-2 text-sm font-medium text-white rounded-md group hover:text-gray-900 hover:bg-gray-50"
+                  >
+                    Logout
+                  </a>
+                </div>
+              </nav>
+            </div>
+          </MotionDialogContent>
+        </MotionDialogOverlay>
+      )}
+    </AnimatePresence>
   );
 }
 
