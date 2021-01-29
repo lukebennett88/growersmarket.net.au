@@ -63,8 +63,8 @@ function ProductCard({ product }: IProductCard) {
                 <Image
                   width={600}
                   height={400}
-                  src={product.node.images.edges[0].node.originalSrc}
-                  alt={product.node.images.edges[0].node.altText || ''}
+                  src={product.node.images.edges[0]?.node?.originalSrc}
+                  alt={product.node.images.edges[0]?.node?.altText || ''}
                   className="flex-1 object-cover"
                 />
               )}
