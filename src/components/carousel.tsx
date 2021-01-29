@@ -112,6 +112,7 @@ const ProductSlider: React.FC = ({ children }) => {
 // TODO: source this data from Sanity
 const slides = [
   {
+    id: '8578fa57-a117-41ec-ac4c-beedf4930f7e',
     heading: 'Get Christmas Ready with us',
     cta: {
       label: 'Shop Christmas Essentials now',
@@ -121,6 +122,7 @@ const slides = [
       'https://images.unsplash.com/photo-1557844352-761f2565b576?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80',
   },
   {
+    id: 'cb39e877-ee28-4f6c-a5ce-4b67b7780fa4',
     heading: 'Get Christmas Ready with us',
     cta: {
       label: 'Shop Christmas Essentials now',
@@ -135,7 +137,7 @@ function Carousel() {
   return (
     <ProductSlider>
       {slides.map((slide) => (
-        <li key={slide.heading} className="relative py-12 bg-green-dark">
+        <li key={slide.id} className="relative py-12 bg-green-dark">
           <img
             src={slide.backgroundImage}
             alt=""
