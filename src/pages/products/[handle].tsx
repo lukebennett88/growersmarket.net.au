@@ -2,7 +2,7 @@ import * as React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import { HiChevronRight, HiOutlineShoppingCart } from 'react-icons/hi';
+import { HiOutlineShoppingCart } from 'react-icons/hi';
 
 import {
   getAllProducts,
@@ -13,12 +13,14 @@ import {
   useHandleAddToCart,
 } from '@lib/index';
 import {
+  Breadcrumbs,
   Carousel,
   Container,
   HorizontalPadding,
   QuantityPicker,
   Toast,
 } from '@components/index';
+import slugify from 'slugify';
 
 function ProductPage({ product, topSelling }) {
   // Number of items to add to cart
@@ -53,10 +55,20 @@ function ProductPage({ product, topSelling }) {
       </Head>
       <Carousel />
       <Breadcrumbs
-        productType={product.productType}
-        collection={product.collections?.edges?.[0]?.node.title}
-        title={product.title}
-        handle={product.handle}
+        productType={{
+          title: product.productType,
+          handle: slugify(product.productType, {
+            lower: true,
+          }),
+        }}
+        collection={{
+          title: product.collections?.edges?.[0]?.node.title,
+          handle: product.collections?.edges?.[0]?.node.handle,
+        }}
+        product={{
+          title: product.title,
+          handle: product.handle,
+        }}
       />
       <Container>
         <div className="relative grid lg:grid-cols-3">
@@ -132,56 +144,6 @@ function ProductPage({ product, topSelling }) {
   );
 }
 
-function Breadcrumbs({ productType, collection, title, handle }) {
-  return (
-    <nav className="flex py-2 text-white bg-green-dark" aria-label="Breadcrumb">
-      <HorizontalPadding>
-        <ol className="flex items-center space-x-4">
-          <li>
-            <div>
-              <Link href="/">
-                <a className="text-sm font-medium">Home</a>
-              </Link>
-            </div>
-          </li>
-          <li>
-            <div className="flex items-center">
-              <HiChevronRight className="flex-shrink-0 w-5 h-5" />
-              {/* // TODO: Fix this link */}
-              <Link href="/">
-                <a className="ml-4 text-sm font-medium">{productType}</a>
-              </Link>
-            </div>
-          </li>
-          {collection && (
-            <li>
-              <div className="flex items-center">
-                <HiChevronRight className="flex-shrink-0 w-5 h-5" />
-                {/* // TODO: Fix this link */}
-                <Link href="/">
-                  <a aria-current="page" className="ml-4 text-sm font-medium">
-                    {collection}
-                  </a>
-                </Link>
-              </div>
-            </li>
-          )}
-          <li>
-            <div className="flex items-center">
-              <HiChevronRight className="flex-shrink-0 w-5 h-5" />
-              <Link href={`/products/${handle}`}>
-                <a aria-current="page" className="ml-4 text-sm font-bold">
-                  {title}
-                </a>
-              </Link>
-            </div>
-          </li>
-        </ol>
-      </HorizontalPadding>
-    </nav>
-  );
-}
-
 function TopSellingProducts({ topSelling, productType }) {
   return (
     <div className="bg-gray-light">
@@ -218,7 +180,6 @@ function TopSellingProduct({ node }) {
     quantity: 1,
     setShowDialog,
   });
-  console.log(node.media?.edges?.[0]?.node?.previewImage?.transformedSrc);
   return (
     <li className="grid grid-cols-2 gap-4">
       <div className="bg-white">
