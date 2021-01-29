@@ -7,3 +7,4 @@ export * from './product-card';
 export * from './product-grid';
 export * from './quantity-picker';
 export * from './toast';
+export * from './top-selling-products';
