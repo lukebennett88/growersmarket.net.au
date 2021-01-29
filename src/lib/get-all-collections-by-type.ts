@@ -11,6 +11,20 @@ const GET_FIRST_PRODUCTS_BY_TYPE = gql`
         cursor
         node {
           handle
+          collections(first: 250) {
+            edges {
+              node {
+                descriptionHtml
+                handle
+                id
+                image {
+                  altText
+                  originalSrc
+                }
+                title
+              }
+            }
+          }
         }
       }
     }
@@ -27,13 +41,27 @@ const GET_NEXT_PRODUCTS_BY_TYPE = gql`
         cursor
         node {
           handle
+          collections(first: 250) {
+            edges {
+              node {
+                descriptionHtml
+                handle
+                id
+                image {
+                  altText
+                  originalSrc
+                }
+                title
+              }
+            }
+          }
         }
       }
     }
   }
 `;
 
-async function getAllProductsByType(variables) {
+async function getAllCollectionsByType(variables) {
   let products = [];
   async function getProductsFromQuery() {
     let newCursor = '';
@@ -88,4 +116,4 @@ async function getAllProductsByType(variables) {
   return products;
 }
 
-export { getAllProductsByType };
+export { getAllCollectionsByType };
