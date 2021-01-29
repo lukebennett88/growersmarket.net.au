@@ -10,7 +10,6 @@ const GET_FIRST_PRODUCTS_BY_TYPE = gql`
       edges {
         cursor
         node {
-          handle
           collections(first: 250) {
             edges {
               node {
@@ -25,6 +24,8 @@ const GET_FIRST_PRODUCTS_BY_TYPE = gql`
               }
             }
           }
+          handle
+          id
         }
       }
     }
@@ -40,7 +41,6 @@ const GET_NEXT_PRODUCTS_BY_TYPE = gql`
       edges {
         cursor
         node {
-          handle
           collections(first: 250) {
             edges {
               node {
@@ -55,6 +55,7 @@ const GET_NEXT_PRODUCTS_BY_TYPE = gql`
               }
             }
           }
+          handle
         }
       }
     }
