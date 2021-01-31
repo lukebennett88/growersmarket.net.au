@@ -1,6 +1,7 @@
 export * from './breadcrumbs';
 export * from './carousel';
 export * from './container';
+export * from './delivery-schedule';
 export * from './horizontal-padding';
 export * from './layout';
 export * from './product-card';
