@@ -63,54 +63,30 @@ const config = {
   footerMenu: {
     categories: [
       {
-        label: 'Fruits',
-        slug: 'fruits',
+        label: 'Fruit',
+        slug: 'fruit',
       },
       {
         label: 'Vegetables',
         slug: 'vegetables',
       },
       {
-        label: 'Bakery',
-        slug: 'bakery',
-      },
-      {
-        label: 'Dairy & Eggs',
-        slug: 'dairy-and-eggs',
-      },
-      {
-        label: 'Salad',
-        slug: 'salad',
-      },
-      {
-        label: 'Pantry',
-        slug: 'pantry',
+        label: 'Fridge & Pantry',
+        slug: 'fridge-and-pantry',
       },
       {
         label: 'Pre-Packed Boxes',
         slug: 'pre-packed-boxes',
       },
       {
-        label: 'Other',
-        slug: 'other',
-      },
-      {
-        label: 'Herbs',
-        slug: 'herbs',
+        label: 'Specials',
+        slug: 'specials',
       },
     ],
     information: [
       {
-        label: 'Specials',
-        slug: 'specials',
-      },
-      {
-        label: 'New Products',
-        slug: 'new-products',
-      },
-      {
-        label: 'Best Sellers',
-        slug: 'best-sellers',
+        label: 'FAQ',
+        slug: 'faq',
       },
       {
         label: 'About Us',
@@ -125,24 +101,24 @@ const config = {
         slug: 'contact-us',
       },
     ],
+    myAccount: [
+      {
+        label: 'Account',
+        slug: 'account',
+      },
+      {
+        label: 'Privacy Policy',
+        slug: 'privacy-policy',
+      },
+      {
+        label: 'Terms of Services',
+        slug: 'terms-of-services',
+      },
+    ],
     followUs: [
       {
         label: 'Facebook',
         slug: facebook,
-      },
-    ],
-    myAccount: [
-      {
-        label: 'My Orders',
-        slug: 'my-orders',
-      },
-      {
-        label: 'My Addresses',
-        slug: 'my-addresses',
-      },
-      {
-        label: 'My Personal Info',
-        slug: 'my-personal-info',
       },
     ],
   },
