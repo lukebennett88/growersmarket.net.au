@@ -18,7 +18,10 @@ async function getProductTypes() {
       clientName: 'SHOPIFY',
     },
   });
-  return data.productTypes.edges;
+  const productTypes = data.productTypes.edges.filter(
+    (productType) => productType.node !== ''
+  );
+  return productTypes;
 }
 
 export { getProductTypes };
