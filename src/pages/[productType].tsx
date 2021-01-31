@@ -8,6 +8,7 @@ import {
   Carousel,
   Breadcrumbs,
   TopSellingProducts,
+  DeliverySchedule,
 } from '@components/index';
 import {
   getAllCollectionsByType,
@@ -17,8 +18,18 @@ import {
   getTopSelling,
 } from '@lib/index';
 import Link from 'next/link';
+import Image from 'next/image';
 
 function ProductTypePage({ productType, allCollectionsByType, topSelling }) {
+  const collections = allCollectionsByType.map(({ node }) => {
+    const collection = node.collections.edges?.[0]?.node;
+    return JSON.stringify(collection);
+  });
+
+  const unique = Array.from(new Set(collections))
+    .filter((node) => typeof node === 'string')
+    .map((node: string) => JSON.parse(node));
+
   return (
     <>
       <NextSeo title="Product Type Page" />
@@ -45,19 +56,40 @@ function ProductTypePage({ productType, allCollectionsByType, topSelling }) {
                 </div>
               </div>
               <div className="mt-2 border-t">
-                {/* <ul className="mt-2 space-y-6">
-                  {collections.map(({ node }) => (
+                <ul className="grid gap-12 mt-2 lg:grid-cols-3">
+                  {unique.map((node) => (
                     <li key={node.id}>
-                      <Link href={node.collections.handle}>
+                      <Link href={node.handle}>
                         <a>
-                          <div className="prose">
-                            <pre>{JSON.stringify(node, null, 2)}</pre>
+                          <div className="relative aspect-w-4 aspect-h-3">
+                            <div className="absolute inset-0 bg-gray-light">
+                              {node.image && (
+                                <Image
+                                  src={node.image.originalSrc}
+                                  alt={node.image.altText || ''}
+                                  width={600}
+                                  height={450}
+                                  layout="intrinsic"
+                                  objectFit="cover"
+                                />
+                              )}
+                            </div>
                           </div>
+                          <h2 className="mt-2 font-bold text-center">
+                            {node.title}
+                          </h2>
                         </a>
                       </Link>
+                      <div className="mt-2 text-center">
+                        <Link href={node.handle}>
+                          <a className="bg-white border cta text-green-dark border-green-dark">
+                            View all
+                          </a>
+                        </Link>
+                      </div>
                     </li>
                   ))}
-                </ul> */}
+                </ul>
               </div>
             </HorizontalPadding>
           </div>
@@ -66,6 +98,7 @@ function ProductTypePage({ productType, allCollectionsByType, topSelling }) {
             productType={productType}
           />
         </div>
+        <DeliverySchedule />
       </Container>
     </>
   );
