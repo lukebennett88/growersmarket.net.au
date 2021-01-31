@@ -87,7 +87,7 @@ function TopSellingProduct({ node }: IProduct) {
     <li className="grid grid-cols-2 gap-4">
       <div className="bg-white">
         {node.images?.edges?.[0]?.node?.originalSrc && (
-          <Link href={node.handle}>
+          <Link href={`/products/${node.handle}`}>
             <a aria-hidden tabIndex={-1} className="block bg-white">
               <Image
                 width={480}
