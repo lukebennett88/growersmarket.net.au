@@ -9,8 +9,10 @@ import { useCart } from '@lib/index';
 import { Logo } from './vectors/logo';
 import { HiOutlineSearch } from 'react-icons/hi';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
+import { useAuth } from '@auth/index';
 
 function Shopbar() {
+  const { authenticated } = useAuth();
   const cart = useCart();
   const [isOpen, setIsOpen] = React.useState(false);
   const toggle = () => setIsOpen((prev) => !prev);
@@ -42,7 +44,9 @@ function Shopbar() {
               <Link href="/account">
                 <a className="relative flex flex-col items-center text-xs leading-none text-center sm:flex-row sm:space-x-2">
                   <SignInIcon className="w-7 h-7" />
-                  <span className="mt-1 sr-only sm:not-sr-only">Sign In</span>
+                  <span className="mt-1 sr-only sm:not-sr-only">
+                    {authenticated ? 'Account' : 'Sign In'}
+                  </span>
                 </a>
               </Link>
               <Link href="/cart">
