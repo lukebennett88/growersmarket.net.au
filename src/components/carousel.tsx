@@ -137,20 +137,19 @@ function Carousel() {
   return (
     <ProductSlider>
       {slides.map((slide) => (
-        <li key={slide.id} className="relative py-12 bg-green-dark">
+        <li key={slide.id} className="relative bg-green-dark">
           <img
             src={slide.backgroundImage}
             alt=""
             style={{
               filter: 'grayscale(1)',
               mixBlendMode: 'multiply',
-              transform: 'scaleX(-1)',
             }}
-            className="absolute inset-0 object-cover"
+            className="absolute inset-0 object-cover w-full h-full"
           />
-          <Container as="article">
+          <Container>
             <HorizontalPadding variant={HorizontalPadding.variant.TRANSPARENT}>
-              <div className="max-w-lg">
+              <div className="max-w-lg py-12">
                 <h2 className="text-5xl italic text-white">
                   <span className="inline-block max-w-prose">
                     {slide.heading}
