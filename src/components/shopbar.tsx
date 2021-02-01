@@ -16,7 +16,7 @@ function Shopbar() {
   const toggle = () => setIsOpen((prev) => !prev);
   const close = () => setIsOpen(false);
   return (
-    <div className="font-bold bg-white">
+    <div className="relative z-10 font-bold bg-white">
       <Container>
         <HorizontalPadding>
           <div className="flex items-center justify-between">

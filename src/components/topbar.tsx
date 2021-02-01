@@ -15,7 +15,7 @@ function Topbar() {
   const [isOpen, setIsOpen] = React.useState(false);
   const toggle = () => setIsOpen((prev) => !prev);
   return (
-    <div className="text-sm font-bold text-white bg-green-dark">
+    <div className="relative z-10 text-sm font-bold text-white bg-green-dark">
       <Container>
         <HorizontalPadding variant={HorizontalPadding.variant.GREEN}>
           <div className="flex items-center justify-end py-2 space-x-6">
