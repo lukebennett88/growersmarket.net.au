@@ -32,7 +32,7 @@ function ProductTypePage({ productType, allCollectionsByType, topSelling }) {
 
   return (
     <>
-      <NextSeo title="Product Type Page" />
+      <NextSeo title={`All ${productType}`} />
       <Carousel />
       <Breadcrumbs
         productType={{
