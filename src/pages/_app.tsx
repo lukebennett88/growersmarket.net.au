@@ -11,6 +11,7 @@ import {
   ShopifyContextProvider,
 } from '@lib/index';
 import { Layout } from '@components/layout';
+import { AuthProvider } from '@auth/index';
 import { config } from '../../config';
 
 function App({ Component, pageProps }: AppProps) {
@@ -22,26 +23,28 @@ function App({ Component, pageProps }: AppProps) {
         siteSettings,
       }}
     >
-      <ShopifyContextProvider
-        shopName={process.env.NEXT_PUBLIC_SHOPIFY_SHOP_NAME}
-        accessToken={process.env.NEXT_PUBLIC_SHOPIFY_ACCESS_TOKEN}
-      >
-        <ApolloProvider client={apolloClient}>
-          <DefaultSeo
-            titleTemplate={`%s | ${config.title}`}
-            description={config.description}
-            openGraph={{
-              type: 'website',
-              locale: 'en_AU',
-              url: config.siteUrl,
-              site_name: config.title,
-            }}
-          />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ApolloProvider>
-      </ShopifyContextProvider>
+      <AuthProvider>
+        <ShopifyContextProvider
+          shopName={process.env.NEXT_PUBLIC_SHOPIFY_SHOP_NAME}
+          accessToken={process.env.NEXT_PUBLIC_SHOPIFY_ACCESS_TOKEN}
+        >
+          <ApolloProvider client={apolloClient}>
+            <DefaultSeo
+              titleTemplate={`%s | ${config.title}`}
+              description={config.description}
+              openGraph={{
+                type: 'website',
+                locale: 'en_AU',
+                url: config.siteUrl,
+                site_name: config.title,
+              }}
+            />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ApolloProvider>
+        </ShopifyContextProvider>
+      </AuthProvider>
     </GlobalContext.Provider>
   );
 }
