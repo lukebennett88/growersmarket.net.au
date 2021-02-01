@@ -14,6 +14,9 @@ import keyValuePair from './keyValuePair';
 import socialLinks from './socialLinks';
 import imageWithAltText from './imageWithAltText';
 import textWithImage from './textWithImage';
+import blockContent from './blockContent';
+import richText from './richText';
+import page from './page';
 import siteNavigation from './siteNavigation';
 import siteSettings from './siteSettings';
 
@@ -35,6 +38,9 @@ export default createSchema({
     socialLinks,
     imageWithAltText,
     textWithImage,
+    blockContent,
+    richText,
+    page,
     // Site metadata
     siteNavigation,
     siteSettings,
