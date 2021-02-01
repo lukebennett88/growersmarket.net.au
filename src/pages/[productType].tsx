@@ -112,7 +112,6 @@ async function getStaticPaths() {
         productType: slugify(node, {
           lower: true,
         }),
-        node,
       },
     })),
     fallback: false,
