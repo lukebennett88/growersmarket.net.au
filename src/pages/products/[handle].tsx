@@ -43,11 +43,35 @@ function ProductPage({ product, topSelling }) {
   // State for showing add to cart toast notifications
   const [showDialog, setShowDialog] = React.useState(false);
 
+  // Function to add item to cart
   const { handleAddToCart } = useHandleAddToCart({
     variantId,
     quantity,
     setShowDialog,
   });
+
+  // Product type for breadcrumb navigation
+  const productType = {
+    title: product.productType,
+    handle: slugify(product.productType, {
+      lower: true,
+    }),
+  };
+
+  // Collection for breadcrumb navigation
+  const collection = {
+    title: product.collections?.edges?.[0]?.node.title,
+    handle: product.collections?.edges?.[0]?.node.handle,
+  };
+
+  // Current page for breadcrumb navigation
+  const currentPage = {
+    title: product.title,
+    handle: product.handle,
+  };
+
+  // Complete breadcrumb navigation
+  const navigation = [productType, collection, currentPage];
 
   return (
     <>
@@ -55,23 +79,7 @@ function ProductPage({ product, topSelling }) {
         <title>{product.title}</title>
       </Head>
       <Carousel />
-      <Breadcrumbs
-        productType={{
-          title: product.productType,
-          // TODO: use slugify in getStaticProps so we don't need to ship the 6kb bundle on the frontend
-          handle: slugify(product.productType, {
-            lower: true,
-          }),
-        }}
-        collection={{
-          title: product.collections?.edges?.[0]?.node.title,
-          handle: product.collections?.edges?.[0]?.node.handle,
-        }}
-        product={{
-          title: product.title,
-          handle: product.handle,
-        }}
-      />
+      <Breadcrumbs navigation={navigation} />
       <Container>
         <div className="relative grid lg:grid-cols-3">
           <div className="py-16 lg:col-span-2">
@@ -126,12 +134,10 @@ function ProductPage({ product, topSelling }) {
               </div>
             </HorizontalPadding>
           </div>
-          {product.productType && (
-            <TopSellingProducts
-              topSelling={topSelling}
-              productType={product.productType}
-            />
-          )}
+          <TopSellingProducts
+            topSelling={topSelling}
+            productType={product.productType}
+          />
         </div>
         <DeliverySchedule />
       </Container>
@@ -157,7 +163,9 @@ async function getStaticPaths() {
 async function getStaticProps({ params }) {
   const product = await getProduct({ handle: params.handle });
   const topSelling = await getTopSelling({
-    query: `product_type:${product.productType}, available_for_sale:true`,
+    query: `${
+      product.productType && `product_type:${product.productType}, `
+    }available_for_sale:true`,
   });
   const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();

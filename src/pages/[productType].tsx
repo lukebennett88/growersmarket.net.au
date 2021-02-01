@@ -35,12 +35,14 @@ function ProductTypePage({ productType, allCollectionsByType, topSelling }) {
       <NextSeo title={`All ${productType}`} />
       <Carousel />
       <Breadcrumbs
-        productType={{
-          title: productType,
-          handle: slugify(productType, {
-            lower: true,
-          }),
-        }}
+        navigation={[
+          {
+            title: productType,
+            handle: slugify(productType, {
+              lower: true,
+            }),
+          },
+        ]}
       />
       <Container>
         <div className="relative grid lg:grid-cols-3">

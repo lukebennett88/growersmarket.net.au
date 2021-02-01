@@ -4,21 +4,15 @@ import { HiChevronRight } from 'react-icons/hi';
 import { HorizontalPadding } from './horizontal-padding';
 
 interface IBreadcrumbs {
-  productType: {
-    title: string;
-    handle: string;
-  };
-  collection?: {
-    title: string;
-    handle: string;
-  };
-  product?: {
-    title: string;
-    handle: string;
-  };
+  navigation: IPage[];
 }
 
-function Breadcrumbs({ productType, collection, product }: IBreadcrumbs) {
+interface IPage {
+  title: string;
+  handle: string;
+}
+
+function Breadcrumbs({ navigation }: IBreadcrumbs) {
   return (
     <nav className="flex py-2 text-white bg-green-dark" aria-label="Breadcrumb">
       <HorizontalPadding>
@@ -30,39 +24,30 @@ function Breadcrumbs({ productType, collection, product }: IBreadcrumbs) {
               </Link>
             </div>
           </li>
-          <li>
-            <div className="flex items-center">
-              <HiChevronRight className="flex-shrink-0 w-5 h-5" />
-              {/* // TODO: Fix this link */}
-              <Link href={`/${productType.handle}`}>
-                <a className="ml-4 text-sm font-medium">{productType.title}</a>
-              </Link>
-            </div>
-          </li>
-          {collection && (
-            <li>
-              <div className="flex items-center">
-                <HiChevronRight className="flex-shrink-0 w-5 h-5" />
-                {/* // TODO: Fix this link */}
-                <Link href={`/${collection.handle}`}>
-                  <a aria-current="page" className="ml-4 text-sm font-medium">
-                    {collection.title}
-                  </a>
-                </Link>
-              </div>
-            </li>
-          )}
-          {product && (
-            <li>
-              <div className="flex items-center">
-                <HiChevronRight className="flex-shrink-0 w-5 h-5" />
-                <Link href={`/products/${product.handle}`}>
-                  <a aria-current="page" className="ml-4 text-sm font-bold">
-                    {product.title}
-                  </a>
-                </Link>
-              </div>
-            </li>
+          {navigation.map(
+            ({ title, handle }, index) =>
+              title &&
+              handle && (
+                <li key={index}>
+                  <div className="flex items-center">
+                    <HiChevronRight className="flex-shrink-0 w-5 h-5" />
+                    {/* // TODO: Fix this link */}
+                    <Link href={`/${handle}`}>
+                      <a
+                        // The last item in the breadcrumb list should always be the current page
+                        aria-current={
+                          handle === navigation[navigation.length - 1].handle
+                            ? 'page'
+                            : null
+                        }
+                        className="ml-4 text-sm font-medium"
+                      >
+                        {title}
+                      </a>
+                    </Link>
+                  </div>
+                </li>
+              )
           )}
         </ol>
       </HorizontalPadding>
