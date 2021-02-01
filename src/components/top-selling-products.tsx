@@ -12,7 +12,7 @@ interface ITopSellingProducts {
   topSelling: {
     edges: IProduct[];
   };
-  productType: string;
+  productType?: string;
 }
 
 function TopSellingProducts({ topSelling, productType }: ITopSellingProducts) {
@@ -20,24 +20,28 @@ function TopSellingProducts({ topSelling, productType }: ITopSellingProducts) {
     <div className="bg-gray-light">
       <div className="py-16 lg:sticky lg:top-44 lg:max-w-lg">
         <HorizontalPadding>
-          <h2 className="text-2xl font-bold">Our Top Selling {productType}</h2>
+          <h2 className="text-2xl font-bold">
+            Our Top Selling {productType ? productType : 'Products'}
+          </h2>
           <ul className="grid gap-8 mt-4">
             {topSelling.edges.map(({ node }) => (
               <TopSellingProduct key={node.id} node={node} />
             ))}
           </ul>
-          <div className="mt-16 text-center">
-            <Link
-              // TODO: use slugify in getStaticProps so we don't need to ship the 6kb bundle on the frontend
-              href={`/${slugify(productType, {
-                lower: true,
-              })}`}
-            >
-              <a className="inline-block px-16 py-2 text-sm font-bold border rounded-full text-green-dark border-green-dark hover:bg-white focus:bg-white">
-                See More
-              </a>
-            </Link>
-          </div>
+          {productType && (
+            <div className="mt-16 text-center">
+              <Link
+                // TODO: use slugify in getStaticProps so we don't need to ship the 6kb bundle on the frontend
+                href={`/${slugify(productType, {
+                  lower: true,
+                })}`}
+              >
+                <a className="inline-block px-16 py-2 text-sm font-bold border rounded-full text-green-dark border-green-dark hover:bg-white focus:bg-white">
+                  See More
+                </a>
+              </Link>
+            </div>
+          )}
         </HorizontalPadding>
       </div>
     </div>
