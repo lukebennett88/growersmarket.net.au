@@ -40,7 +40,7 @@ function Footer() {
                 {config.footerMenu.categories.map((navItem) => (
                   <li key={navItem.label}>
                     <a
-                      href={navItem.slug}
+                      href={`/${navItem.slug}`}
                       className="text-base text-gray-500 hover:text-gray-900"
                     >
                       {navItem.label}
@@ -58,7 +58,7 @@ function Footer() {
                   {config.footerMenu.information.map((navItem) => (
                     <li key={navItem.label}>
                       <a
-                        href={navItem.slug}
+                        href={`/${navItem.slug}`}
                         className="text-base text-gray-500 hover:text-gray-900"
                       >
                         {navItem.label}
@@ -77,7 +77,7 @@ function Footer() {
                   {config.footerMenu.myAccount.map((navItem) => (
                     <li key={navItem.label}>
                       <a
-                        href={navItem.slug}
+                        href={`/${navItem.slug}`}
                         className="text-base text-gray-500 hover:text-gray-900"
                       >
                         {navItem.label}
@@ -94,7 +94,7 @@ function Footer() {
                   {config.footerMenu.followUs.map((navItem) => (
                     <li key={navItem.label}>
                       <a
-                        href={navItem.slug}
+                        href={`/${navItem.slug}`}
                         className="text-base text-gray-500 hover:text-gray-900"
                       >
                         {navItem.label}
@@ -112,7 +112,7 @@ function Footer() {
                 {config.footerMenu.followUs.map((navItem) => (
                   <li key={navItem.label}>
                     <a
-                      href={navItem.slug}
+                      href={`/${navItem.slug}`}
                       className="text-base text-gray-500 hover:text-gray-900"
                     >
                       {navItem.label}

@@ -86,19 +86,19 @@ const config = {
     information: [
       {
         label: 'FAQ',
-        slug: 'faq',
+        slug: 'pages/faq',
       },
       {
         label: 'About Us',
-        slug: 'about-us',
+        slug: 'pages/about-us',
       },
       {
         label: 'Delivery Schedule',
-        slug: 'delivery-schedule',
+        slug: 'pages/delivery-schedule',
       },
       {
         label: 'Contact Us',
-        slug: 'contact-us',
+        slug: 'pages/contact-us',
       },
     ],
     myAccount: [
@@ -108,11 +108,11 @@ const config = {
       },
       {
         label: 'Privacy Policy',
-        slug: 'privacy-policy',
+        slug: 'pages/privacy-policy',
       },
       {
-        label: 'Terms of Services',
-        slug: 'terms-of-services',
+        label: 'Terms of Service',
+        slug: 'pages/terms-of-service',
       },
     ],
     followUs: [
