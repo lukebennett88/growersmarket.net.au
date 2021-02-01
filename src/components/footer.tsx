@@ -49,7 +49,7 @@ function Footer() {
                 ))}
               </ul>
             </div>
-            <div className="sm:mt-12 md:mt-0">
+            <div>
               <div>
                 <h4 className="font-bold tracking-wider text-green-dark">
                   Information
@@ -67,7 +67,26 @@ function Footer() {
                   ))}
                 </ul>
               </div>
-              <div className="mt-12">
+            </div>
+            <div>
+              <div>
+                <h4 className="font-bold tracking-wider text-green-dark">
+                  My Account
+                </h4>
+                <ul className="mt-4 space-y-4">
+                  {config.footerMenu.myAccount.map((navItem) => (
+                    <li key={navItem.label}>
+                      <a
+                        href={navItem.slug}
+                        className="text-base text-gray-500 hover:text-gray-900"
+                      >
+                        {navItem.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="hidden mt-12 sm:block">
                 <h4 className="font-bold tracking-wider text-green-dark">
                   Follow Us
                 </h4>
@@ -85,12 +104,12 @@ function Footer() {
                 </ul>
               </div>
             </div>
-            <div className="sm:mt-12 md:mt-0">
+            <div className="sm:hidden">
               <h4 className="font-bold tracking-wider text-green-dark">
-                My Account
+                Follow Us
               </h4>
               <ul className="mt-4 space-y-4">
-                {config.footerMenu.myAccount.map((navItem) => (
+                {config.footerMenu.followUs.map((navItem) => (
                   <li key={navItem.label}>
                     <a
                       href={navItem.slug}
