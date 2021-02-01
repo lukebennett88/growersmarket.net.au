@@ -4,7 +4,7 @@ import { NextSeo } from 'next-seo';
 import { SignInIcon } from '@components/vectors';
 import { getSiteNavigation, getSiteSettings } from '@lib/index';
 
-function SignInPage() {
+function AccountPage() {
   return (
     <HorizontalPadding>
       <NextSeo title={`Sign in`} />
@@ -40,4 +40,4 @@ async function getServerSideProps() {
   };
 }
 
-export { SignInPage as default, getServerSideProps };
+export { AccountPage as default, getServerSideProps };
