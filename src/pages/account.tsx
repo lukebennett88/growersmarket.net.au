@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { GetServerSideProps, NextApiRequest } from 'next';
+import {
+  GetServerSideProps,
+  // NextApiRequest
+} from 'next';
 import { NextSeo } from 'next-seo';
 // import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 // import firebase from 'firebase/app';
@@ -22,11 +25,11 @@ import { getSiteNavigation, getSiteSettings } from '@lib/index';
 // };
 
 function AccountPage() {
-  const [renderAuth, setRenderAuth] = React.useState(false);
+  // const [renderAuth, setRenderAuth] = React.useState(false);
 
-  React.useEffect(() => {
-    setRenderAuth(true);
-  }, []);
+  // React.useEffect(() => {
+  //   setRenderAuth(true);
+  // }, []);
 
   return (
     <HorizontalPadding>
