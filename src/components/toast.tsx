@@ -7,9 +7,9 @@ import { DialogOverlay, DialogContent } from '@reach/dialog';
 const AnimatedDialogOverlay = motion.custom(DialogOverlay);
 const AnimatedDialogContent = motion.custom(DialogContent);
 
-function Toast({ showDialog, setShowDialog, image, title, quantity }) {
-  const transition = { min: 0, max: 100, bounceDamping: 9 };
+const transition = { min: 0, max: 100, bounceDamping: 9 };
 
+function Toast({ showDialog, setShowDialog, image, title, quantity }) {
   return (
     <AnimatePresence>
       {showDialog && (
