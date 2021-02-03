@@ -14,49 +14,40 @@ import { loadIdToken } from '@auth/firebase-admin';
 import { useAuth } from '@auth/index';
 
 function AccountPage() {
-  const { authenticated } = useAuth();
+  const { authenticated, logout } = useAuth();
   const [showDialog, setShowDialog] = React.useState(false);
 
   return (
     <HorizontalPadding>
       <NextSeo title={`Sign in`} />
       <div className="py-24">
-        {authenticated ? (
-          <>
-            <div className="flex items-center justify-center space-x-6">
-              <SignInIcon className="w-16" />
-              <h1 className="text-2xl font-bold">Log into your account</h1>
-            </div>
-            <div className="mt-4 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
-              <div className="space-y-4">
-                <button
-                  type="button"
-                  onClick={() => setShowDialog(true)}
-                  className="w-full bg-white border cta border-green-dark text-green-dark"
-                >
-                  Sign in
-                </button>
-              </div>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="flex items-center justify-center space-x-6">
-              <SignInIcon className="w-16" />
-              <h1 className="text-2xl font-bold">Log into your account</h1>
-            </div>
-            <div className="mt-4 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
-              <div className="space-y-4">
-                <button
-                  type="button"
-                  className="w-full bg-white border cta border-green-dark text-green-dark"
-                >
-                  Sign out
-                </button>
-              </div>
-            </div>
-          </>
-        )}
+        <div className="flex items-center justify-center space-x-6">
+          <SignInIcon className="w-16" />
+          <h1 className="text-2xl font-bold">
+            {authenticated ? 'Sign out of' : 'Log into'} your account
+          </h1>
+        </div>
+        <div className="mt-4 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
+          <div className="space-y-4">
+            {authenticated ? (
+              <button
+                type="button"
+                onClick={logout}
+                className="w-full bg-white border cta border-green-dark text-green-dark"
+              >
+                Sign out
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setShowDialog(true)}
+                className="w-full bg-white border cta border-green-dark text-green-dark"
+              >
+                Sign in
+              </button>
+            )}
+          </div>
+        </div>
       </div>
       <SignInModal showDialog={showDialog} setShowDialog={setShowDialog} />
     </HorizontalPadding>
