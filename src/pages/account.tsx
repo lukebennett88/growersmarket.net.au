@@ -1,45 +1,44 @@
 import * as React from 'react';
-import {
-  GetServerSideProps,
-  // NextApiRequest
-} from 'next';
+import { GetServerSideProps, NextApiRequest } from 'next';
 import { NextSeo } from 'next-seo';
-// import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-// import firebase from 'firebase/app';
-// import 'firebase/auth';
+import { AnimatePresence, motion } from 'framer-motion';
+import { DialogOverlay, DialogContent } from '@reach/dialog';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import { HorizontalPadding } from '@components/index';
 import { SignInIcon } from '@components/vectors';
 import { getSiteNavigation, getSiteSettings } from '@lib/index';
-// import { loadIdToken } from '@auth/index';
-
-// const firebaseAuthConfig = {
-//   signInFlow: 'popup',
-//   signInOptions: [
-//     {
-//       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-//       requireDisplayName: false,
-//     },
-//   ],
-//   signInSuccessUrl: '/',
-// };
+import { loadIdToken } from '@auth/firebase-admin';
+import { useAuth } from '@auth/index';
 
 function AccountPage() {
-  // const [renderAuth, setRenderAuth] = React.useState(false);
-
-  // React.useEffect(() => {
-  //   setRenderAuth(true);
-  // }, []);
+  const { authenticated } = useAuth();
+  const [showDialog, setShowDialog] = React.useState(false);
 
   return (
     <HorizontalPadding>
       <NextSeo title={`Sign in`} />
       <div className="py-24">
-        {/* {renderAuth ? (
-          <StyledFirebaseAuth
-            uiConfig={firebaseAuthConfig}
-            firebaseAuth={firebase.auth()}
-          />
+        {authenticated ? (
+          <>
+            <div className="flex items-center justify-center space-x-6">
+              <SignInIcon className="w-16" />
+              <h1 className="text-2xl font-bold">Log into your account</h1>
+            </div>
+            <div className="mt-4 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
+              <div className="space-y-4">
+                <button
+                  type="button"
+                  onClick={() => setShowDialog(true)}
+                  className="w-full bg-white border cta border-green-dark text-green-dark"
+                >
+                  Sign in
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
           <>
             <div className="flex items-center justify-center space-x-6">
@@ -52,39 +51,77 @@ function AccountPage() {
                   type="button"
                   className="w-full bg-white border cta border-green-dark text-green-dark"
                 >
-                  Sign in
+                  Sign out
                 </button>
               </div>
             </div>
           </>
-        )} */}
-        <div className="flex items-center justify-center space-x-6">
-          <SignInIcon className="w-16" />
-          <h1 className="text-2xl font-bold">Log into your account</h1>
-        </div>
-        <div className="mt-4 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
-          <div className="space-y-4">
-            <button
-              type="button"
-              className="w-full bg-white border cta border-green-dark text-green-dark"
-            >
-              Sign in
-            </button>
-          </div>
-        </div>
+        )}
       </div>
+      <SignInModal showDialog={showDialog} setShowDialog={setShowDialog} />
     </HorizontalPadding>
   );
 }
 
-const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  // const uid = await loadIdToken(req as NextApiRequest);
+const firebaseAuthConfig = {
+  signInFlow: 'popup',
+  signInOptions: [
+    {
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      requireDisplayName: false,
+    },
+  ],
+  signInSuccessUrl: '/',
+};
 
-  // if (uid) {
-  //   res.setHeader('location', '/');
-  //   res.statusCode = 302;
-  //   res.end();
-  // }
+const AnimatedDialogOverlay = motion.custom(DialogOverlay);
+const AnimatedDialogContent = motion.custom(DialogContent);
+
+const transition = { min: 0, max: 100, bounceDamping: 9 };
+
+function SignInModal({ showDialog, setShowDialog }) {
+  return (
+    <AnimatePresence>
+      {showDialog && (
+        <AnimatedDialogOverlay
+          onDismiss={() => setShowDialog(false)}
+          initial="closed"
+          animate="open"
+          exit="closed"
+          variants={{ open: { opacity: 1 }, closed: { opacity: 0 } }}
+          transition={transition}
+          className="fixed inset-0 z-10 flex flex-col px-4 py-32 bg-black bg-opacity-25 sm:px-6 backdrop-blur"
+        >
+          <div className="flex items-start justify-center flex-1 w-full mx-auto pointer-events-none max-w-screen-2xl">
+            <AnimatedDialogContent
+              aria-label="New item added to cart"
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={{ open: { y: 0 }, closed: { y: '0.5rem' } }}
+              transition={transition}
+              className="w-full max-w-sm pointer-events-auto ring-opacity-5"
+            >
+              <StyledFirebaseAuth
+                uiConfig={firebaseAuthConfig}
+                firebaseAuth={firebase.auth()}
+              />
+            </AnimatedDialogContent>
+          </div>
+        </AnimatedDialogOverlay>
+      )}
+    </AnimatePresence>
+  );
+}
+
+const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const uid = await loadIdToken(req as NextApiRequest);
+
+  if (uid) {
+    res.setHeader('location', '/');
+    res.statusCode = 302;
+    res.end();
+  }
 
   const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();
