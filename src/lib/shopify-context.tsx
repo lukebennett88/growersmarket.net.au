@@ -45,13 +45,14 @@ function ShopifyContextProvider({
     domain: isCustomDomain ? shopName : `${shopName}.myshopify.com`,
   });
 
-  React.useEffect(() => {
-    async function getNewCart() {
-      const newCart = await client.checkout.create();
-      setCart(newCart);
-    }
+  const getNewCart = React.useCallback(async () => {
+    const newCart = await client.checkout.create();
+    setCart(newCart);
+  }, [client.checkout]);
 
-    async function refreshExistingCart(cartId: string) {
+  const refreshExistingCart = React.useCallback(
+    // eslint-disable-next-line consistent-return
+    async (cartId: string) => {
       try {
         const refreshedCart = await client.checkout.fetch(cartId);
 
@@ -69,13 +70,21 @@ function ShopifyContextProvider({
       } catch (error) {
         console.error(error);
       }
-    }
+    },
+    [client.checkout, getNewCart]
+  );
 
+  const checkCart = React.useCallback(() => {
     if (cart == null) {
       getNewCart();
     } else {
       refreshExistingCart(String(cart.id));
     }
+  }, [cart, getNewCart, refreshExistingCart]);
+
+  React.useEffect(() => {
+    checkCart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {

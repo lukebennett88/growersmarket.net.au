@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { ReactElement } from 'react';
 
 import { config } from '../../config';
 import { ContactForm } from './contact-form';
@@ -37,15 +38,8 @@ function Footer() {
                 Categories
               </h4>
               <ul className="mt-4 space-y-4">
-                {config.footerMenu.categories.map((navItem) => (
-                  <li key={navItem.label}>
-                    <a
-                      href={`/${navItem.slug}`}
-                      className="text-base text-gray-500 hover:text-gray-900"
-                    >
-                      {navItem.label}
-                    </a>
-                  </li>
+                {config.footerMenu.categories.map(({ label, slug }) => (
+                  <FooterLink key={label} label={label} slug={slug} />
                 ))}
               </ul>
             </div>
@@ -55,15 +49,8 @@ function Footer() {
                   Information
                 </h4>
                 <ul className="mt-4 space-y-4">
-                  {config.footerMenu.information.map((navItem) => (
-                    <li key={navItem.label}>
-                      <a
-                        href={`/${navItem.slug}`}
-                        className="text-base text-gray-500 hover:text-gray-900"
-                      >
-                        {navItem.label}
-                      </a>
-                    </li>
+                  {config.footerMenu.information.map(({ label, slug }) => (
+                    <FooterLink key={label} label={label} slug={slug} />
                   ))}
                 </ul>
               </div>
@@ -74,15 +61,8 @@ function Footer() {
                   My Account
                 </h4>
                 <ul className="mt-4 space-y-4">
-                  {config.footerMenu.myAccount.map((navItem) => (
-                    <li key={navItem.label}>
-                      <a
-                        href={`/${navItem.slug}`}
-                        className="text-base text-gray-500 hover:text-gray-900"
-                      >
-                        {navItem.label}
-                      </a>
-                    </li>
+                  {config.footerMenu.myAccount.map(({ label, slug }) => (
+                    <FooterLink key={label} label={label} slug={slug} />
                   ))}
                 </ul>
               </div>
@@ -91,15 +71,8 @@ function Footer() {
                   Follow Us
                 </h4>
                 <ul className="mt-4 space-y-4">
-                  {config.footerMenu.followUs.map((navItem) => (
-                    <li key={navItem.label}>
-                      <a
-                        href={`/${navItem.slug}`}
-                        className="text-base text-gray-500 hover:text-gray-900"
-                      >
-                        {navItem.label}
-                      </a>
-                    </li>
+                  {config.footerMenu.followUs.map(({ label, slug }) => (
+                    <FooterLink key={label} label={label} slug={slug} />
                   ))}
                 </ul>
               </div>
@@ -109,15 +82,8 @@ function Footer() {
                 Follow Us
               </h4>
               <ul className="mt-4 space-y-4">
-                {config.footerMenu.followUs.map((navItem) => (
-                  <li key={navItem.label}>
-                    <a
-                      href={`/${navItem.slug}`}
-                      className="text-base text-gray-500 hover:text-gray-900"
-                    >
-                      {navItem.label}
-                    </a>
-                  </li>
+                {config.footerMenu.followUs.map(({ label, slug }) => (
+                  <FooterLink key={label} label={label} slug={slug} />
                 ))}
               </ul>
             </div>
@@ -143,6 +109,24 @@ function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+interface IFooterLink {
+  slug: string;
+  label: string;
+}
+
+function FooterLink({ slug, label }: IFooterLink): ReactElement {
+  return (
+    <li>
+      <a
+        href={`/${slug}`}
+        className="text-base text-gray-500 hover:text-gray-900"
+      >
+        {label}
+      </a>
+    </li>
   );
 }
 

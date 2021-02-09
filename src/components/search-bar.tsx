@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { algoliaClient } from '@lib/algolia-client';
 import type {
   ComboboxOptionProps as ReachComboboxOptionProps,
@@ -41,7 +40,7 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
     <Combobox
       openOnFocus
       onSelect={(_, data) => {
-        router.push(`/products/${data.handle}`);
+        router.push(`/products/${data.handle as string}`);
         refine('');
         inputRef.current.blur();
       }}
@@ -86,7 +85,7 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
 const Query = connectStateResults(({ searchState }) =>
   searchState && searchState.query ? (
     <p className="px-4 py-4 text-base text-left border-t">
-      Searching for: "{searchState.query}"
+      Searching for: &ldquo;{searchState.query}&rdquo;
     </p>
   ) : null
 );
@@ -145,6 +144,7 @@ function ComboboxOption({ selectData, ...props }: ComboboxOptionProps) {
   React.useEffect(() => {
     addOptionData(props.value, selectData);
     return () => removeOptionData(props.value);
+    // eslint-disable-next-line react/destructuring-assignment
   }, [props.value, selectData, addOptionData, removeOptionData]);
 
   return <ReachComboboxOption {...props} as="li" />;
@@ -187,6 +187,7 @@ function useOptionDataFactory(): {
   const optionData = React.useRef<OptionData>({});
 
   const addOptionData = React.useCallback<AddOptionData>(
+    // eslint-disable-next-line no-return-assign
     (value: string, data: any) => (optionData.current[value] = data),
     []
   );
@@ -224,6 +225,7 @@ interface ComboboxContextValue {
 }
 
 const Results = connectStateResults(
+  // eslint-disable-next-line consistent-return
   ({ searchState, searchResults, error, refine }) => {
     const router = useRouter();
 
@@ -244,7 +246,7 @@ const Results = connectStateResults(
       return (
         <ResultsWrapper>
           <p className="px-8 py-2 -mx-4">
-            No results have been found for "{searchState.query}"
+            No results have been found for &ldquo;{searchState.query}&rdquo;
           </p>
         </ResultsWrapper>
       );
@@ -265,10 +267,10 @@ const Results = connectStateResults(
                 }}
               >
                 <a
-                  href={`/products/${hit.handle}`}
+                  href={`/products/${hit.handle as string}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    router.push(`/products/${hit.handle}`);
+                    router.push(`/products/${hit.handle as string}`);
                     refine('');
                   }}
                   className="flex items-center px-8 py-2 -mx-4 focus:outline-none focus:bg-gray-200 hover:bg-gray-100"

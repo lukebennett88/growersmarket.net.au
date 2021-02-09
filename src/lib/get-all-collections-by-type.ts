@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-identical-functions */
 import { gql } from '@apollo/client';
 
 import { apolloClient } from './apollo-client';
@@ -84,7 +85,7 @@ async function getAllCollectionsByType(variables) {
           }
           return products;
         })
-        .catch((error) =>
+        .catch((error: string) =>
           console.error({
             error: `Error building product pages \n${error}`,
           })
@@ -106,7 +107,7 @@ async function getAllCollectionsByType(variables) {
         }
         return products;
       })
-      .catch((error) =>
+      .catch((error: string) =>
         console.error({
           error: `Error building product pages \n${error}`,
         })

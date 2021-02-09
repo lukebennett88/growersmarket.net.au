@@ -36,10 +36,11 @@ function Topbar() {
             </span>
             <span>
               {siteSettings && (
+                // eslint-disable-next-line jsx-a11y/control-has-associated-label
                 <a
-                  href={`tel:${siteSettings?.phoneNumber}`}
+                  href={`tel:${siteSettings?.phoneNumber as string}`}
                   dangerouslySetInnerHTML={{
-                    __html: `Contact: ${siteSettings?.phoneNumber
+                    __html: `Contact: ${(siteSettings?.phoneNumber as string)
                       .split(' ')
                       .join('&nbsp;')}`,
                   }}
@@ -116,7 +117,7 @@ function MobileMenu({ isOpen, setIsOpen, siteNavigation }) {
                     <Link key={navItem._key} href={navItem.route}>
                       <a
                         className={`flex items-center px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out border-l-4 border-transparent hover:border-yellow hover:bg-gray-50 hover:text-gray-900 group ${
-                          router.route === `/${navItem.route}`
+                          router.route === `/${navItem.route as string}`
                             ? 'border-yellow bg-gray-50 text-gray-900'
                             : ''
                         }`}

@@ -76,9 +76,6 @@ interface INavButton {
   navItem: {
     title: string;
   };
-  tabIndex: number;
-  closeTab: () => void;
-  isSelected?: boolean;
 }
 
 function NavButton({ navItem }: INavButton) {
@@ -93,7 +90,7 @@ function NavLink({ navItem }) {
   const { pathname } = useRouter();
   return (
     <li>
-      <Link href={`/${navItem.route}`}>
+      <Link href={`/${navItem.route as string}`}>
         <a
           className={`${
             pathname === navItem.route ? 'bg-yellow text-green-800' : ''
@@ -142,7 +139,7 @@ function SubMenu({ siteNavigation, isActive, closeTab }) {
                     navItem.subMenu &&
                     navItem.subMenu.map((subMenu) => (
                       <li key={subMenu._key}>
-                        <Link href={`/products/${subMenu.route}`}>
+                        <Link href={`/products/${subMenu.route as string}`}>
                           <a className="flex items-center p-3 -m-3 text-base font-bold rounded-md text-green-dark hover:bg-white">
                             {subMenu.title}
                           </a>

@@ -1,12 +1,16 @@
 import * as React from 'react';
 
-interface QuantityPicker {
+interface IQuantityPicker {
   increment: () => void;
   decrement: () => void;
   quantity: number;
 }
 
-function QuantityPicker({ increment, decrement, quantity }) {
+function QuantityPicker({
+  increment,
+  decrement,
+  quantity,
+}: IQuantityPicker): React.ReactElement {
   return (
     <span className="relative z-0 inline-flex rounded-full">
       <button

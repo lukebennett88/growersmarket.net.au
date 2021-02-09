@@ -32,7 +32,7 @@ function CartPage() {
                 Your shopping cart{' '}
                 <strong>
                   {count > 0
-                    ? `contains ${count} ${
+                    ? `contains ${count as number} ${
                         count === 1 ? 'product' : 'products'
                       }`
                     : 'is empty'}

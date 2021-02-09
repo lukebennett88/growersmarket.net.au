@@ -7,6 +7,23 @@ import * as React from 'react';
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
 
+const preventNavigation = (event: TouchEvent) => {
+  // Center point of the touch area
+  const touchXPosition = event.touches[0].pageX;
+  // Size of the touch area
+  const touchXRadius = event.touches[0].radiusX || 0;
+
+  // We set a threshold (10px) on both sizes of the screen,
+  // if the touch area overlaps with the screen edges
+  // it's likely to trigger the navigation. We prevent the
+  // touchstart event in that case.
+  if (
+    touchXPosition - touchXRadius < 10 ||
+    touchXPosition + touchXRadius > window.innerWidth - 10
+  )
+    event.preventDefault();
+};
+
 const ProductSlider: React.FC = ({ children }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [isMounted, setIsMounted] = React.useState(false);
@@ -23,29 +40,13 @@ const ProductSlider: React.FC = ({ children }) => {
 
   // Stop the history navigation gesture on touch devices
   React.useEffect(() => {
-    const preventNavigation = (event: TouchEvent) => {
-      // Center point of the touch area
-      const touchXPosition = event.touches[0].pageX;
-      // Size of the touch area
-      const touchXRadius = event.touches[0].radiusX || 0;
-
-      // We set a threshold (10px) on both sizes of the screen,
-      // if the touch area overlaps with the screen edges
-      // it's likely to trigger the navigation. We prevent the
-      // touchstart event in that case.
-      if (
-        touchXPosition - touchXRadius < 10 ||
-        touchXPosition + touchXRadius > window.innerWidth - 10
-      )
-        event.preventDefault();
-    };
-
     sliderContainerRef.current?.addEventListener(
       'touchstart',
       preventNavigation
     );
 
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       sliderContainerRef.current?.removeEventListener(
         'touchstart',
         preventNavigation
@@ -76,7 +77,9 @@ const ProductSlider: React.FC = ({ children }) => {
               props: {
                 ...child.props,
                 className: `${
-                  child.props.className ? `${child.props.className} ` : ''
+                  child.props.className
+                    ? `${child.props.className as string} `
+                    : ''
                 }keen-slider__slide`,
               },
             };

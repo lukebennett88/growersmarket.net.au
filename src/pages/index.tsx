@@ -138,7 +138,7 @@ function FrequentlyAskedQuestions() {
           </div>
           <div className="mt-5">
             <Link href="/faq/">
-              <a className="bg-white cta text-green-dark">More FAQ's</a>
+              <a className="bg-white cta text-green-dark">More FAQs</a>
             </Link>
           </div>
         </div>

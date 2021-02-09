@@ -7,7 +7,8 @@ export function useCartCount() {
   }
 
   return cart.lineItems.reduce(
-    (totalCount, lineItem) => totalCount + lineItem.quantity,
+    (totalCount: number, lineItem) =>
+      totalCount + (lineItem.quantity as number),
     0
   );
 }

@@ -12,7 +12,6 @@ const config = {
     googleMaps: {
       link: 'https://goo.gl/maps/Ufvdnt7zpQMZkuAv9',
       embed:
-        // eslint-disable-next-line no-secrets/no-secrets
         'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3404.2250157702606!2d152.8999106162319!3d-31.435471704323067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b9dff234469c8b1%3A0xc3e1b59b93b39765!2sGrowers%20Market!5e0!3m2!1sen!2sau!4v1607553583065!5m2!1sen!2sau',
     },
   },

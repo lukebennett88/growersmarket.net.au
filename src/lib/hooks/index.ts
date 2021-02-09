@@ -5,4 +5,3 @@ export * from './use-cart-count';
 export * from './use-cart-items';
 export * from './use-handle-add-to-cart';
 export * from './use-onclick-outside';
-export * from './use-throttle';
