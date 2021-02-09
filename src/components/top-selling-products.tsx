@@ -14,7 +14,7 @@ import { Toast } from './toast';
 
 interface TopSellingProductsProps {
   topSelling: ITopSellingProducts;
-  productType: string;
+  productType?: string;
 }
 
 function TopSellingProducts({
