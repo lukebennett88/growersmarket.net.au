@@ -39,12 +39,7 @@ function Nav() {
               <TabList as="ul" className="relative z-10 flex -mx-4">
                 {siteNavigation?.items.map((navItem) =>
                   navItem.subMenu ? (
-                    <NavButton
-                      key={navItem._key}
-                      navItem={navItem}
-                      tabIndex={tabIndex}
-                      closeTab={closeTab}
-                    />
+                    <NavButton key={navItem._key} navItem={navItem} />
                   ) : (
                     <NavLink key={navItem._key} navItem={navItem} />
                   )
