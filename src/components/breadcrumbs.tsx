@@ -3,18 +3,21 @@ import { HiChevronRight } from 'react-icons/hi';
 
 import { HorizontalPadding } from './horizontal-padding';
 
-interface IBreadcrumbs {
-  navigation: IPage[];
-}
-
 interface IPage {
   title: string;
   handle: string;
 }
 
+interface IBreadcrumbs {
+  navigation: IPage[];
+}
+
 function Breadcrumbs({ navigation }: IBreadcrumbs) {
   return (
-    <nav className="flex py-2 text-white bg-green-dark" aria-label="Breadcrumb">
+    <nav
+      className="flex py-2 text-white bg-green-dark"
+      aria-label="Breadcrumb navigation"
+    >
       <HorizontalPadding>
         <ol className="flex items-center space-x-4">
           <li>
@@ -25,10 +28,10 @@ function Breadcrumbs({ navigation }: IBreadcrumbs) {
             </div>
           </li>
           {navigation.map(
-            ({ title, handle }, index) =>
+            ({ title, handle }) =>
               title &&
               handle && (
-                <li key={index}>
+                <li key={handle}>
                   <div className="flex items-center">
                     <HiChevronRight className="flex-shrink-0 w-5 h-5" />
                     {/* // TODO: Fix this link */}

@@ -1,16 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as React from 'react';
-import { useRouter } from 'next/router';
-import {
-  InstantSearch,
-  Configure,
-  connectStateResults,
-  connectSearchBox,
-  Highlight,
-} from 'react-instantsearch-dom';
 import { algoliaClient } from '@lib/algolia-client';
-import Image from 'next/image';
-import { HiOutlineSearch, HiOutlineX } from 'react-icons/hi';
+import type {
+  ComboboxOptionProps as ReachComboboxOptionProps,
+  ComboboxProps as ReachComboboxProps,
+} from '@reach/combobox';
 import {
   Combobox as ReachCombobox,
   ComboboxInput,
@@ -18,11 +11,17 @@ import {
   ComboboxOption as ReachComboboxOption,
   ComboboxPopover,
 } from '@reach/combobox';
-
-import type {
-  ComboboxProps as ReachComboboxProps,
-  ComboboxOptionProps as ReachComboboxOptionProps,
-} from '@reach/combobox';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import { HiOutlineSearch, HiOutlineX } from 'react-icons/hi';
+import {
+  Configure,
+  connectSearchBox,
+  connectStateResults,
+  Highlight,
+  InstantSearch,
+} from 'react-instantsearch-dom';
 
 function Searchbar() {
   return (
@@ -84,13 +83,13 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
   );
 });
 
-const Query = connectStateResults(({ searchState }) => {
-  return searchState && searchState.query ? (
+const Query = connectStateResults(({ searchState }) =>
+  searchState && searchState.query ? (
     <p className="px-4 py-4 text-base text-left border-t">
       Searching for: "{searchState.query}"
     </p>
-  ) : null;
-});
+  ) : null
+);
 
 function ResultsWrapper({ children }) {
   return (
@@ -118,7 +117,7 @@ function Combobox({ onSelect: onSelectProp, ...props }: ComboboxProps) {
   });
 
   const onSelect = React.useCallback(
-    function onSelect(value: string) {
+    (value: string) => {
       onSelectRef.current?.(value, getOptionData(value));
     },
     [getOptionData]

@@ -1,8 +1,8 @@
 import {
   ApolloClient,
-  InMemoryCache,
   ApolloLink,
   HttpLink,
+  InMemoryCache,
 } from '@apollo/client';
 
 const sanityLink = new HttpLink({

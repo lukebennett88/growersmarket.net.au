@@ -1,7 +1,8 @@
-import * as React from 'react';
-import { useRouter } from 'next/router';
-import firebase from 'firebase/app';
 import 'firebase/auth';
+
+import firebase from 'firebase/app';
+import { useRouter } from 'next/router';
+import * as React from 'react';
 
 import { initFirebase } from './init-firebase';
 import { removeTokenCookie, setTokenCookie } from './token-cookies';
@@ -28,11 +29,10 @@ function AuthProvider({ children }): React.ReactElement {
     firebase
       .auth()
       .signOut()
-      .then(() => {
-        router.push('/');
-      })
-      .catch((e) => {
-        console.error(e);
+      .then(() => router.push('/'))
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
       });
   };
 

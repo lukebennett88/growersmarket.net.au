@@ -5,9 +5,9 @@ interface IContainer {
   children: React.ReactNode;
 }
 
-function Container({ children, as }: IContainer) {
+function Container({ children, as = 'div' }: IContainer) {
   return React.createElement(
-    'div' || as,
+    as,
     {
       className: 'w-full mx-auto max-w-screen-2xl',
     },

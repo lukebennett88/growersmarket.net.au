@@ -6,7 +6,7 @@ enum Variant {
   WHITE,
 }
 
-interface ProductGrid {
+interface IProductGrid {
   heading: string;
   children: React.ReactNode;
   columns?: 2 | 4;
@@ -14,8 +14,8 @@ interface ProductGrid {
 }
 
 const COLUMNS_MAPS = {
-  [2]: 'lg:grid-cols-2',
-  [4]: 'lg:grid-cols-4',
+  2: 'lg:grid-cols-2',
+  4: 'lg:grid-cols-4',
 };
 
 const VARIANT_MAPS = {
@@ -28,7 +28,7 @@ function ProductGrid({
   children,
   columns = 4,
   variant = Variant.WHITE,
-}: ProductGrid) {
+}: IProductGrid) {
   return (
     <article className={columns === 4 ? 'lg:col-span-2' : null}>
       <Container>

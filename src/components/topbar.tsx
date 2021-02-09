@@ -1,11 +1,11 @@
-import * as React from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useGlobalContext } from '@lib/index';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import * as React from 'react';
 import { HiMenu, HiX } from 'react-icons/hi';
 
-import { useGlobalContext } from '@lib/index';
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
 import { Logo } from './vectors/logo';

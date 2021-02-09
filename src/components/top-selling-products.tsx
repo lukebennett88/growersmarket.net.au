@@ -1,27 +1,32 @@
-import * as React from 'react';
-import Link from 'next/link';
+import {
+  ITopSellingProductNode,
+  ITopSellingProducts,
+  useHandleAddToCart,
+} from '@lib/index';
 import Image from 'next/image';
+import Link from 'next/link';
+import * as React from 'react';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
-
-import { useHandleAddToCart } from '@lib/index';
-import { HorizontalPadding } from './horizontal-padding';
-import { Toast } from './toast';
 import slugify from 'slugify';
 
-interface ITopSellingProducts {
-  topSelling: {
-    edges: IProduct[];
-  };
-  productType?: string;
+import { HorizontalPadding } from './horizontal-padding';
+import { Toast } from './toast';
+
+interface TopSellingProductsProps {
+  topSelling: ITopSellingProducts;
+  productType: string;
 }
 
-function TopSellingProducts({ topSelling, productType }: ITopSellingProducts) {
+function TopSellingProducts({
+  topSelling,
+  productType,
+}: TopSellingProductsProps): React.ReactElement {
   return (
     <div className="bg-gray-light">
       <div className="py-16 lg:sticky lg:top-44 lg:max-w-lg">
         <HorizontalPadding>
           <h2 className="text-2xl font-bold">
-            Our Top Selling {productType ? productType : 'Products'}
+            Our Top Selling {productType || 'Products'}
           </h2>
           <ul className="grid gap-8 mt-4">
             {topSelling.edges.map(({ node }) => (
@@ -48,35 +53,13 @@ function TopSellingProducts({ topSelling, productType }: ITopSellingProducts) {
   );
 }
 
-interface IProduct {
-  node: {
-    handle: string;
-    id: string;
-    variants: {
-      edges: {
-        node: {
-          id;
-        };
-      }[];
-    };
-    images?: {
-      edges: {
-        node: {
-          altText;
-          originalSrc;
-        };
-      }[];
-    };
-    priceRange?: {
-      minVariantPrice: {
-        amount: string;
-      };
-    };
-    title;
-  };
+interface TopSellingProductProps {
+  node: ITopSellingProductNode;
 }
 
-function TopSellingProduct({ node }: IProduct) {
+function TopSellingProduct({
+  node,
+}: TopSellingProductProps): React.ReactElement {
   const variantId = node.variants.edges[0].node.id;
 
   // State for showing add to cart toast notifications
@@ -120,7 +103,6 @@ function TopSellingProduct({ node }: IProduct) {
           </div>
         </div>
         <div className="pt-4 mt-auto">
-          {/* // TODO: Make these buttons work */}
           <button
             type="button"
             onClick={handleAddToCart}

@@ -1,16 +1,15 @@
-import * as React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { NextSeo } from 'next-seo';
-import { HiOutlineShoppingCart } from 'react-icons/hi';
-
+import { Carousel, Container, HorizontalPadding } from '@components/index';
 import {
   getSiteNavigation,
   getSiteSettings,
   useCartCount,
   useCartItems,
 } from '@lib/index';
-import { Carousel, Container, HorizontalPadding } from '@components/index';
+import Image from 'next/image';
+import Link from 'next/link';
+import { NextSeo } from 'next-seo';
+import * as React from 'react';
+import { HiOutlineShoppingCart } from 'react-icons/hi';
 
 function CartPage() {
   const count = useCartCount();
@@ -104,7 +103,10 @@ function LineItem({ lineItem }) {
           </div>
         </div>
         <div className="pt-4 mt-auto">
-          <button className="inline-flex items-center justify-center px-6 py-1 space-x-3 text-sm whitespace-nowrap cta">
+          <button
+            type="button"
+            className="inline-flex items-center justify-center px-6 py-1 space-x-3 text-sm whitespace-nowrap cta"
+          >
             <span>Add to Cart</span>
             <HiOutlineShoppingCart className="w-6 h-6" />
           </button>

@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import cookie from 'cookie';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 function login(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader(

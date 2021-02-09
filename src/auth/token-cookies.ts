@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 function setTokenCookie(token: string) {
   fetch('/api/login', {
-    method: 'post',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -10,7 +11,7 @@ function setTokenCookie(token: string) {
 
 function removeTokenCookie() {
   fetch('/api/logout', {
-    method: 'post',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -18,4 +19,4 @@ function removeTokenCookie() {
   });
 }
 
-export { setTokenCookie, removeTokenCookie };
+export { removeTokenCookie, setTokenCookie };

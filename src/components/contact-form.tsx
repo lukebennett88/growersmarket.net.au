@@ -1,7 +1,6 @@
+import { Input, Textarea } from '@components/form-elements';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-
-import { Input, Textarea } from '@components/form-elements';
 
 function ContactForm() {
   const { handleSubmit, register, errors } = useForm({ mode: 'onBlur' });

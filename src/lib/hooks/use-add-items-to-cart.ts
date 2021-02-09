@@ -1,7 +1,7 @@
 import ShopifyBuy from 'shopify-buy';
 
-import { useShopifyContext } from '../shopify-context';
 import { LineItemPatch } from '../../types';
+import { useShopifyContext } from '../shopify-context';
 
 function useAddItemsToCart() {
   const { client, cart, setCart } = useShopifyContext();
@@ -11,7 +11,7 @@ function useAddItemsToCart() {
       throw new Error('Called addItemsToCart too soon');
     }
 
-    if (items.length < 1) {
+    if (items.length === 0) {
       throw new Error(
         'Must include at least one line item, empty line items found'
       );
@@ -26,8 +26,8 @@ function useAddItemsToCart() {
         throw new Error(
           `Missing quantity in item with variant id: ${item.variantId}`
         );
-      } else if (typeof item.quantity != 'number') {
-        throw new Error(
+      } else if (typeof item.quantity !== 'number') {
+        throw new TypeError(
           `Quantity is not a number in item with variant id: ${item.variantId}`
         );
       } else if (item.quantity < 1) {

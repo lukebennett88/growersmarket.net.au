@@ -1,8 +1,8 @@
-import * as React from 'react';
+import { DialogContent, DialogOverlay } from '@reach/dialog';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { AnimatePresence, motion } from 'framer-motion';
-import { DialogOverlay, DialogContent } from '@reach/dialog';
+import * as React from 'react';
 
 const AnimatedDialogOverlay = motion.custom(DialogOverlay);
 const AnimatedDialogContent = motion.custom(DialogContent);

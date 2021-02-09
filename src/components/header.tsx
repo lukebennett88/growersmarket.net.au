@@ -1,6 +1,6 @@
-import { Topbar } from './topbar';
-import { Shopbar } from './shopbar';
 import { Nav } from './nav';
+import { Shopbar } from './shopbar';
+import { Topbar } from './topbar';
 
 function Header() {
   return (

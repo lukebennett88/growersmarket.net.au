@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { apolloClient } from './apollo-client';
 
 const GET_PRODUCT_TYPES = gql`
@@ -18,10 +19,9 @@ async function getProductTypes() {
       clientName: 'SHOPIFY',
     },
   });
-  const productTypes = data.productTypes.edges.filter(
+  return data.productTypes.edges.filter(
     (productType) => productType.node !== ''
   );
-  return productTypes;
 }
 
 export { getProductTypes };

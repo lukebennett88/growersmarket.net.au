@@ -1,7 +1,6 @@
+import { LocalStorage, LocalStorageKeys } from '@lib/local-storage';
 import * as React from 'react';
 import ShopifyBuy from 'shopify-buy';
-
-import { LocalStorage, LocalStorageKeys } from '@lib/local-storage';
 
 // Create new React Context
 interface ShopifyContextShape {
@@ -14,7 +13,7 @@ const ShopifyContext = React.createContext<ShopifyContextShape>({
   client: null,
   cart: null,
   setCart: () => {
-    throw Error('You forgot to wrap this in a Provider object');
+    throw new Error('You forgot to wrap this in a Provider object');
   },
 });
 
@@ -57,7 +56,7 @@ function ShopifyContextProvider({
         const refreshedCart = await client.checkout.fetch(cartId);
 
         if (refreshedCart == null) {
-          return getNewCart();
+          return await getNewCart();
         }
 
         const cartHasBeenPurchased = refreshedCart.completedAt != null;
@@ -98,8 +97,7 @@ function ShopifyContextProvider({
 
 // Create useShopifyContext to make using values from Context easier
 function useShopifyContext() {
-  const context = React.useContext(ShopifyContext);
-  return context;
+  return React.useContext(ShopifyContext);
 }
 
 // Export everything

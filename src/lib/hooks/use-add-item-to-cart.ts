@@ -1,5 +1,5 @@
-import { useAddItemsToCart } from './use-add-items-to-cart';
 import { AttributeInput } from '../../types';
+import { useAddItemsToCart } from './use-add-items-to-cart';
 
 function useAddItemToCart() {
   const addItemsToCart = useAddItemsToCart();

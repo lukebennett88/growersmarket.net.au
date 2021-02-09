@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { useHandleAddToCart } from '@lib/hooks';
 import Image from 'next/image';
 import Link from 'next/link';
+import * as React from 'react';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 
-import { useHandleAddToCart } from '@lib/hooks';
 import { Toast } from './toast';
 
 interface IProductCard {
@@ -87,6 +87,7 @@ function ProductCard({ product }: IProductCard) {
       </div>
       <div className="pt-3 mt-auto">
         <button
+          type="button"
           className="inline-flex items-center justify-center w-full space-x-3 cta"
           onClick={handleAddToCart}
         >

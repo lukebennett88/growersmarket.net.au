@@ -1,17 +1,17 @@
-import * as React from 'react';
-import { GetServerSideProps, NextApiRequest } from 'next';
-import { NextSeo } from 'next-seo';
-import { AnimatePresence, motion } from 'framer-motion';
-import { DialogOverlay, DialogContent } from '@reach/dialog';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import { loadIdToken } from '@auth/firebase-admin';
+import { useAuth } from '@auth/index';
 import { HorizontalPadding } from '@components/index';
 import { SignInIcon } from '@components/vectors';
 import { getSiteNavigation, getSiteSettings } from '@lib/index';
-import { loadIdToken } from '@auth/firebase-admin';
-import { useAuth } from '@auth/index';
+import { DialogContent, DialogOverlay } from '@reach/dialog';
+import firebase from 'firebase/app';
+import { AnimatePresence, motion } from 'framer-motion';
+import { GetServerSideProps, NextApiRequest } from 'next';
+import { NextSeo } from 'next-seo';
+import * as React from 'react';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 function AccountPage() {
   const { authenticated, logout } = useAuth();
@@ -19,7 +19,7 @@ function AccountPage() {
 
   return (
     <HorizontalPadding>
-      <NextSeo title={`Sign in`} />
+      <NextSeo title="Sign in" />
       <div className="py-24">
         <div className="flex items-center justify-center space-x-6">
           <SignInIcon className="w-16" />
@@ -70,7 +70,15 @@ const AnimatedDialogContent = motion.custom(DialogContent);
 
 const transition = { min: 0, max: 100, bounceDamping: 9 };
 
-function SignInModal({ showDialog, setShowDialog }) {
+interface ISignInModal {
+  showDialog: boolean;
+  setShowDialog: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function SignInModal({
+  showDialog,
+  setShowDialog,
+}: ISignInModal): React.ReactElement {
   return (
     <AnimatePresence>
       {showDialog && (

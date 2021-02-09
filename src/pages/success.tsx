@@ -1,10 +1,11 @@
+import { getSiteNavigation, getSiteSettings } from '@lib/index';
+import { GetStaticPropsResult } from 'next';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
+import * as React from 'react';
 import { HiChevronLeft } from 'react-icons/hi';
 
-import { getSiteNavigation, getSiteSettings } from '@lib/index';
-
-function SuccessPage() {
+function SuccessPage(): React.ReactElement {
   return (
     <>
       <NextSeo title="Success" />
@@ -28,7 +29,14 @@ function SuccessPage() {
   );
 }
 
-async function getStaticProps() {
+interface SuccessPageProps {
+  siteNavigation: [];
+  siteSettings: Record<string, unknown>;
+}
+
+async function getStaticProps(): Promise<
+  GetStaticPropsResult<SuccessPageProps>
+> {
   const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();
 

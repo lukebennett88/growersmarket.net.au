@@ -42,8 +42,7 @@ function get(key: string) {
   }
 
   try {
-    const item = window.localStorage.getItem(key);
-    return item;
+    return window.localStorage.getItem(key);
   } catch {
     return null;
   }
@@ -62,7 +61,7 @@ function getInitialCart(): ShopifyBuy.Cart | null {
       return null;
     }
 
-    return existingCart as ShopifyBuy.Cart;
+    return existingCart;
   } catch {
     return null;
   }
@@ -74,4 +73,4 @@ const LocalStorage = {
   getInitialCart,
 };
 
-export { LocalStorageKeys, LocalStorage };
+export { LocalStorage, LocalStorageKeys };

@@ -1,8 +1,7 @@
+import { getSiteNavigation, getSiteSettings } from '@lib/index';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { HiChevronLeft } from 'react-icons/hi';
-
-import { getSiteNavigation, getSiteSettings } from '@lib/index';
 
 function NotFoundPage() {
   return (

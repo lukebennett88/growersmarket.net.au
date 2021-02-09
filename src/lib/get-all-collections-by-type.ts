@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { apolloClient } from './apollo-client';
 
 const GET_FIRST_PRODUCTS_BY_TYPE = gql`
@@ -68,10 +69,10 @@ async function getAllCollectionsByType(variables) {
     let newCursor = '';
 
     async function getNextProds(cursor) {
-      return await apolloClient
+      return apolloClient
         .query({
           query: GET_NEXT_PRODUCTS_BY_TYPE,
-          variables: { ...variables, cursor: cursor },
+          variables: { ...variables, cursor },
         })
         .then((result) => {
           products = products.concat(result.data.products.edges);
@@ -80,13 +81,12 @@ async function getAllCollectionsByType(variables) {
               result.data.products.edges[result.data.products.edges.length - 1]
                 .cursor;
             return getNextProds(newCursor);
-          } else {
-            return products;
           }
+          return products;
         })
-        .catch((err) =>
+        .catch((error) =>
           console.error({
-            error: `Error building product pages \n${err}`,
+            error: `Error building product pages \n${error}`,
           })
         );
     }
@@ -103,13 +103,12 @@ async function getAllCollectionsByType(variables) {
             result.data.products.edges[result.data.products.edges.length - 1]
               .cursor;
           return getNextProds(newCursor);
-        } else {
-          return products;
         }
+        return products;
       })
-      .catch((err) =>
+      .catch((error) =>
         console.error({
-          error: `Error building product pages \n${err}`,
+          error: `Error building product pages \n${error}`,
         })
       );
   }

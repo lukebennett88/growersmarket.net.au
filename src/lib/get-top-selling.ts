@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { apolloClient } from './apollo-client';
 
 const GET_TOP_SELLING = gql`
@@ -36,6 +37,41 @@ const GET_TOP_SELLING = gql`
   }
 `;
 
+interface ITopSellingProductNode {
+  handle: string;
+  id: string;
+  images: {
+    edges: Array<{
+      node: {
+        id: string;
+        altText: string | null;
+        originalSrc: string;
+      };
+    }>;
+  };
+  priceRange: {
+    minVariantPrice: {
+      amount: string;
+    };
+  };
+  title: string;
+  variants: {
+    edges: Array<{
+      node: {
+        id: string;
+      };
+    }>;
+  };
+}
+
+interface ITopSellingProduct {
+  node: ITopSellingProductNode;
+}
+
+interface ITopSellingProducts {
+  edges: ITopSellingProduct[];
+}
+
 async function getTopSelling(variables) {
   const { data } = await apolloClient.query({
     query: GET_TOP_SELLING,
@@ -48,3 +84,4 @@ async function getTopSelling(variables) {
 }
 
 export { getTopSelling };
+export type { ITopSellingProduct, ITopSellingProductNode, ITopSellingProducts };

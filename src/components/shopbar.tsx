@@ -1,15 +1,15 @@
-import * as React from 'react';
+import { useAuth } from '@auth/index';
+import { useCart } from '@lib/index';
+import { DialogContent, DialogOverlay } from '@reach/dialog';
 import Link from 'next/link';
+import * as React from 'react';
+import { HiOutlineSearch } from 'react-icons/hi';
 
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
-import { CartIcon, SignInIcon } from './vectors';
 import { Searchbar } from './search-bar';
-import { useCart } from '@lib/index';
+import { CartIcon, SignInIcon } from './vectors';
 import { Logo } from './vectors/logo';
-import { HiOutlineSearch } from 'react-icons/hi';
-import { DialogContent, DialogOverlay } from '@reach/dialog';
-import { useAuth } from '@auth/index';
 
 function Shopbar() {
   const { authenticated } = useAuth();

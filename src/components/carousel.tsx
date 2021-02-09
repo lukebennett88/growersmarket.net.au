@@ -1,7 +1,8 @@
-import * as React from 'react';
-import Link from 'next/link';
-import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
+
+import { useKeenSlider } from 'keen-slider/react';
+import Link from 'next/link';
+import * as React from 'react';
 
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
@@ -86,22 +87,20 @@ const ProductSlider: React.FC = ({ children }) => {
       {slider && (
         <div className="absolute inset-x-0 transform bottom-2">
           <ul className="relative flex items-center justify-center space-x-2">
-            {[...Array(slider.details().size).keys()].map((index) => {
-              return (
-                <li key={index}>
-                  <button
-                    type="button"
-                    aria-label={`Move to slide ${index + 1}`}
-                    onClick={() => {
-                      slider.moveToSlideRelative(index);
-                    }}
-                    className={`${
-                      currentSlide !== index ? 'bg-opacity-0' : 'bg-opacity-100'
-                    } bg-white h-2.5 w-2.5 rounded-full border border-white transition duration-150 ease-in-out shadow-md pointer-events-auto`}
-                  />
-                </li>
-              );
-            })}
+            {[...new Array(slider.details().size).keys()].map((index) => (
+              <li key={index}>
+                <button
+                  type="button"
+                  aria-label={`Move to slide ${index + 1}`}
+                  onClick={() => {
+                    slider.moveToSlideRelative(index);
+                  }}
+                  className={`${
+                    currentSlide !== index ? 'bg-opacity-0' : 'bg-opacity-100'
+                  } bg-white h-2.5 w-2.5 rounded-full border border-white transition duration-150 ease-in-out shadow-md pointer-events-auto`}
+                />
+              </li>
+            ))}
           </ul>
         </div>
       )}

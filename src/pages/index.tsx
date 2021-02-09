@@ -1,16 +1,15 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { NextSeo } from 'next-seo';
 import { gql } from '@apollo/client';
-
 import {
   Carousel,
   Container,
   HorizontalPadding,
-  ProductGrid,
   ProductCard,
+  ProductGrid,
 } from '@components/index';
 import { apolloClient, getSiteNavigation, getSiteSettings } from '@lib/index';
+import Image from 'next/image';
+import Link from 'next/link';
+import { NextSeo } from 'next-seo';
 
 function HomePage({
   specials,

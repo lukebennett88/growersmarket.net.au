@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { apolloClient } from './apollo-client';
 
 const GET_SANITY_PAGE = gql`

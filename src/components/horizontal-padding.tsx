@@ -8,12 +8,6 @@ enum Variant {
   TRANSPARENT,
 }
 
-interface IHorizontalPadding {
-  as?: string;
-  children: React.ReactNode;
-  variant?: Variant;
-}
-
 const VARIANT_MAPS: Record<Variant, string> = {
   [Variant.GRAY]: 'bg-gray-light',
   [Variant.GREEN]: 'bg-green-dark text-white',
@@ -22,13 +16,19 @@ const VARIANT_MAPS: Record<Variant, string> = {
   [Variant.TRANSPARENT]: 'bg-transparent',
 };
 
+interface IHorizontalPadding {
+  as?: string;
+  children: React.ReactNode;
+  variant?: Variant;
+}
+
 function HorizontalPadding({
   children,
-  as,
+  as = 'div',
   variant = Variant.TRANSPARENT,
 }: IHorizontalPadding) {
   return React.createElement(
-    as || 'div',
+    as,
     {
       className: `${VARIANT_MAPS[variant]} relative px-4 sm:px-6 lg:px-8`,
     },

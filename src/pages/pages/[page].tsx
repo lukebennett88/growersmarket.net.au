@@ -1,13 +1,10 @@
-import { NextSeo } from 'next-seo';
-import SanityBlockContent from '@sanity/block-content-to-react';
-
 import {
-  Container,
   Breadcrumbs,
-  TopSellingProducts,
+  Carousel,
+  Container,
   DeliverySchedule,
   HorizontalPadding,
-  Carousel,
+  TopSellingProducts,
 } from '@components/index';
 import {
   getAllSanityPages,
@@ -16,6 +13,8 @@ import {
   getSiteSettings,
   getTopSelling,
 } from '@lib/index';
+import SanityBlockContent from '@sanity/block-content-to-react';
+import { NextSeo } from 'next-seo';
 
 function PageTemplate({ sanityPage, topSelling }) {
   // Navigation array from Breadcrumbs
@@ -36,8 +35,8 @@ function PageTemplate({ sanityPage, topSelling }) {
           <div className="py-16 lg:col-span-2">
             <HorizontalPadding>
               <h1 className="text-2xl font-bold">{sanityPage.title}</h1>
-              {sanityPage.content.map(({ _key, _type, blockContentRaw }) => {
-                return _type === 'richText' ? (
+              {sanityPage.content.map(({ _key, _type, blockContentRaw }) =>
+                _type === 'richText' ? (
                   <SanityBlockContent
                     key={_key}
                     blocks={blockContentRaw}
@@ -47,8 +46,8 @@ function PageTemplate({ sanityPage, topSelling }) {
                     dataset={process.env.NEXT_PUBLIC_SANITY_DATASET}
                     className="mt-5 prose"
                   />
-                ) : null;
-              })}
+                ) : null
+              )}
             </HorizontalPadding>
           </div>
           <TopSellingProducts topSelling={topSelling} />
@@ -73,9 +72,8 @@ async function getStaticPaths() {
 
 async function getStaticProps({ params }) {
   const allSanityPages = await getAllSanityPages();
-  const pageId = allSanityPages.filter(
-    ({ slug }) => slug.current === params.page
-  )[0]._id;
+  const pageId = allSanityPages.find(({ slug }) => slug.current === params.page)
+    ._id;
 
   const sanityPage = await getSanityPage({
     id: pageId,

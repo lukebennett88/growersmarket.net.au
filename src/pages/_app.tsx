@@ -1,17 +1,18 @@
-import { AppProps } from 'next/app';
-import { DefaultSeo } from 'next-seo';
-import { ApolloProvider } from '@apollo/client';
 import 'typeface-montserrat';
 import 'intersection-observer';
-
 import '../styles/globals.css';
+
+import { ApolloProvider } from '@apollo/client';
+import { AuthProvider } from '@auth/index';
+import { Layout } from '@components/layout';
 import {
   apolloClient,
   GlobalContext,
   ShopifyContextProvider,
 } from '@lib/index';
-import { Layout } from '@components/layout';
-import { AuthProvider } from '@auth/index';
+import { AppProps } from 'next/app';
+import { DefaultSeo } from 'next-seo';
+
 import { config } from '../../config';
 
 function App({ Component, pageProps }: AppProps) {

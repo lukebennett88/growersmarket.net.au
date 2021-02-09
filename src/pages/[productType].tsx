@@ -1,14 +1,10 @@
-import * as React from 'react';
-import { NextSeo } from 'next-seo';
-import slugify from 'slugify';
-
 import {
-  HorizontalPadding,
-  Container,
-  Carousel,
   Breadcrumbs,
-  TopSellingProducts,
+  Carousel,
+  Container,
   DeliverySchedule,
+  HorizontalPadding,
+  TopSellingProducts,
 } from '@components/index';
 import {
   getAllCollectionsByType,
@@ -16,17 +12,39 @@ import {
   getSiteNavigation,
   getSiteSettings,
   getTopSelling,
+  ITopSellingProducts,
 } from '@lib/index';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import { NextSeo } from 'next-seo';
+import * as React from 'react';
+import slugify from 'slugify';
 
-function ProductTypePage({ productType, allCollectionsByType, topSelling }) {
+interface IProductTypePage {
+  productType: string;
+  allCollectionsByType: Array<{
+    node: {
+      collections: {
+        edges?: Array<{
+          node: Record<string, unknown>;
+        }>;
+      };
+    };
+  }>;
+  topSelling: ITopSellingProducts;
+}
+
+function ProductTypePage({
+  productType,
+  allCollectionsByType,
+  topSelling,
+}: IProductTypePage): React.ReactElement {
   const collections = allCollectionsByType.map(({ node }) => {
     const collection = node.collections.edges?.[0]?.node;
     return JSON.stringify(collection);
   });
 
-  const unique = Array.from(new Set(collections))
+  const unique = [...new Set(collections)]
     .filter((node) => typeof node === 'string')
     .map((node: string) => JSON.parse(node));
 
@@ -123,12 +141,12 @@ async function getStaticPaths() {
 async function getStaticProps({ params }) {
   // We can't pass the non-slugified productType so we need to run the
   const productTypes = await getProductTypes();
-  const productType = productTypes.filter(
+  const productType: string = productTypes.find(
     ({ node }) =>
       slugify(node, {
         lower: true,
       }) === params.productType
-  )[0].node;
+  ).node;
 
   const allCollectionsByType = await getAllCollectionsByType({
     query: `product_type:${productType}`,

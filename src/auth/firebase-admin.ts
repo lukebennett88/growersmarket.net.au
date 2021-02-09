@@ -4,7 +4,7 @@ import { NextApiRequest } from 'next';
 const verifyIdToken = (token: string) => {
   const firebasePrivateKey: string = process.env.FIREBASE_PRIVATE_KEY ?? '';
 
-  if (!admin.apps.length) {
+  if (admin.apps.length === 0) {
     admin.initializeApp({
       credential: admin.credential.cert({
         projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,

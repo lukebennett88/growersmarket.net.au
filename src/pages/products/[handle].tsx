@@ -1,16 +1,3 @@
-import * as React from 'react';
-import Head from 'next/head';
-import Image from 'next/image';
-import { HiOutlineShoppingCart } from 'react-icons/hi';
-
-import {
-  getAllProducts,
-  getProduct,
-  getSiteNavigation,
-  getSiteSettings,
-  getTopSelling,
-  useHandleAddToCart,
-} from '@lib/index';
 import {
   Breadcrumbs,
   Carousel,
@@ -21,9 +8,31 @@ import {
   Toast,
   TopSellingProducts,
 } from '@components/index';
+import {
+  getAllProducts,
+  getProduct,
+  getSiteNavigation,
+  getSiteSettings,
+  getTopSelling,
+  IProduct,
+  ITopSellingProducts,
+  useHandleAddToCart,
+} from '@lib/index';
+import Head from 'next/head';
+import Image from 'next/image';
+import * as React from 'react';
+import { HiOutlineShoppingCart } from 'react-icons/hi';
 import slugify from 'slugify';
 
-function ProductPage({ product, topSelling }) {
+interface IProductPage {
+  product: IProduct;
+  topSelling: ITopSellingProducts;
+}
+
+function ProductPage({
+  product,
+  topSelling,
+}: IProductPage): React.ReactElement {
   // Number of items to add to cart
   const [quantity, setQuantity] = React.useState(1);
 
@@ -31,14 +40,11 @@ function ProductPage({ product, topSelling }) {
   const variantId = product.variants.edges[0].node.id;
 
   // Increment quantity
-  function decrement() {
-    return setQuantity((prevQty) => (prevQty > 1 ? prevQty - 1 : prevQty));
-  }
+  const decrement = (): void =>
+    setQuantity((prevQty) => (prevQty > 1 ? prevQty - 1 : prevQty));
 
   // Decrement quantity
-  function increment() {
-    return setQuantity((prevQty) => prevQty + 1);
-  }
+  const increment = (): void => setQuantity((prevQty) => prevQty + 1);
 
   // State for showing add to cart toast notifications
   const [showDialog, setShowDialog] = React.useState(false);
@@ -117,6 +123,7 @@ function ProductPage({ product, topSelling }) {
                       quantity={quantity}
                     />
                     <button
+                      type="button"
                       className="inline-flex items-center justify-center space-x-3 cta"
                       onClick={handleAddToCart}
                     >
@@ -155,19 +162,32 @@ function ProductPage({ product, topSelling }) {
 async function getStaticPaths() {
   const products = await getAllProducts();
   return {
-    paths: products.map(({ node }) => `/products/${node.handle}`),
+    paths: products.map(
+      ({ node }: { node: IProduct }) => `/products/${node.handle}`
+    ),
     fallback: false,
   };
 }
 
-async function getStaticProps({ params }) {
-  const product = await getProduct({ handle: params.handle });
-  const topSelling = await getTopSelling({
+interface IParams {
+  params: {
+    handle: string;
+  };
+}
+
+async function getStaticProps({ params }: IParams) {
+  const product: IProduct = await getProduct({
+    handle: params.handle,
+  });
+
+  const topSelling: ITopSellingProducts = await getTopSelling({
     query: `${
       product.productType && `product_type:${product.productType}, `
     }available_for_sale:true`,
   });
+
   const siteNavigation = await getSiteNavigation();
+
   const siteSettings = await getSiteSettings();
 
   return {
@@ -181,4 +201,4 @@ async function getStaticProps({ params }) {
   };
 }
 
-export { ProductPage as default, getStaticProps, getStaticPaths };
+export { ProductPage as default, getStaticPaths, getStaticProps };

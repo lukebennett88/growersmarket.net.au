@@ -1,8 +1,8 @@
+import { SkipNavContent, SkipNavLink } from '@reach/skip-nav';
 import * as React from 'react';
 
-import { Header } from './header';
 import { Footer } from './footer';
-import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
+import { Header } from './header';
 
 interface ILayout {
   children: React.ReactNode;

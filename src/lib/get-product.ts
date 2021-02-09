@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { apolloClient } from './apollo-client';
 
 const GET_PRODUCT = gql`
@@ -48,6 +49,44 @@ const GET_PRODUCT = gql`
   }
 `;
 
+interface IProduct {
+  collections: {
+    edges: Array<{
+      node: {
+        handle: string;
+        title: string;
+      };
+    }>;
+  };
+  descriptionHtml: string;
+  handle: string;
+  images: {
+    edges: Array<{
+      node: {
+        altText: string;
+        originalSrc: string;
+      };
+    }>;
+  };
+  priceRange: {
+    minVariantPrice: {
+      amount: string;
+    };
+    maxVariantPrice: {
+      amount: string;
+    };
+  };
+  productType: string;
+  title: string;
+  variants: {
+    edges: Array<{
+      node: {
+        id: string;
+      };
+    }>;
+  };
+}
+
 async function getProduct(variables) {
   const { data } = await apolloClient.query({
     query: GET_PRODUCT,
@@ -60,3 +99,4 @@ async function getProduct(variables) {
 }
 
 export { getProduct };
+export type { IProduct };

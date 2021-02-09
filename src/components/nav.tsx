@@ -1,14 +1,14 @@
-import * as React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { Transition } from '@headlessui/react';
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@reach/tabs';
+import { useOnClickOutside } from '@lib/hooks/index';
+import { useGlobalContext } from '@lib/index';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@reach/tabs';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import * as React from 'react';
 
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
-import { useGlobalContext } from '@lib/index';
-import { useOnClickOutside } from '@lib/hooks/index';
 
 function Nav() {
   const { siteNavigation } = useGlobalContext();
@@ -127,7 +127,7 @@ function SubMenu({ siteNavigation, isActive, closeTab }) {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         className="fixed inset-0 bg-black bg-opacity-50 top-44"
-      ></Transition.Child>
+      />
       <div className="absolute inset-x-0 z-10 hidden transform shadow-lg lg:block">
         <div className="absolute inset-0 flex">
           <div aria-hidden className="w-1/2 bg-gray-light" />
@@ -156,7 +156,7 @@ function SubMenu({ siteNavigation, isActive, closeTab }) {
           <div className="py-12 pl-6 pr-8 bg-white">
             <div>
               <ul className="grid grid-cols-2 gap-12">
-                {Array(2)
+                {Array.from({ length: 2 })
                   .fill('')
                   .map((_, index) => (
                     <li key={index} className="space-y-8">

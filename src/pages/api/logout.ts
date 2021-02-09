@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import cookie from 'cookie';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 function logout(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader(
