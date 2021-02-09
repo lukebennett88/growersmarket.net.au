@@ -1,18 +1,17 @@
-import cookie from 'cookie';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { initAuth } from '@lib/init-auth';
+import { setAuthCookies } from 'next-firebase-auth';
 
-function login(req: NextApiRequest, res: NextApiResponse) {
-  res.setHeader(
-    'Set-Cookie',
-    cookie.serialize('token', req.body.token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
-      maxAge: 60 * 60,
-      sameSite: 'strict',
-      path: '/',
-    })
-  );
-  res.status(200).json({ success: true });
+initAuth();
+
+async function handler(req, res) {
+  try {
+    await setAuthCookies(req, res);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return res.status(500).json({ error: 'Unexpected error.' });
+  }
+  return res.status(200).json({ status: true });
 }
 
-export { login as default };
+export default handler;

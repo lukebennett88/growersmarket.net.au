@@ -12,7 +12,6 @@
     "noEmit": true,
     "outDir": "dist",
     "paths": {
-      "@auth/*": ["src/auth/*"],
       "@components/*": ["src/components/*"],
       "@lib/*": ["src/lib/*"]
     },

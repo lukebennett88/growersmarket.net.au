@@ -1,4 +1,3 @@
-import { useAuth } from '@auth/index';
 import { useCart } from '@lib/index';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import Link from 'next/link';
@@ -12,7 +11,6 @@ import { CartIcon, SignInIcon } from './vectors';
 import { Logo } from './vectors/logo';
 
 function Shopbar() {
-  const { authenticated } = useAuth();
   const cart = useCart();
   const [isOpen, setIsOpen] = React.useState(false);
   const toggle = () => setIsOpen((prev) => !prev);
@@ -41,12 +39,11 @@ function Shopbar() {
               <div className="hidden sm:block">
                 <Searchbar />
               </div>
+              {/* // TODO: Show login if user is not logged in */}
               <Link href="/account">
                 <a className="relative flex flex-col items-center text-xs leading-none text-center sm:flex-row sm:space-x-2">
                   <SignInIcon className="w-7 h-7" />
-                  <span className="mt-1 sr-only sm:not-sr-only">
-                    {authenticated ? 'Account' : 'Sign In'}
-                  </span>
+                  <span className="mt-1 sr-only sm:not-sr-only">Account</span>
                 </a>
               </Link>
               <Link href="/cart">
