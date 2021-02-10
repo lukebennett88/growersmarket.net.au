@@ -40,12 +40,14 @@
   }
 
   /* Style Firebase login modal */
+  /* purgecss start ignore */
   .firebaseui-container {
     @apply w-full font-sans max-w-sm mx-0 rounded-md shadow-md !important;
   }
   .firebaseui-button {
     @apply px-8 shadow-none py-2 h-auto font-bold leading-normal font-sans text-white rounded-full bg-green-dark !important;
   }
+  /* purgecss end ignore */
 
   /* Turn off animations for people who have the prefers-reduced-motion query enabled */
   @media (prefers-reduced-motion: reduce) {
