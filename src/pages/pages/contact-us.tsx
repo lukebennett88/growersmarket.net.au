@@ -10,10 +10,8 @@ import {
 import { getSiteNavigation, getSiteSettings, getTopSelling } from '@lib/index';
 import { config } from 'config';
 import { GetStaticPropsResult } from 'next';
-import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
-import { HiChevronLeft } from 'react-icons/hi';
 
 function ContactPage({ topSelling }): React.ReactElement {
   // Navigation array from Breadcrumbs
@@ -45,16 +43,25 @@ function ContactPage({ topSelling }): React.ReactElement {
                   <dl className="mt-2 space-y-2">
                     <div>
                       <dt className="inline font-bold">Phone: </dt>
-                      <dd className="inline">{config.phone}</dd>
+                      <dd className="inline">
+                        <a href={`tel:${config.phone}`} className="underline">
+                          {config.phone}
+                        </a>
+                      </dd>
                     </div>
                     <div>
                       <dt className="inline font-bold">Fax: </dt>
-                      <dd className="inline">{config.phone}</dd>
+                      <dd className="inline">{config.fax}</dd>
                     </div>
                     <div>
                       <dt className="inline font-bold">Address: </dt>
                       <dd className="inline">
-                        {config.address.line1}, {config.address.line2}
+                        <a
+                          href={config.address.googleMaps.link}
+                          className="underline"
+                        >
+                          {config.address.line1}, {config.address.line2}
+                        </a>
                       </dd>
                     </div>
                     <div>
