@@ -21,7 +21,7 @@ function PageTemplate({ sanityPage, topSelling }) {
   const navigation = [
     {
       title: sanityPage.title,
-      handle: sanityPage.slug.current,
+      handle: `pages/${sanityPage.slug.current as string}`,
     },
   ];
 

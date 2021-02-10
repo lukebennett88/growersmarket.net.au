@@ -79,7 +79,7 @@ function ProductTypePage({
                 <ul className="grid gap-12 mt-2 lg:grid-cols-3">
                   {unique.map((node) => (
                     <li key={node.id}>
-                      <Link href={node.handle}>
+                      <Link href={`/collections/${node.handle as string}/`}>
                         <a>
                           <div className="relative aspect-w-4 aspect-h-3">
                             <div className="absolute inset-0 bg-gray-light">
@@ -101,7 +101,7 @@ function ProductTypePage({
                         </a>
                       </Link>
                       <div className="mt-2 text-center">
-                        <Link href={node.handle}>
+                        <Link href={`/collections/${node.handle as string}/`}>
                           <a className="bg-white border cta text-green-dark border-green-dark">
                             View all
                           </a>

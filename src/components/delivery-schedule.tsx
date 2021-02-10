@@ -25,7 +25,7 @@ function DeliverySchedule() {
               </span>
             </h2>
             <div className="mt-5">
-              <Link href="/faq/">
+              <Link href="/pages/delivery-schedule/">
                 <a className="text-white bg-green-dark cta">Find Out More</a>
               </Link>
             </div>

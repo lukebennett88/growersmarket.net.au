@@ -10,17 +10,15 @@ import {
 import { getSiteNavigation, getSiteSettings, getTopSelling } from '@lib/index';
 import { config } from 'config';
 import { GetStaticPropsResult } from 'next';
-import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
-import { HiChevronLeft } from 'react-icons/hi';
 
 function ContactPage({ topSelling }): React.ReactElement {
   // Navigation array from Breadcrumbs
   const navigation = [
     {
       title: 'Contact Us',
-      handle: '/pages/contact-us',
+      handle: 'pages/contact-us',
     },
   ];
 

@@ -67,7 +67,7 @@ function ProductPage({
   // Collection for breadcrumb navigation
   const collection = {
     title: product.collections?.edges?.[0]?.node.title,
-    handle: product.collections?.edges?.[0]?.node.handle,
+    handle: `collections/${product.collections?.edges?.[0]?.node.handle}`,
   };
 
   // Current page for breadcrumb navigation
