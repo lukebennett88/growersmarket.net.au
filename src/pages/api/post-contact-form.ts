@@ -44,8 +44,10 @@ export default async function handler(
   // Send the email
   try {
     const info = await transport.sendMail(mail);
+    // eslint-disable-next-line no-console
     console.log(info);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
   }
 

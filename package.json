@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --color --ext .html,.js,.json,.jsx,.md,.ts,.tsx *.* src",
+    "lint": "eslint --color --ext .html,.js,.json,.jsx,.md,.ts,.tsx src",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --config .prettierrc './src/**/*.{js,ts,jsx,tsx}' --write --ignore-unknown"
   },

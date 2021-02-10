@@ -151,6 +151,7 @@ function SubMenu({ siteNavigation, isActive, closeTab }) {
                 {Array.from({ length: 2 })
                   .fill('')
                   .map((_, index) => (
+                    // eslint-disable-next-line react/no-array-index-key
                     <li key={index} className="space-y-8">
                       <div className="relative h-0 aspect-w-4 aspect-h-3">
                         <a href="#" className="block">

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { algoliaClient } from '@lib/algolia-client';
 import type {
   ComboboxOptionProps as ReachComboboxOptionProps,
@@ -45,6 +46,7 @@ const SearchBox = connectSearchBox(({ currentRefinement, refine }) => {
         inputRef.current.blur();
       }}
       aria-label="Search for products"
+      className="relative z-40"
     >
       <Configure hitsPerPage={6} />
       <div className="relative">
@@ -234,6 +236,7 @@ const Results = connectStateResults(
     }
 
     if (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
       return null;
     }
