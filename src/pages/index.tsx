@@ -55,7 +55,7 @@ function TopSellingFruit({ products }) {
   return (
     <ProductGrid
       heading="Our Top Selling Fruit"
-      variant={ProductGrid.variant.GRAY}
+      colour={ProductGrid.colour.GRAY}
     >
       {products.slice(0, 4).map((product) => (
         <ProductCard key={product.node.id} product={product} />
@@ -68,7 +68,7 @@ function TopSellingVegetables({ products }) {
   return (
     <ProductGrid
       heading="Our Top Selling Vegetables"
-      variant={ProductGrid.variant.GRAY}
+      colour={ProductGrid.colour.GRAY}
       columns={2}
     >
       {products.slice(0, 2).map((product) => (
@@ -82,7 +82,7 @@ function TopSellingBoxes({ products }) {
   return (
     <ProductGrid
       heading="Our Top Selling Boxes"
-      variant={ProductGrid.variant.GRAY}
+      colour={ProductGrid.colour.GRAY}
       columns={2}
     >
       {products.slice(0, 2).map((product) => (
