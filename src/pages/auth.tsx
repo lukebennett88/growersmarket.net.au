@@ -6,6 +6,7 @@ import { getSiteNavigation, getSiteSettings } from '@lib/index';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import firebase from 'firebase/app';
 import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
 import {
   AuthAction,
   withAuthUser,
@@ -18,11 +19,13 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 function AuthPage() {
   const [showDialog, setShowDialog] = React.useState(false);
 
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setShowDialog(true);
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     setShowDialog(true);
+  //   }
+  // }, []);
+
+  const [isChecked, setIsChecked] = React.useState(false);
 
   return (
     <HorizontalPadding>
@@ -35,16 +38,27 @@ function AuthPage() {
             <p>Click the button bellow to log in or sign up.</p>
           </div>
         </div>
-        <div className="mt-4 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
-          <div className="space-y-4 text-center">
+        <div className="mt-4 text-center sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
+          <div className="flex items-center justify-center">
             <button
               type="button"
               onClick={() => setShowDialog(true)}
-              className="cta"
+              className="flex-shrink-0 cta"
             >
               Log in / Sign up
             </button>
           </div>
+          <p className="mt-24 text-sm">
+            By signing up, you agree to the Growers Market{' '}
+            <Link href="/pages/terms-of-service">
+              <a className="font-bold">Terms and Conditions</a>
+            </Link>{' '}
+            and{' '}
+            <Link href="/pages/privacy-policy">
+              <a className="font-bold">Privacy Policy</a>
+            </Link>
+            .
+          </p>
         </div>
       </div>
       <SignInModal showDialog={showDialog} setShowDialog={setShowDialog} />
