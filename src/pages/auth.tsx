@@ -6,7 +6,12 @@ import { getSiteNavigation, getSiteSettings } from '@lib/index';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import firebase from 'firebase/app';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AuthAction, withAuthUser } from 'next-firebase-auth';
+import Link from 'next/link';
+import {
+  AuthAction,
+  withAuthUser,
+  withAuthUserTokenSSR,
+} from 'next-firebase-auth';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
@@ -14,11 +19,13 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 function AuthPage() {
   const [showDialog, setShowDialog] = React.useState(false);
 
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setShowDialog(true);
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     setShowDialog(true);
+  //   }
+  // }, []);
+
+  const [isChecked, setIsChecked] = React.useState(false);
 
   return (
     <HorizontalPadding>
@@ -26,18 +33,32 @@ function AuthPage() {
       <div className="py-24">
         <div className="flex items-center justify-center space-x-6">
           <SignInIcon className="w-16" />
-          <h1 className="text-2xl font-bold">Log into your account</h1>
+          <div>
+            <h1 className="text-2xl font-bold">Log into your account</h1>
+            <p>Click the button bellow to log in or sign up.</p>
+          </div>
         </div>
-        <div className="mt-4 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
-          <div className="space-y-4">
+        <div className="mt-4 text-center sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
+          <div className="flex items-center justify-center">
             <button
               type="button"
               onClick={() => setShowDialog(true)}
-              className="w-full bg-white border cta border-green-dark text-green-dark"
+              className="flex-shrink-0 cta"
             >
-              Sign in
+              Log in / Sign up
             </button>
           </div>
+          <p className="mt-24 text-sm">
+            By signing up, you agree to the Growers Market{' '}
+            <Link href="/pages/terms-of-service">
+              <a className="font-bold">Terms and Conditions</a>
+            </Link>{' '}
+            and{' '}
+            <Link href="/pages/privacy-policy">
+              <a className="font-bold">Privacy Policy</a>
+            </Link>
+            .
+          </p>
         </div>
       </div>
       <SignInModal showDialog={showDialog} setShowDialog={setShowDialog} />
@@ -100,7 +121,7 @@ function SignInModal({
               exit="closed"
               variants={{ open: { y: 0 }, closed: { y: '0.5rem' } }}
               transition={transition}
-              className="w-full max-w-sm pointer-events-auto ring-opacity-5"
+              className="w-full max-w-sm rounded-md pointer-events-auto ring-opacity-5"
             >
               <StyledFirebaseAuth
                 uiConfig={firebaseAuthConfig}
@@ -114,7 +135,12 @@ function SignInModal({
   );
 }
 
-async function getServerSideProps() {
+const getServerSideProps = withAuthUserTokenSSR({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+  whenUnauthedBeforeInit: AuthAction.RETURN_NULL,
+  whenUnauthedAfterInit: AuthAction.RENDER,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+})(async ({ AuthUser }) => {
   const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();
 
@@ -124,7 +150,7 @@ async function getServerSideProps() {
       siteSettings,
     },
   };
-}
+});
 
 export default withAuthUser({
   whenAuthed: AuthAction.REDIRECT_TO_APP,

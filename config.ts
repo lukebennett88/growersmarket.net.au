@@ -6,6 +6,11 @@ const config = {
     'Retail and wholesale specialists. Direct from the farm to you, some of the freshest in fruits and vegetables, with friendly personal service. Heaps of parking at the Growers Market Complex. For all your fruit and vegetables shop at Growers Market Port Macquarie.',
   siteUrl: 'https://www.growersmarket.net.au',
   phone: '(02) 6583 4111',
+  fax: '(02) 6584 1414',
+  hours: {
+    weekdays: 'Monday – Friday: 7:30am – 6:00pm',
+    weekends: 'Saturday – Sunday: 7:30am – 5:00pm',
+  },
   address: {
     line1: '138 Gordon St',
     line2: 'Port Macquarie, NSW, 2444',
