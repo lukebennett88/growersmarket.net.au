@@ -33,7 +33,7 @@ function CollectionPage({
   const { title, description, products } = collection;
   return (
     <>
-      <NextSeo title={`All ${title}`} />
+      <NextSeo title={title} />
       <Carousel />
       <Breadcrumbs
         navigation={[
@@ -52,10 +52,10 @@ function CollectionPage({
               <div className="grid gap-12 lg:grid-cols-3">
                 <div className="col-span-3">
                   <h1 className="text-2xl font-bold">{title}</h1>
-                  <p className="mt-2">{description}</p>
+                  {description && <p className="mt-2">{description}</p>}
                 </div>
               </div>
-              <div className="mt-2 border-t">
+              <div className="mt-2 -mx-4 border-t sm:-mx-6 lg:-mx-8">
                 <ProductGrid columns={3}>
                   {products.edges.map((product) => (
                     <ProductCard key={product.node.id} product={product} />
@@ -73,10 +73,7 @@ function CollectionPage({
 }
 
 async function getStaticPaths() {
-  const allCollections = await getAllCollections();
-  const collections = allCollections.filter(
-    ({ node }) => node.handle !== 'undefined'
-  );
+  const collections = await getAllCollections();
   return {
     paths: collections.map(({ node }) => ({
       params: {
@@ -94,13 +91,8 @@ interface IParams {
 }
 
 async function getStaticProps({ params }: IParams) {
-  const allCollections = await getAllCollections();
-  const currentCollection = allCollections.find(
-    ({ node }) => node.handle === params.collection
-  ).node;
-
   const collection = await getCollectionByHandle({
-    handle: currentCollection.title,
+    handle: params.collection,
   });
 
   const topSelling = await getTopSelling({
