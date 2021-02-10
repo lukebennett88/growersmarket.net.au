@@ -7,14 +7,15 @@ enum Variant {
 }
 
 interface IProductGrid {
-  heading: string;
+  heading?: string;
   children: React.ReactNode;
-  columns?: 2 | 4;
+  columns?: 2 | 3 | 4;
   variant?: Variant;
 }
 
 const COLUMNS_MAPS = {
   2: 'lg:grid-cols-2',
+  3: 'lg:grid-cols-3',
   4: 'lg:grid-cols-4',
 };
 
@@ -34,7 +35,7 @@ function ProductGrid({
       <Container>
         <HorizontalPadding variant={VARIANT_MAPS[variant]}>
           <div className="py-16 font-bold">
-            <h2 className="text-2xl">{heading}</h2>
+            {heading || <h2 className="text-2xl">{heading}</h2>}
             <ul
               className={`grid gap-12 mt-8 sm:grid-cols-2 ${COLUMNS_MAPS[columns]}`}
             >

@@ -78,7 +78,7 @@ function ProductCard({ product }: IProductCard) {
             <h3 className="text-sm">{product.node.title}</h3>
           </a>
         </Link>
-        <div className="text-2xl">
+        <div className="text-2xl text-right">
           <sup className="text-sm">$</sup>
           <span>
             {Number(product.node.priceRange.minVariantPrice.amount).toFixed(2)}
