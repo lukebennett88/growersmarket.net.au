@@ -30,16 +30,19 @@ function AuthPage() {
       <div className="py-24">
         <div className="flex items-center justify-center space-x-6">
           <SignInIcon className="w-16" />
-          <h1 className="text-2xl font-bold">Log into your account</h1>
+          <div>
+            <h1 className="text-2xl font-bold">Log into your account</h1>
+            <p>Click the button bellow to log in or sign up.</p>
+          </div>
         </div>
         <div className="mt-4 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
-          <div className="space-y-4">
+          <div className="space-y-4 text-center">
             <button
               type="button"
               onClick={() => setShowDialog(true)}
-              className="w-full bg-white border cta border-green-dark text-green-dark"
+              className="cta"
             >
-              Sign in
+              Log in / Sign up
             </button>
           </div>
         </div>
@@ -104,7 +107,7 @@ function SignInModal({
               exit="closed"
               variants={{ open: { y: 0 }, closed: { y: '0.5rem' } }}
               transition={transition}
-              className="w-full max-w-sm pointer-events-auto ring-opacity-5"
+              className="w-full max-w-sm rounded-md pointer-events-auto ring-opacity-5"
             >
               <StyledFirebaseAuth
                 uiConfig={firebaseAuthConfig}
