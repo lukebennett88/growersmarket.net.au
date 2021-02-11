@@ -39,6 +39,7 @@ function Topbar() {
                 // eslint-disable-next-line jsx-a11y/control-has-associated-label
                 <a
                   href={`tel:${siteSettings?.phoneNumber as string}`}
+                  // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{
                     __html: `Contact: ${(siteSettings?.phoneNumber as string)
                       .split(' ')

@@ -86,6 +86,7 @@ async function getAllCollectionsByType(variables) {
           return products;
         })
         .catch((error: string) =>
+          // eslint-disable-next-line no-console
           console.error({
             error: `Error building product pages \n${error}`,
           })
@@ -108,6 +109,7 @@ async function getAllCollectionsByType(variables) {
         return products;
       })
       .catch((error: string) =>
+        // eslint-disable-next-line no-console
         console.error({
           error: `Error building product pages \n${error}`,
         })

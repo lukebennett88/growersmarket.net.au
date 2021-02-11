@@ -4,46 +4,77 @@ interface IQuantityPicker {
   increment: () => void;
   decrement: () => void;
   quantity: number;
+  showDelete?: boolean;
 }
 
 function QuantityPicker({
   increment,
   decrement,
   quantity,
+  showDelete = false,
 }: IQuantityPicker): React.ReactElement {
   return (
     <span className="relative z-0 inline-flex rounded-full">
-      <button
-        type="button"
-        onClick={decrement}
-        className="relative inline-flex items-center py-2 pl-3 pr-2 text-white rounded-l-full bg-green-dark focus:z-10 focus:outline-none focus:ring-2"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          className="w-5 h-5"
+      {showDelete && quantity === 1 ? (
+        <button
+          aria-label="Remove from cart"
+          type="button"
+          onClick={decrement}
+          className="relative inline-flex items-center py-2 pl-3 pr-2 text-white rounded-l-full bg-green-dark focus:z-10 focus:outline-none focus:ring-2"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M18 12H6"
-          />
-        </svg>
-      </button>
+          <svg
+            aria-hidden
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="w-5 h-5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+        </button>
+      ) : (
+        <button
+          aria-label="Decrement quantity"
+          type="button"
+          onClick={decrement}
+          className="relative inline-flex items-center py-2 pl-3 pr-2 text-white rounded-l-full bg-green-dark focus:z-10 focus:outline-none focus:ring-2"
+        >
+          <svg
+            aria-hidden
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="w-5 h-5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M18 12H6"
+            />
+          </svg>
+        </button>
+      )}
       <span className="relative inline-flex items-center w-12 px-4 py-2 -ml-px text-sm font-medium text-gray-700 border border-transparent bg-gray-light hover:bg-gray-50 focus:z-10 focus:outline-none">
         <span className="flex-1 font-bold text-center text-green-dark">
           {quantity}
         </span>
       </span>
       <button
+        aria-label="Increment quantiy"
         type="button"
         onClick={increment}
         className="relative inline-flex items-center py-2 pl-2 pr-3 -ml-px text-sm font-medium text-white border border-transparent rounded-r-full bg-green-dark focus:z-10 focus:outline-none focus:ring-2"
       >
         <svg
+          aria-hidden
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"

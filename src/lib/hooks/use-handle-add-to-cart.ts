@@ -25,6 +25,7 @@ export function useHandleAddToCart({
       await addItemToCart(variantId, quantity);
       setShowDialog(true);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
       setShowDialog(false);
     }

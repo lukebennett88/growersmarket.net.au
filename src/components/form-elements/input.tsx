@@ -4,10 +4,12 @@ import { Error } from './error';
 
 interface IInput {
   className?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   errors?: any;
   label: string;
   name: string;
   placeholder?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: any;
   required?: boolean;
   type?: string;

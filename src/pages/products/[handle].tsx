@@ -132,6 +132,7 @@ function ProductPage({
                     </button>
                   </div>
                   <div
+                    // eslint-disable-next-line react/no-danger
                     dangerouslySetInnerHTML={{
                       __html: product.descriptionHtml,
                     }}

@@ -19,14 +19,6 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 function AuthPage() {
   const [showDialog, setShowDialog] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     setShowDialog(true);
-  //   }
-  // }, []);
-
-  const [isChecked, setIsChecked] = React.useState(false);
-
   return (
     <HorizontalPadding>
       <NextSeo title="Sign in" />
