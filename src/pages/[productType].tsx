@@ -22,32 +22,25 @@ import slugify from 'slugify';
 
 interface IProductTypePage {
   productType: string;
-  allCollectionsByType: Array<{
-    node: {
-      collections: {
-        edges?: Array<{
-          node: Record<string, unknown>;
-        }>;
-      };
+
+  collections: Array<{
+    id: string;
+    handle: string;
+    image: {
+      originalSrc: string;
+      altText?: string;
     };
+    title: string;
   }>;
+
   topSelling: ITopSellingProducts;
 }
 
 function ProductTypePage({
   productType,
-  allCollectionsByType,
+  collections,
   topSelling,
 }: IProductTypePage): React.ReactElement {
-  const collections = allCollectionsByType.map(({ node }) => {
-    const collection = node.collections.edges?.[0]?.node;
-    return JSON.stringify(collection);
-  });
-
-  const unique = [...new Set(collections)]
-    .filter((node) => typeof node === 'string')
-    .map((node: string) => JSON.parse(node));
-
   return (
     <>
       <NextSeo title={`All ${productType}`} />
@@ -77,9 +70,9 @@ function ProductTypePage({
               </div>
               <div className="mt-2 border-t">
                 <ul className="grid gap-12 mt-2 lg:grid-cols-3">
-                  {unique.map((node) => (
+                  {collections.map((node) => (
                     <li key={node.id}>
-                      <Link href={`/collections/${node.handle as string}/`}>
+                      <Link href={node.handle}>
                         <a>
                           <div className="relative aspect-w-4 aspect-h-3">
                             <div className="absolute inset-0 bg-gray-light">
@@ -101,7 +94,7 @@ function ProductTypePage({
                         </a>
                       </Link>
                       <div className="mt-2 text-center">
-                        <Link href={`/collections/${node.handle as string}/`}>
+                        <Link href={node.handle}>
                           <a className="bg-white border cta text-green-dark border-green-dark">
                             View all
                           </a>
@@ -152,6 +145,15 @@ async function getStaticProps({ params }) {
     query: `product_type:${productType}`,
   });
 
+  const stringifiedCollections = allCollectionsByType.map(({ node }) => {
+    const collection = node.collections.edges?.[0]?.node;
+    return JSON.stringify(collection);
+  });
+
+  const collections = [...new Set(stringifiedCollections)]
+    .filter((node) => typeof node === 'string')
+    .map((node: string) => JSON.parse(node));
+
   const topSelling = await getTopSelling({
     query: `product_type:${productType}, available_for_sale:true`,
   });
@@ -163,9 +165,9 @@ async function getStaticProps({ params }) {
     props: {
       siteNavigation,
       siteSettings,
-      topSelling,
+      collections,
       productType,
-      allCollectionsByType,
+      topSelling,
     },
     revalidate: 60,
   };
