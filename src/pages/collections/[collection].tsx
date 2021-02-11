@@ -39,9 +39,9 @@ function CollectionPage({
         navigation={[
           {
             title,
-            handle: slugify(title, {
+            handle: `collections/${slugify(title, {
               lower: true,
-            }),
+            })}`,
           },
         ]}
       />

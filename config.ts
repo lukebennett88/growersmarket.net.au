@@ -85,7 +85,7 @@ const config = {
       },
       {
         label: 'Specials',
-        slug: 'specials',
+        slug: 'collections/specials',
       },
     ],
     information: [

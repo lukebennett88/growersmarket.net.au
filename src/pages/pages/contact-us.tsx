@@ -18,7 +18,7 @@ function ContactPage({ topSelling }): React.ReactElement {
   const navigation = [
     {
       title: 'Contact Us',
-      handle: '/pages/contact-us',
+      handle: 'pages/contact-us',
     },
   ];
 

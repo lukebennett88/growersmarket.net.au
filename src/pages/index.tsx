@@ -137,7 +137,7 @@ function FrequentlyAskedQuestions() {
             </dl>
           </div>
           <div className="mt-5">
-            <Link href="/faq/">
+            <Link href="/pages/faq/">
               <a className="bg-white cta text-green-dark">More FAQs</a>
             </Link>
           </div>
@@ -168,7 +168,7 @@ function DeliverySchedule() {
             </span>
           </h2>
           <div className="mt-5">
-            <Link href="/faq/">
+            <Link href="/pages/delivery-schedule/">
               <a className="cta">Find Out More</a>
             </Link>
           </div>
