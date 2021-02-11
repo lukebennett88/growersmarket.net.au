@@ -3,10 +3,12 @@
 @tailwind utilities;
 
 @layer components {
+  /* Tell Reach UI we're handling styling ourselves */
   :root {
-    --reach-tabs: 1;
-    --reach-dialog: 1;
     --reach-combobox: 1;
+    --reach-dialog: 1;
+    --reach-skip-nav: 1;
+    --reach-tabs: 1;
   }
 
   /* Replace default focus styles */

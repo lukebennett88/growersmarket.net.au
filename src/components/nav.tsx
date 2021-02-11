@@ -134,7 +134,7 @@ function SubMenu({ siteNavigation, isActive, closeTab }) {
                     navItem.subMenu &&
                     navItem.subMenu.map((subMenu) => (
                       <li key={subMenu._key}>
-                        <Link href={`/products/${subMenu.route as string}`}>
+                        <Link href={`/collections/${subMenu.route as string}`}>
                           <a className="flex items-center p-3 -m-3 text-base font-bold rounded-md text-green-dark hover:bg-white">
                             {subMenu.title}
                           </a>
@@ -165,7 +165,7 @@ function SubMenu({ siteNavigation, isActive, closeTab }) {
                         </a>
                       </div>
                       <div>
-                        <Link href="/">
+                        <Link href="/collections/apples">
                           <a className="w-full text-center cta">Shop Apples</a>
                         </Link>
                       </div>
