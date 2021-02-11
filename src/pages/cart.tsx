@@ -30,7 +30,7 @@ import * as React from 'react';
 
 function CartPage({ topSelling }: { topSelling: ITopSellingProducts }) {
   const count = useCartCount();
-  const [step, setStep] = React.useState(3);
+  const [step, setStep] = React.useState(1);
   const authUser = useAuthUser();
   return (
     <>
