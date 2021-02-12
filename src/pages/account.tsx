@@ -38,10 +38,14 @@ function AccountPage() {
               </button>
             </div>
             <dl className="mt-2 space-y-2">
-              <div>
-                <dt className="inline font-bold">Name: </dt>
-                <dd className="inline">Johnny Appleseed</dd>
-              </div>
+              {authUser?.firebaseUser?.displayName && (
+                <div>
+                  <dt className="inline font-bold">Name: </dt>
+                  <dd className="inline">
+                    {authUser.firebaseUser.displayName}
+                  </dd>
+                </div>
+              )}
               <div>
                 <dt className="inline font-bold">Email: </dt>
                 <dd className="inline">{authUser.email}</dd>
