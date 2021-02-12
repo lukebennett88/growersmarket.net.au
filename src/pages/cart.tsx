@@ -1,3 +1,4 @@
+import { ConfirmOrder } from '@components/cart/confirm-order';
 import { Delivery } from '@components/cart/delivery';
 import { Login } from '@components/cart/login';
 import { ProgressIndicator } from '@components/cart/progress-indicator';
@@ -66,14 +67,6 @@ function CartPage({ topSelling }: { topSelling: ITopSellingProducts }) {
           <TopSellingProducts topSelling={topSelling} />
         </div>
       </Container>
-    </>
-  );
-}
-
-function ConfirmOrder() {
-  return (
-    <>
-      <div>Confirm Order</div>
     </>
   );
 }
