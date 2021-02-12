@@ -7,7 +7,12 @@ import {
   HorizontalPadding,
   TopSellingProducts,
 } from '@components/index';
-import { getSiteNavigation, getSiteSettings, getTopSelling } from '@lib/index';
+import {
+  getSiteNavigation,
+  getSiteSettings,
+  getTopSelling,
+  INavItem,
+} from '@lib/index';
 import { config } from 'config';
 import { GetStaticPropsResult } from 'next';
 import { NextSeo } from 'next-seo';
@@ -85,7 +90,7 @@ function ContactPage({ topSelling }): React.ReactElement {
 }
 
 interface ContactPageProps {
-  siteNavigation: [];
+  siteNavigation: INavItem[];
   siteSettings: Record<string, unknown>;
   topSelling: [];
 }
