@@ -1,4 +1,4 @@
-import { getSiteNavigation, getSiteSettings } from '@lib/index';
+import { getSiteNavigation, getSiteSettings, INavItem } from '@lib/index';
 import { GetStaticPropsResult } from 'next';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
@@ -30,7 +30,7 @@ function SuccessPage(): React.ReactElement {
 }
 
 interface SuccessPageProps {
-  siteNavigation: [];
+  siteNavigation: INavItem[];
   siteSettings: Record<string, unknown>;
 }
 

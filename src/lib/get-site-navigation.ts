@@ -26,6 +26,17 @@ const SANITY_DATA = gql`
   }
 `;
 
+interface INavItem {
+  id: string;
+  title: string;
+  route: string;
+  subMenu?: Array<{
+    id: string;
+    handle: string;
+    title: string;
+  }>;
+}
+
 async function getCollectionsByProductType(productType: string) {
   // Query for all collects that contain a specific productType
   const allCollectionsByType = await getAllCollectionsByType({
@@ -89,3 +100,4 @@ async function getSiteNavigation() {
 }
 
 export { getSiteNavigation };
+export type { INavItem };
