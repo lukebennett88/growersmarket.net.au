@@ -19,6 +19,5 @@ export default {
         'Change this if you want the text to be different to the page title',
     },
   ],
-  // Specials / FAQs / About / Delivery / Contact
   // TODO: label this so it looks better in the CMS
 };

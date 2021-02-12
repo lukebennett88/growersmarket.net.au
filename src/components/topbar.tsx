@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useGlobalContext } from '@lib/index';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -114,9 +116,10 @@ function MobileMenu({ isOpen, setIsOpen, siteNavigation }) {
             <div className="flex-1 h-0 mt-5 overflow-y-auto">
               <nav className="flex flex-col h-full">
                 <div className="space-y-1">
-                  {siteNavigation.items.map((navItem) => (
+                  {siteNavigation.map((navItem) => (
                     <Link key={navItem._key} href={navItem.route}>
                       <a
+                        onClick={close}
                         className={`flex items-center px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out border-l-4 border-transparent hover:border-yellow hover:bg-gray-50 hover:text-gray-900 group ${
                           router.route === `/${navItem.route as string}`
                             ? 'border-yellow bg-gray-50 text-gray-900'
