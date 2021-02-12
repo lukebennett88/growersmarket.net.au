@@ -40,7 +40,7 @@ export default {
       title: 'Social Links',
       name: 'socialLinks',
       type: 'array',
-      of: [{type: 'socialLinks'}],
+      of: [{ type: 'socialLinks' }],
     },
   ],
   preview: {

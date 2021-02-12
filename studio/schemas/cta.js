@@ -21,7 +21,7 @@ export default {
       fieldset: 'menuItem',
       description: 'Menu heading with menus inside',
       type: 'array',
-      of: [{type: "cta"}],
+      of: [{ type: 'cta' }],
     },
     {
       title: 'Route',

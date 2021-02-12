@@ -8,6 +8,16 @@ export default {
       type: 'array',
       of: [{ type: 'cta' }],
     },
+    {
+      name: 'navItem',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'page' }],
+        },
+      ],
+    },
   ],
   preview: {
     prepare() {

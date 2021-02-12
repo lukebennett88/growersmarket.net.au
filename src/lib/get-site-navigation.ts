@@ -5,42 +5,43 @@ import { getAllCollectionsByType } from './get-all-collections-by-type';
 
 const SANITY_DATA = gql`
   query SanityQuery {
-    SiteNavigation(id: "siteNavigation") {
-      items {
-        _key
-        title
-        subMenu {
-          _key
-          title
-          route
-          link
+    Navigation(id: "navigation") {
+      navItems {
+        id: _key
+        sanityPage {
+          referencePage {
+            title
+            slug {
+              current
+            }
+          }
+          label
         }
-        route
-        link
+        externalPage {
+          label
+          slug
+        }
       }
     }
   }
 `;
 
-function filterCollection(allProducts) {
-  const collections = allProducts.map(({ node }) => {
-    const collection = node.collections?.edges?.[0];
+async function getCollectionsByProductType(productType: string) {
+  // Query for all collects that contain a specific productType
+  const allCollectionsByType = await getAllCollectionsByType({
+    query: `product_type:${productType}`,
+  });
+
+  // Stringify all the nodes so that we can compare them in the next step
+  const stringifiedCollections = allCollectionsByType.map(({ node }) => {
+    const collection = node.collections.edges?.[0]?.node;
     return JSON.stringify(collection);
   });
 
-  const unique = [...new Set(collections)]
+  // Filter out all duplicates and return the result
+  return [...new Set(stringifiedCollections)]
     .filter((node) => typeof node === 'string')
     .map((node: string) => JSON.parse(node));
-
-  const filterSpecials = unique.filter(
-    (collection) => collection.node.title !== 'Specials'
-  );
-
-  return filterSpecials.map((collection) => ({
-    route: collection.node.handle,
-    title: collection.node.title,
-    _key: collection.node.id,
-  }));
 }
 
 async function getSiteNavigation() {
@@ -51,47 +52,40 @@ async function getSiteNavigation() {
     },
   });
 
-  const fruitProducts = await getAllCollectionsByType({
-    query: `product_type:Fruit`,
-  });
-  const vegetablesProducts = await getAllCollectionsByType({
-    query: `product_type:Vegetables`,
-  });
-  const fridgeAndPantryProducts = await getAllCollectionsByType({
-    query: `product_type:Fridge & Pantry`,
-  });
-  const prePackedBoxesProducts = await getAllCollectionsByType({
-    query: `product_type:Pre-Packed Boxes`,
-  });
-
-  const siteProductNavigation = [
+  return [
     {
-      _key: '61997361e278',
+      id: '43c526b2-66b1-4522-b253-114367b3aebc',
       title: 'Fruit',
       route: 'fruit',
-      subMenu: filterCollection(fruitProducts),
+      subMenu: await getCollectionsByProductType('Fruit'),
     },
     {
-      _key: '3bebc89df5e1',
+      id: 'cfd8dab3-ec0a-401a-a760-007147f218ed',
       title: 'Vegetables',
       route: 'vegetables',
-      subMenu: filterCollection(vegetablesProducts),
+      subMenu: await getCollectionsByProductType('Vegetables'),
     },
     {
-      _key: '3e9c56148601',
+      id: '93a02192-41c5-40fc-82ba-40b8bfea2c63',
       title: 'Fridge & Pantry',
       route: 'fridge-and-pantry',
-      subMenu: filterCollection(fridgeAndPantryProducts),
+      subMenu: await getCollectionsByProductType('Fridge & Pantry'),
     },
     {
-      _key: 'd4d25a3c8d2e',
+      id: 'f1a5589f-998f-4de3-a982-5e916c228a9f',
       title: 'Pre-Packed Boxes',
       route: 'pre-packed-boxes',
-      subMenu: filterCollection(prePackedBoxesProducts),
+      subMenu: await getCollectionsByProductType('Pre-Packed Boxes'),
     },
+    ...data.Navigation.navItems.map(({ id, sanityPage, externalPage }) => ({
+      id,
+      title:
+        externalPage?.label ||
+        sanityPage?.label ||
+        sanityPage?.referencePage.title,
+      route: externalPage?.slug || sanityPage?.referencePage.slug.current,
+    })),
   ];
-
-  return data.SiteNavigation;
 }
 
 export { getSiteNavigation };

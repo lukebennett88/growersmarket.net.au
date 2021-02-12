@@ -1,5 +1,5 @@
 import S from '@sanity/desk-tool/structure-builder';
-import { BsLink45Deg, BsGearFill } from 'react-icons/bs';
+import { BsGearFill, BsLink45Deg } from 'react-icons/bs';
 
 export default () =>
   S.list()
@@ -8,9 +8,16 @@ export default () =>
       // Any spread in any pages we don't manually add here
       ...S.documentTypeListItems().filter(
         (item) =>
+          item.getId() !== 'navigation' &&
           item.getId() !== 'siteNavigation' &&
           item.getId() !== 'siteSettings'
       ),
+      // Site settings
+      // Site navigation copy
+      S.listItem()
+        .title('Navigation Copy')
+        .icon(BsLink45Deg)
+        .child(S.document().schemaType('navigation').documentId('navigation')),
       // Site navigation
       S.listItem()
         .title('Navigation')
