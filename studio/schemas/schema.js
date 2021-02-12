@@ -20,7 +20,6 @@ import page from './page';
 import richText from './richText';
 import route from './route';
 import sanityPage from './sanityPage';
-import siteNavigation from './siteNavigation';
 import siteSettings from './siteSettings';
 import socialLinks from './socialLinks';
 import textWithImage from './textWithImage';
@@ -51,7 +50,6 @@ export default createSchema({
     externalPage,
     // Site metadata
     navigation,
-    siteNavigation,
     siteSettings,
   ]),
 });

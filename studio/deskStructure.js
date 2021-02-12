@@ -8,23 +8,14 @@ export default () =>
       // Any spread in any pages we don't manually add here
       ...S.documentTypeListItems().filter(
         (item) =>
-          item.getId() !== 'navigation' &&
-          item.getId() !== 'siteNavigation' &&
-          item.getId() !== 'siteSettings'
+          item.getId() !== 'navigation' && item.getId() !== 'siteSettings'
       ),
       // Site settings
       // Site navigation copy
       S.listItem()
-        .title('Navigation Copy')
-        .icon(BsLink45Deg)
-        .child(S.document().schemaType('navigation').documentId('navigation')),
-      // Site navigation
-      S.listItem()
         .title('Navigation')
         .icon(BsLink45Deg)
-        .child(
-          S.document().schemaType('siteNavigation').documentId('siteNavigation')
-        ),
+        .child(S.document().schemaType('navigation').documentId('navigation')),
       // Site settings
       S.listItem()
         .title('Settings')

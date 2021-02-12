@@ -1,5 +1,5 @@
 export default {
-  title: 'Navigation Copy',
+  title: 'Navigation',
   name: 'navigation',
   type: 'document',
   fields: [
