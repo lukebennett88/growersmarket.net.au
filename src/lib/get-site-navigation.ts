@@ -83,7 +83,9 @@ async function getSiteNavigation() {
         externalPage?.label ||
         sanityPage?.label ||
         sanityPage?.referencePage.title,
-      route: externalPage?.slug || sanityPage?.referencePage.slug.current,
+      route: externalPage?.slug
+        ? `${externalPage?.slug as string}`
+        : `pages/${sanityPage?.referencePage.slug.current as string}`,
     })),
   ];
 }
