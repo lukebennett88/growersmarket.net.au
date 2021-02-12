@@ -41,9 +41,13 @@ function Nav() {
                 <TabList as="ul" className="relative z-10 flex -mx-4">
                   {siteNavigation?.map((navItem) =>
                     navItem.subMenu ? (
-                      <NavButton key={navItem._key} navItem={navItem} />
+                      <NavButton key={navItem.id} navItem={navItem} />
                     ) : (
-                      <NavLink key={navItem._key} navItem={navItem} />
+                      <NavLink
+                        key={navItem.id}
+                        navItem={navItem}
+                        closeTab={closeTab}
+                      />
                     )
                   )}
                 </TabList>
@@ -55,9 +59,9 @@ function Nav() {
           {siteNavigation?.map(
             (navItem, index) =>
               navItem.subMenu && (
-                <TabPanel key={navItem._key}>
+                <TabPanel key={navItem.id}>
                   <SubMenu
-                    siteNavigation={siteNavigation}
+                    subMenu={navItem.subMenu}
                     isActive={index === tabIndex}
                     closeTab={closeTab}
                   />
@@ -84,14 +88,15 @@ function NavButton({ navItem }: INavButton) {
   );
 }
 
-function NavLink({ navItem }) {
+function NavLink({ navItem, closeTab }) {
   const { pathname } = useRouter();
   return (
     <li>
-      <Link href={`/${navItem.slug as string}`}>
+      <Link href={`/${navItem.route as string}`}>
         <a
+          onClick={closeTab}
           className={`${
-            pathname === navItem.slug ? 'bg-yellow text-green-800' : ''
+            pathname === navItem.route ? 'bg-yellow text-green-800' : ''
           } inline-block px-4 py-2 font-bold`}
         >
           {navItem.title}
@@ -101,7 +106,7 @@ function NavLink({ navItem }) {
   );
 }
 
-function SubMenu({ siteNavigation, isActive, closeTab }) {
+function SubMenu({ subMenu, isActive, closeTab }) {
   return (
     <Transition
       show={isActive}
@@ -132,22 +137,18 @@ function SubMenu({ siteNavigation, isActive, closeTab }) {
           <div className="py-8 bg-gray-light sm:py-12">
             <HorizontalPadding as="nav">
               <ul className="grid grid-flow-col grid-cols-3 grid-rows-6 gap-6">
-                {siteNavigation?.map(
-                  (navItem) =>
-                    navItem.subMenu &&
-                    navItem.subMenu.map((subMenu) => (
-                      <li key={subMenu.id}>
-                        <Link href={`/collections/${subMenu.handle as string}`}>
-                          <a
-                            onClick={closeTab}
-                            className="flex items-center p-3 -m-3 text-base font-bold rounded-md text-green-dark hover:bg-white"
-                          >
-                            {subMenu.title}
-                          </a>
-                        </Link>
-                      </li>
-                    ))
-                )}
+                {subMenu.map((menu) => (
+                  <li key={menu.id}>
+                    <Link href={`/collections/${menu.handle as string}`}>
+                      <a
+                        onClick={closeTab}
+                        className="flex items-center p-3 -m-3 text-base font-bold rounded-md text-green-dark hover:bg-white"
+                      >
+                        {menu.title}
+                      </a>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </HorizontalPadding>
           </div>
