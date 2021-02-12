@@ -2,6 +2,7 @@ import { DialogContent, DialogOverlay } from '@reach/dialog';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 
 const AnimatedDialogOverlay = motion.custom(DialogOverlay);
@@ -10,6 +11,12 @@ const AnimatedDialogContent = motion.custom(DialogContent);
 const transition = { min: 0, max: 100, bounceDamping: 9 };
 
 function Toast({ showDialog, setShowDialog, image, title, quantity }) {
+  const { pathname } = useRouter();
+
+  if (pathname === '/cart') {
+    return null;
+  }
+
   return (
     <AnimatePresence>
       {showDialog && (
