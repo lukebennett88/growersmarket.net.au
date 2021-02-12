@@ -35,7 +35,7 @@ export default {
       name: 'content',
       type: 'array',
       description: 'Add, edit, and reorder sections',
-      of: [{type: 'richText'}]
+      of: [{ type: 'richText' }],
     },
   ],
   preview: {

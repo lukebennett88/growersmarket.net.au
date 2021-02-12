@@ -132,7 +132,8 @@ async function getStaticPaths() {
 }
 
 async function getStaticProps({ params }) {
-  // We can't pass the non-slugified productType so we need to run the
+  // We can't pass the non-slugified productType so we need to compare the slugified value
+  // we get from params against the same list
   const productTypes = await getProductTypes();
   const productType: string = productTypes.find(
     ({ node }) =>

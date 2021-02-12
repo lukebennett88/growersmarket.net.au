@@ -1,24 +1,28 @@
 // First, we must import the schema creator
-import createSchema from 'part:@sanity/base/schema-creator';
-
 // Then import schema types from any plugins that might expose them
+// eslint-disable-next-line import/no-unresolved
 import schemaTypes from 'all:part:@sanity/base/schema-type';
+// eslint-disable-next-line import/no-unresolved
+import createSchema from 'part:@sanity/base/schema-creator';
 
 // We import object and document schemas
 import address from './address';
-import googleMaps from './googleMaps';
-import link from './link';
-import route from './route';
-import cta from './cta';
-import keyValuePair from './keyValuePair';
-import socialLinks from './socialLinks';
-import imageWithAltText from './imageWithAltText';
-import textWithImage from './textWithImage';
 import blockContent from './blockContent';
-import richText from './richText';
+import cta from './cta';
+import externalPage from './externalPage';
+import googleMaps from './googleMaps';
+import imageWithAltText from './imageWithAltText';
+import keyValuePair from './keyValuePair';
+import link from './link';
+import navigation from './navigation';
+import navItem from './navItem';
 import page from './page';
-import siteNavigation from './siteNavigation';
+import richText from './richText';
+import route from './route';
+import sanityPage from './sanityPage';
 import siteSettings from './siteSettings';
+import socialLinks from './socialLinks';
+import textWithImage from './textWithImage';
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -40,9 +44,12 @@ export default createSchema({
     textWithImage,
     blockContent,
     richText,
+    navItem,
     page,
+    sanityPage,
+    externalPage,
     // Site metadata
-    siteNavigation,
+    navigation,
     siteSettings,
   ]),
 });
