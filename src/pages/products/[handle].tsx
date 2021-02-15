@@ -11,7 +11,6 @@ import {
 import {
   getAllProducts,
   getProduct,
-  getSiteSettings,
   getTopSelling,
   IProduct,
   ITopSellingProducts,
@@ -186,13 +185,10 @@ async function getStaticProps({ params }: IParams) {
     }available_for_sale:true`,
   });
 
-  const siteSettings = await getSiteSettings();
-
   return {
     props: {
       product,
       topSelling,
-      siteSettings,
     },
     revalidate: 60,
   };

@@ -2,7 +2,6 @@ import 'firebase/auth';
 
 import { HorizontalPadding } from '@components/index';
 import { SignInIcon } from '@components/vectors';
-import { getSiteSettings } from '@lib/index';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import firebase from 'firebase/app';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -132,14 +131,6 @@ const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthedBeforeInit: AuthAction.RETURN_NULL,
   whenUnauthedAfterInit: AuthAction.RENDER,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-})(async ({ AuthUser }) => {
-  const siteSettings = await getSiteSettings();
-
-  return {
-    props: {
-      siteSettings,
-    },
-  };
 });
 
 export default withAuthUser({

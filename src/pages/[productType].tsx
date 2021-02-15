@@ -9,7 +9,6 @@ import {
 import {
   getAllCollectionsByType,
   getProductTypes,
-  getSiteSettings,
   getTopSelling,
   ITopSellingProducts,
 } from '@lib/index';
@@ -158,11 +157,8 @@ async function getStaticProps({ params }) {
     query: `product_type:${productType}, available_for_sale:true`,
   });
 
-  const siteSettings = await getSiteSettings();
-
   return {
     props: {
-      siteSettings,
       collections,
       productType,
       topSelling,

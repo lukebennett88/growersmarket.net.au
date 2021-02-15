@@ -1,4 +1,3 @@
-import { getSiteSettings } from '@lib/index';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { HiChevronLeft } from 'react-icons/hi';
@@ -25,15 +24,4 @@ function NotFoundPage() {
   );
 }
 
-async function getStaticProps() {
-  const siteSettings = await getSiteSettings();
-
-  return {
-    props: {
-      siteSettings,
-    },
-    revalidate: 60,
-  };
-}
-
-export { NotFoundPage as default, getStaticProps };
+export { NotFoundPage as default };

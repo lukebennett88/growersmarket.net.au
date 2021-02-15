@@ -10,12 +10,7 @@ import {
   HorizontalPadding,
   TopSellingProducts,
 } from '@components/index';
-import {
-  getSiteSettings,
-  getTopSelling,
-  ITopSellingProducts,
-  useCartCount,
-} from '@lib/index';
+import { getTopSelling, ITopSellingProducts, useCartCount } from '@lib/index';
 import {
   AuthAction,
   useAuthUser,
@@ -76,14 +71,12 @@ const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthedAfterInit: AuthAction.RENDER,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 })(async ({ AuthUser }) => {
-  const siteSettings = await getSiteSettings();
   const topSelling = await getTopSelling({
     query: `available_for_sale:true`,
   });
 
   return {
     props: {
-      siteSettings,
       topSelling,
     },
   };
