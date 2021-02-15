@@ -112,36 +112,36 @@ const ProductSlider: React.FC = ({ children }) => {
 };
 
 // TODO: source this data from Sanity
-const slides = [
-  {
-    id: '8578fa57-a117-41ec-ac4c-beedf4930f7e',
-    heading: 'Get Christmas Ready with us',
-    cta: {
-      label: 'Shop Christmas Essentials now',
-      slug: '/',
-    },
-    backgroundImage:
-      'https://images.unsplash.com/photo-1557844352-761f2565b576?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80',
-  },
-  {
-    id: 'cb39e877-ee28-4f6c-a5ce-4b67b7780fa4',
-    heading: 'Get Christmas Ready with us',
-    cta: {
-      label: 'Shop Christmas Essentials now',
-      slug: '/',
-    },
-    backgroundImage:
-      'https://images.unsplash.com/photo-1592201426550-83c4be24a0a7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2389&q=80',
-  },
-];
+// const slides = [
+//   {
+//     id: '8578fa57-a117-41ec-ac4c-beedf4930f7e',
+//     heading: 'Get Christmas Ready with us',
+//     cta: {
+//       label: 'Shop Christmas Essentials now',
+//       slug: '/',
+//     },
+//     backgroundImage:
+//       'https://images.unsplash.com/photo-1557844352-761f2565b576?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80',
+//   },
+//   {
+//     id: 'cb39e877-ee28-4f6c-a5ce-4b67b7780fa4',
+//     heading: 'Get Christmas Ready with us',
+//     cta: {
+//       label: 'Shop Christmas Essentials now',
+//       slug: '/',
+//     },
+//     backgroundImage:
+//       'https://images.unsplash.com/photo-1592201426550-83c4be24a0a7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2389&q=80',
+//   },
+// ];
 
-function Carousel() {
+function Carousel({ slides }) {
   return (
     <ProductSlider>
       {slides.map((slide) => (
-        <li key={slide.id} className="relative bg-green-dark">
+        <li key={slide._key} className="relative bg-green-dark">
           <img
-            src={slide.backgroundImage}
+            src={slide.backgroundImage.asset.url}
             alt=""
             style={{
               filter: 'grayscale(1)',
@@ -158,9 +158,9 @@ function Carousel() {
                   </span>
                 </h2>
                 <p className="mt-8">
-                  <Link href={slide.cta.slug}>
+                  <Link href={slide.ctaSlug}>
                     <a className="text-gray-900 cta bg-yellow">
-                      {slide.cta.label}
+                      {slide.ctaLabel}
                     </a>
                   </Link>
                 </p>
