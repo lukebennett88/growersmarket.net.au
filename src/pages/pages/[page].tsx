@@ -8,6 +8,7 @@ import {
 } from '@components/index';
 import {
   getAllSanityPages,
+  getAllSlides,
   getSanityPage,
   getSiteNavigation,
   getSiteSettings,
@@ -16,7 +17,7 @@ import {
 import SanityBlockContent from '@sanity/block-content-to-react';
 import { NextSeo } from 'next-seo';
 
-function PageTemplate({ sanityPage, topSelling }) {
+function PageTemplate({ sanityPage, topSelling, carouselSlides }) {
   // Navigation array from Breadcrumbs
   const navigation = [
     {
@@ -28,7 +29,7 @@ function PageTemplate({ sanityPage, topSelling }) {
   return (
     <>
       <NextSeo title={sanityPage.title} />
-      <Carousel />
+      <Carousel slides={carouselSlides} />
       <Breadcrumbs navigation={navigation} />
       <Container>
         <div className="relative grid lg:grid-cols-3">
@@ -85,6 +86,7 @@ async function getStaticProps({ params }) {
 
   const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();
+  const carouselSlides = await getAllSlides();
 
   return {
     props: {
@@ -92,6 +94,7 @@ async function getStaticProps({ params }) {
       siteSettings,
       sanityPage,
       topSelling,
+      carouselSlides,
     },
     revalidate: 60,
   };
