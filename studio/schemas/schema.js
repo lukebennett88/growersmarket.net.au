@@ -8,6 +8,7 @@ import createSchema from 'part:@sanity/base/schema-creator';
 // We import object and document schemas
 import address from './address';
 import blockContent from './blockContent';
+import carousel from './carousel';
 import cta from './cta';
 import externalPage from './externalPage';
 import googleMaps from './googleMaps';
@@ -21,6 +22,7 @@ import richText from './richText';
 import route from './route';
 import sanityPage from './sanityPage';
 import siteSettings from './siteSettings';
+import slide from './slide';
 import socialLinks from './socialLinks';
 import textWithImage from './textWithImage';
 
@@ -43,6 +45,8 @@ export default createSchema({
     imageWithAltText,
     textWithImage,
     blockContent,
+    carousel,
+    slide,
     richText,
     navItem,
     page,

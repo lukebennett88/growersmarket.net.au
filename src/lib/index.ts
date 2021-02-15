@@ -2,6 +2,7 @@ export * from './apollo-client';
 export * from './get-all-collections';
 export * from './get-all-collections-by-type';
 export * from './get-all-sanity-pages';
+export * from './get-all-slides';
 export * from './get-collection-by-handle';
 export * from './get-product';
 export * from './get-product-types';
