@@ -30,7 +30,21 @@ async function getAllSlides() {
     },
   });
 
-  return data.Carousel;
+  return data.Carousel.slides;
+}
+
+interface ISlide {
+  _key: string;
+  heading: string;
+  ctaLabel: string;
+  ctaSlug: string;
+  backgroundImage: {
+    altText: string | null;
+    asset: {
+      url: string;
+    };
+  };
 }
 
 export { getAllSlides };
+export type { ISlide };
