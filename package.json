@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node src/lib/create-navigation.js",
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint --color --ext .html,.js,.json,.jsx,.md,.ts,.tsx src",
+    "dev": "next dev",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --config .prettierrc './src/**/*.{js,ts,jsx,tsx}' --write --ignore-unknown"
+    "lint": "eslint --color --ext .html,.js,.json,.jsx,.md,.ts,.tsx src",
+    "prebuild": "yarn run save-async-data",
+    "predev": "yarn run save-async-data",
+    "save-async-data": "node src/lib/create-navigation.js && node src/lib/create-site-settings.js",
+    "start": "next start"
   },
   "dependencies": {
     "@apollo/client": "^3.3.7",
@@ -23,6 +24,7 @@
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.4.0",
+    "@types/dotenv": "^8.2.0",
     "algoliasearch": "^4.8.4",
     "autoprefixer": "^10.2.4",
     "cookie": "^0.4.1",

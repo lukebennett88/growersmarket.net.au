@@ -1,4 +1,4 @@
-import { getSiteNavigation, getSiteSettings } from '@lib/index';
+import { getSiteSettings } from '@lib/index';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { HiChevronLeft } from 'react-icons/hi';
@@ -26,12 +26,10 @@ function NotFoundPage() {
 }
 
 async function getStaticProps() {
-  const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();
 
   return {
     props: {
-      siteNavigation,
       siteSettings,
     },
     revalidate: 60,

@@ -6,7 +6,7 @@ import {
   ProductCard,
   ProductGrid,
 } from '@components/index';
-import { apolloClient, getSiteNavigation, getSiteSettings } from '@lib/index';
+import { apolloClient, getSiteSettings } from '@lib/index';
 import Image from 'next/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
@@ -323,7 +323,6 @@ async function getStaticProps() {
     },
   });
 
-  const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();
 
   return {
@@ -332,7 +331,6 @@ async function getStaticProps() {
       bestSellingFruit: data.bestSellingFruit,
       bestSellingVegetables: data.bestSellingVegetables,
       bestSellingBoxes: data.bestSellingBoxes,
-      siteNavigation,
       siteSettings,
     },
     revalidate: 60,

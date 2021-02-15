@@ -9,7 +9,6 @@ import {
 import {
   getAllSanityPages,
   getSanityPage,
-  getSiteNavigation,
   getSiteSettings,
   getTopSelling,
 } from '@lib/index';
@@ -83,12 +82,10 @@ async function getStaticProps({ params }) {
     query: 'available_for_sale:true',
   });
 
-  const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();
 
   return {
     props: {
-      siteNavigation,
       siteSettings,
       sanityPage,
       topSelling,

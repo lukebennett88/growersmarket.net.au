@@ -11,7 +11,6 @@ import {
   TopSellingProducts,
 } from '@components/index';
 import {
-  getSiteNavigation,
   getSiteSettings,
   getTopSelling,
   ITopSellingProducts,
@@ -77,7 +76,6 @@ const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthedAfterInit: AuthAction.RENDER,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 })(async ({ AuthUser }) => {
-  const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();
   const topSelling = await getTopSelling({
     query: `available_for_sale:true`,
@@ -85,7 +83,6 @@ const getServerSideProps = withAuthUserTokenSSR({
 
   return {
     props: {
-      siteNavigation,
       siteSettings,
       topSelling,
     },

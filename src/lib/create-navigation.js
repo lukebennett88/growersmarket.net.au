@@ -1,8 +1,14 @@
+#! /usr/bin/env node
+
 /* eslint-disable sonarjs/no-identical-functions */
-require('dotenv/config');
+const dotenv = require('dotenv');
 const { gql } = require('@apollo/client');
 const fetch = require('node-fetch');
 const fs = require('fs');
+
+dotenv.config({
+  path: '.env.local',
+});
 
 const {
   ApolloClient,
@@ -32,7 +38,6 @@ const apolloClient = new ApolloClient({
     sanityLink,
     shopifyLink
   ),
-  fetch,
   cache: new InMemoryCache(),
 });
 
@@ -240,7 +245,7 @@ async function getSiteNavigation() {
 }
 
 async function saveNavigationToFS() {
-  const data = getSiteNavigation();
+  const data = await getSiteNavigation();
   fs.writeFile(
     './src/data/site-navigation.json',
     JSON.stringify(data),
