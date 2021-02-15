@@ -10,8 +10,6 @@ import {
   getAllSanityPages,
   getAllSlides,
   getSanityPage,
-  getSiteNavigation,
-  getSiteSettings,
   getTopSelling,
 } from '@lib/index';
 import SanityBlockContent from '@sanity/block-content-to-react';
@@ -84,17 +82,13 @@ async function getStaticProps({ params }) {
     query: 'available_for_sale:true',
   });
 
-  const siteNavigation = await getSiteNavigation();
-  const siteSettings = await getSiteSettings();
   const carouselSlides = await getAllSlides();
 
   return {
     props: {
-      siteNavigation,
-      siteSettings,
+      carouselSlides,
       sanityPage,
       topSelling,
-      carouselSlides,
     },
     revalidate: 60,
   };

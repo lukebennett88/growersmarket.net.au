@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useGlobalContext } from '@lib/index';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
@@ -8,12 +7,13 @@ import { useRouter } from 'next/router';
 import * as React from 'react';
 import { HiMenu, HiX } from 'react-icons/hi';
 
+import siteNavigation from '../data/site-navigation.json';
+import siteSettings from '../data/site-settings.json';
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
 import { Logo } from './vectors/logo';
 
 function Topbar() {
-  const { siteSettings, siteNavigation } = useGlobalContext();
   const [isOpen, setIsOpen] = React.useState(false);
   const toggle = () => setIsOpen((prev) => !prev);
   return (
@@ -22,16 +22,14 @@ function Topbar() {
         <HorizontalPadding variant={HorizontalPadding.variant.GREEN}>
           <div className="flex items-center justify-end py-2 space-x-6">
             <span className="hidden md:block">
-              {siteSettings && (
-                <a
-                  href={siteSettings?.address?.googleMaps.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {siteSettings?.address?.streetAddress},{' '}
-                  {siteSettings?.address?.suburb}
-                </a>
-              )}
+              <a
+                href={siteSettings.address.googleMaps.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {siteSettings.address.streetAddress},{' '}
+                {siteSettings.address.suburb}
+              </a>
             </span>
             <span aria-hidden className="hidden md:block">
               |
@@ -40,10 +38,10 @@ function Topbar() {
               {siteSettings && (
                 // eslint-disable-next-line jsx-a11y/control-has-associated-label
                 <a
-                  href={`tel:${siteSettings?.phoneNumber as string}`}
+                  href={`tel:${siteSettings?.phoneNumber}`}
                   // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{
-                    __html: `Contact: ${(siteSettings?.phoneNumber as string)
+                    __html: `Contact: ${(siteSettings?.phoneNumber)
                       .split(' ')
                       .join('&nbsp;')}`,
                   }}
@@ -61,16 +59,12 @@ function Topbar() {
           </div>
         </HorizontalPadding>
       </Container>
-      <MobileMenu
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        siteNavigation={siteNavigation}
-      />
+      <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }
 
-function MobileMenu({ isOpen, setIsOpen, siteNavigation }) {
+function MobileMenu({ isOpen, setIsOpen }) {
   const router = useRouter();
   const close = () => setIsOpen(false);
   const MotionDialogOverlay = motion.custom(DialogOverlay);
@@ -117,11 +111,11 @@ function MobileMenu({ isOpen, setIsOpen, siteNavigation }) {
               <nav className="flex flex-col h-full">
                 <div className="space-y-1">
                   {siteNavigation.map((navItem) => (
-                    <Link key={navItem._key} href={navItem.route}>
+                    <Link key={navItem.id} href={navItem.route}>
                       <a
                         onClick={close}
                         className={`flex items-center px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out border-l-4 border-transparent hover:border-yellow hover:bg-gray-50 hover:text-gray-900 group ${
-                          router.route === `/${navItem.route as string}`
+                          router.route === `/${navItem.route}`
                             ? 'border-yellow bg-gray-50 text-gray-900'
                             : ''
                         }`}

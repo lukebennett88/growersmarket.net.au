@@ -12,8 +12,6 @@ import {
 } from '@components/index';
 import {
   getAllSlides,
-  getSiteNavigation,
-  getSiteSettings,
   getTopSelling,
   ISlide,
   ITopSellingProducts,
@@ -85,8 +83,6 @@ const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthedAfterInit: AuthAction.RENDER,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 })(async ({ AuthUser }) => {
-  const siteNavigation = await getSiteNavigation();
-  const siteSettings = await getSiteSettings();
   const topSelling = await getTopSelling({
     query: `available_for_sale:true`,
   });
@@ -94,8 +90,6 @@ const getServerSideProps = withAuthUserTokenSSR({
 
   return {
     props: {
-      siteNavigation,
-      siteSettings,
       topSelling,
       carouselSlides,
     },

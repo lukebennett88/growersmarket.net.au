@@ -12,8 +12,6 @@ import {
   getAllProducts,
   getAllSlides,
   getProduct,
-  getSiteNavigation,
-  getSiteSettings,
   getTopSelling,
   IProduct,
   ISlide,
@@ -191,17 +189,13 @@ async function getStaticProps({ params }: IParams) {
     }available_for_sale:true`,
   });
 
-  const siteNavigation = await getSiteNavigation();
-  const siteSettings = await getSiteSettings();
   const carouselSlides = await getAllSlides();
 
   return {
     props: {
+      carouselSlides,
       product,
       topSelling,
-      siteNavigation,
-      siteSettings,
-      carouselSlides,
     },
     revalidate: 60,
   };

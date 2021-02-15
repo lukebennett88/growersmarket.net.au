@@ -1,5 +1,3 @@
-import { getSiteNavigation, getSiteSettings, INavItem } from '@lib/index';
-import { GetStaticPropsResult } from 'next';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
@@ -29,24 +27,4 @@ function SuccessPage(): React.ReactElement {
   );
 }
 
-interface SuccessPageProps {
-  siteNavigation: INavItem[];
-  siteSettings: Record<string, unknown>;
-}
-
-async function getStaticProps(): Promise<
-  GetStaticPropsResult<SuccessPageProps>
-> {
-  const siteNavigation = await getSiteNavigation();
-  const siteSettings = await getSiteSettings();
-
-  return {
-    props: {
-      siteNavigation,
-      siteSettings,
-    },
-    revalidate: 60,
-  };
-}
-
-export { SuccessPage as default, getStaticProps };
+export { SuccessPage as default };

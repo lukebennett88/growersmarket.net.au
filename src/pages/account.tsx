@@ -2,7 +2,6 @@
 import { HorizontalPadding } from '@components/index';
 import { SignInIcon } from '@components/vectors';
 import { PenIcon } from '@components/vectors/pen';
-import { getSiteNavigation, getSiteSettings } from '@lib/index';
 import {
   AuthAction,
   useAuthUser,
@@ -95,16 +94,6 @@ const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthedBeforeInit: AuthAction.RETURN_NULL,
   whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-})(async ({ AuthUser }) => {
-  const siteNavigation = await getSiteNavigation();
-  const siteSettings = await getSiteSettings();
-
-  return {
-    props: {
-      siteNavigation,
-      siteSettings,
-    },
-  };
 });
 
 export { getServerSideProps };

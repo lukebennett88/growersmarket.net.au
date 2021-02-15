@@ -2,19 +2,17 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Transition } from '@headlessui/react';
 import { useOnClickOutside } from '@lib/hooks/index';
-import { useGlobalContext } from '@lib/index';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@reach/tabs';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
+import siteNavigation from '../data/site-navigation.json';
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
 
 function Nav() {
-  const { siteNavigation } = useGlobalContext();
-
   const [tabIndex, setTabIndex] = React.useState(
     () => siteNavigation?.filter((navItem) => navItem.subMenu).length
   );

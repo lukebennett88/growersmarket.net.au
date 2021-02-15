@@ -7,14 +7,7 @@ import {
   HorizontalPadding,
   TopSellingProducts,
 } from '@components/index';
-import {
-  getAllSlides,
-  getSiteNavigation,
-  getSiteSettings,
-  getTopSelling,
-  INavItem,
-  ISlide,
-} from '@lib/index';
+import { getAllSlides, getTopSelling, ISlide } from '@lib/index';
 import { config } from 'config';
 import { GetStaticPropsResult } from 'next';
 import { NextSeo } from 'next-seo';
@@ -91,9 +84,8 @@ function ContactPage({ topSelling, carouselSlides }): React.ReactElement {
   );
 }
 
+// TODO: Type this properly
 interface ContactPageProps {
-  siteNavigation: INavItem[];
-  siteSettings: Record<string, unknown>;
   topSelling: [];
   carouselSlides: Array<ISlide>;
 }
@@ -105,14 +97,10 @@ async function getStaticProps(): Promise<
     query: 'available_for_sale:true',
   });
 
-  const siteNavigation = await getSiteNavigation();
-  const siteSettings = await getSiteSettings();
   const carouselSlides = await getAllSlides();
 
   return {
     props: {
-      siteNavigation,
-      siteSettings,
       topSelling,
       carouselSlides,
     },

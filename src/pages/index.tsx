@@ -6,12 +6,7 @@ import {
   ProductCard,
   ProductGrid,
 } from '@components/index';
-import {
-  apolloClient,
-  getAllSlides,
-  getSiteNavigation,
-  getSiteSettings,
-} from '@lib/index';
+import { apolloClient, getAllSlides } from '@lib/index';
 import Image from 'next/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
@@ -329,19 +324,15 @@ async function getStaticProps() {
     },
   });
 
-  const siteNavigation = await getSiteNavigation();
-  const siteSettings = await getSiteSettings();
   const carouselSlides = await getAllSlides();
 
   return {
     props: {
-      specials: data.specials.products,
+      bestSellingBoxes: data.bestSellingBoxes,
       bestSellingFruit: data.bestSellingFruit,
       bestSellingVegetables: data.bestSellingVegetables,
-      bestSellingBoxes: data.bestSellingBoxes,
-      siteNavigation,
-      siteSettings,
       carouselSlides,
+      specials: data.specials.products,
     },
     revalidate: 60,
   };

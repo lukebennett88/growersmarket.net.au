@@ -12,7 +12,6 @@ import {
   getAllCollections,
   getAllSlides,
   getCollectionByHandle,
-  getSiteNavigation,
   getSiteSettings,
   getTopSelling,
   ICollectionByHandle,
@@ -103,13 +102,11 @@ async function getStaticProps({ params }: IParams) {
     query: `available_for_sale:true`,
   });
 
-  const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();
   const carouselSlides = await getAllSlides();
 
   return {
     props: {
-      siteNavigation,
       siteSettings,
       topSelling,
       collection,
