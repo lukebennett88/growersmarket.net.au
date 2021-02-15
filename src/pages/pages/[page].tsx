@@ -6,11 +6,16 @@ import {
   HorizontalPadding,
   TopSellingProducts,
 } from '@components/index';
-import { getAllSanityPages, getSanityPage, getTopSelling } from '@lib/index';
+import {
+  getAllSanityPages,
+  getAllSlides,
+  getSanityPage,
+  getTopSelling,
+} from '@lib/index';
 import SanityBlockContent from '@sanity/block-content-to-react';
 import { NextSeo } from 'next-seo';
 
-function PageTemplate({ sanityPage, topSelling }) {
+function PageTemplate({ sanityPage, topSelling, carouselSlides }) {
   // Navigation array from Breadcrumbs
   const navigation = [
     {
@@ -22,7 +27,7 @@ function PageTemplate({ sanityPage, topSelling }) {
   return (
     <>
       <NextSeo title={sanityPage.title} />
-      <Carousel />
+      <Carousel slides={carouselSlides} />
       <Breadcrumbs navigation={navigation} />
       <Container>
         <div className="relative grid lg:grid-cols-3">
@@ -77,8 +82,11 @@ async function getStaticProps({ params }) {
     query: 'available_for_sale:true',
   });
 
+  const carouselSlides = await getAllSlides();
+
   return {
     props: {
+      carouselSlides,
       sanityPage,
       topSelling,
     },

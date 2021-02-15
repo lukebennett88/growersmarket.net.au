@@ -10,10 +10,12 @@ import {
 } from '@components/index';
 import {
   getAllCollections,
+  getAllSlides,
   getCollectionByHandle,
   getSiteSettings,
   getTopSelling,
   ICollectionByHandle,
+  ISlide,
   ITopSellingProducts,
 } from '@lib/index';
 import { NextSeo } from 'next-seo';
@@ -23,17 +25,19 @@ import slugify from 'slugify';
 interface ICollectionPage {
   collection: ICollectionByHandle;
   topSelling: ITopSellingProducts;
+  carouselSlides: Array<ISlide>;
 }
 
 function CollectionPage({
   collection,
   topSelling,
+  carouselSlides,
 }: ICollectionPage): React.ReactElement {
   const { title, description, products } = collection;
   return (
     <>
       <NextSeo title={title} />
-      <Carousel />
+      <Carousel slides={carouselSlides} />
       <Breadcrumbs
         navigation={[
           {
@@ -99,12 +103,14 @@ async function getStaticProps({ params }: IParams) {
   });
 
   const siteSettings = await getSiteSettings();
+  const carouselSlides = await getAllSlides();
 
   return {
     props: {
       siteSettings,
       topSelling,
       collection,
+      carouselSlides,
     },
     revalidate: 60,
   };

@@ -6,7 +6,7 @@ import {
   ProductCard,
   ProductGrid,
 } from '@components/index';
-import { apolloClient } from '@lib/index';
+import { apolloClient, getAllSlides } from '@lib/index';
 import Image from 'next/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
@@ -16,11 +16,12 @@ function HomePage({
   bestSellingFruit,
   bestSellingVegetables,
   bestSellingBoxes,
+  carouselSlides,
 }) {
   return (
     <>
       <NextSeo title="Home" />
-      <Carousel />
+      <Carousel slides={carouselSlides} />
       <div className="grid gap-12 pb-12 lg:grid-cols-2">
         <ThisWeeksSpecials products={specials.edges} />
         <TopSellingFruit products={bestSellingFruit.edges} />
@@ -323,12 +324,15 @@ async function getStaticProps() {
     },
   });
 
+  const carouselSlides = await getAllSlides();
+
   return {
     props: {
-      specials: data.specials.products,
+      bestSellingBoxes: data.bestSellingBoxes,
       bestSellingFruit: data.bestSellingFruit,
       bestSellingVegetables: data.bestSellingVegetables,
-      bestSellingBoxes: data.bestSellingBoxes,
+      carouselSlides,
+      specials: data.specials.products,
     },
     revalidate: 60,
   };

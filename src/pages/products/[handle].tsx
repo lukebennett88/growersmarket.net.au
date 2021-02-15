@@ -10,9 +10,11 @@ import {
 } from '@components/index';
 import {
   getAllProducts,
+  getAllSlides,
   getProduct,
   getTopSelling,
   IProduct,
+  ISlide,
   ITopSellingProducts,
   useHandleAddToCart,
 } from '@lib/index';
@@ -25,11 +27,13 @@ import slugify from 'slugify';
 interface IProductPage {
   product: IProduct;
   topSelling: ITopSellingProducts;
+  carouselSlides: Array<ISlide>;
 }
 
 function ProductPage({
   product,
   topSelling,
+  carouselSlides,
 }: IProductPage): React.ReactElement {
   // Number of items to add to cart
   const [quantity, setQuantity] = React.useState(1);
@@ -82,7 +86,7 @@ function ProductPage({
       <Head>
         <title>{product.title}</title>
       </Head>
-      <Carousel />
+      <Carousel slides={carouselSlides} />
       <Breadcrumbs navigation={navigation} />
       <Container>
         <div className="relative grid lg:grid-cols-3">
@@ -185,8 +189,11 @@ async function getStaticProps({ params }: IParams) {
     }available_for_sale:true`,
   });
 
+  const carouselSlides = await getAllSlides();
+
   return {
     props: {
+      carouselSlides,
       product,
       topSelling,
     },

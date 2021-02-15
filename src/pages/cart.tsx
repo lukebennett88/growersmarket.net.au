@@ -10,7 +10,13 @@ import {
   HorizontalPadding,
   TopSellingProducts,
 } from '@components/index';
-import { getTopSelling, ITopSellingProducts, useCartCount } from '@lib/index';
+import {
+  getAllSlides,
+  getTopSelling,
+  ISlide,
+  ITopSellingProducts,
+  useCartCount,
+} from '@lib/index';
 import {
   AuthAction,
   useAuthUser,
@@ -20,14 +26,20 @@ import {
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
 
-function CartPage({ topSelling }: { topSelling: ITopSellingProducts }) {
+function CartPage({
+  topSelling,
+  carouselSlides,
+}: {
+  topSelling: ITopSellingProducts;
+  carouselSlides: Array<ISlide>;
+}) {
   const count = useCartCount();
   const [step, setStep] = React.useState(1);
   const authUser = useAuthUser();
   return (
     <>
       <NextSeo title="Cart" />
-      <Carousel />
+      <Carousel slides={carouselSlides} />
       <Breadcrumbs
         navigation={[
           {
@@ -74,10 +86,12 @@ const getServerSideProps = withAuthUserTokenSSR({
   const topSelling = await getTopSelling({
     query: `available_for_sale:true`,
   });
+  const carouselSlides = await getAllSlides();
 
   return {
     props: {
       topSelling,
+      carouselSlides,
     },
   };
 });

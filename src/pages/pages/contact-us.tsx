@@ -7,13 +7,13 @@ import {
   HorizontalPadding,
   TopSellingProducts,
 } from '@components/index';
-import { getTopSelling } from '@lib/index';
+import { getAllSlides, getTopSelling, ISlide } from '@lib/index';
 import { config } from 'config';
 import { GetStaticPropsResult } from 'next';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
 
-function ContactPage({ topSelling }): React.ReactElement {
+function ContactPage({ topSelling, carouselSlides }): React.ReactElement {
   // Navigation array from Breadcrumbs
   const navigation = [
     {
@@ -25,7 +25,7 @@ function ContactPage({ topSelling }): React.ReactElement {
   return (
     <>
       <NextSeo title="Contact Us" />
-      <Carousel />
+      <Carousel slides={carouselSlides} />
       <Breadcrumbs navigation={navigation} />
       <Container>
         <div className="relative grid lg:grid-cols-3">
@@ -87,6 +87,7 @@ function ContactPage({ topSelling }): React.ReactElement {
 // TODO: Type this properly
 interface ContactPageProps {
   topSelling: [];
+  carouselSlides: Array<ISlide>;
 }
 
 async function getStaticProps(): Promise<
@@ -96,9 +97,12 @@ async function getStaticProps(): Promise<
     query: 'available_for_sale:true',
   });
 
+  const carouselSlides = await getAllSlides();
+
   return {
     props: {
       topSelling,
+      carouselSlides,
     },
     revalidate: 60,
   };

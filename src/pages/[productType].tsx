@@ -8,8 +8,10 @@ import {
 } from '@components/index';
 import {
   getAllCollectionsByType,
+  getAllSlides,
   getProductTypes,
   getTopSelling,
+  ISlide,
   ITopSellingProducts,
 } from '@lib/index';
 import Image from 'next/image';
@@ -32,17 +34,19 @@ interface IProductTypePage {
   }>;
 
   topSelling: ITopSellingProducts;
+  carouselSlides: Array<ISlide>;
 }
 
 function ProductTypePage({
   productType,
   collections,
   topSelling,
+  carouselSlides,
 }: IProductTypePage): React.ReactElement {
   return (
     <>
       <NextSeo title={`All ${productType}`} />
-      <Carousel />
+      <Carousel slides={carouselSlides} />
       <Breadcrumbs
         navigation={[
           {
@@ -157,11 +161,14 @@ async function getStaticProps({ params }) {
     query: `product_type:${productType}, available_for_sale:true`,
   });
 
+  const carouselSlides = await getAllSlides();
+
   return {
     props: {
       collections,
       productType,
       topSelling,
+      carouselSlides,
     },
     revalidate: 60,
   };
