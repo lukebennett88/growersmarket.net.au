@@ -26,7 +26,7 @@ function HomePage({
   return (
     <>
       <NextSeo title="Home" />
-      <Carousel slides={carouselSlides.slides} />
+      <Carousel slides={carouselSlides} />
       <div className="grid gap-12 pb-12 lg:grid-cols-2">
         <ThisWeeksSpecials products={specials.edges} />
         <TopSellingFruit products={bestSellingFruit.edges} />

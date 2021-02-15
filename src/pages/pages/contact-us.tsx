@@ -8,17 +8,19 @@ import {
   TopSellingProducts,
 } from '@components/index';
 import {
+  getAllSlides,
   getSiteNavigation,
   getSiteSettings,
   getTopSelling,
   INavItem,
+  ISlide,
 } from '@lib/index';
 import { config } from 'config';
 import { GetStaticPropsResult } from 'next';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
 
-function ContactPage({ topSelling }): React.ReactElement {
+function ContactPage({ topSelling, carouselSlides }): React.ReactElement {
   // Navigation array from Breadcrumbs
   const navigation = [
     {
@@ -30,7 +32,7 @@ function ContactPage({ topSelling }): React.ReactElement {
   return (
     <>
       <NextSeo title="Contact Us" />
-      <Carousel />
+      <Carousel slides={carouselSlides} />
       <Breadcrumbs navigation={navigation} />
       <Container>
         <div className="relative grid lg:grid-cols-3">
@@ -93,6 +95,7 @@ interface ContactPageProps {
   siteNavigation: INavItem[];
   siteSettings: Record<string, unknown>;
   topSelling: [];
+  carouselSlides: Array<ISlide>;
 }
 
 async function getStaticProps(): Promise<
@@ -104,12 +107,14 @@ async function getStaticProps(): Promise<
 
   const siteNavigation = await getSiteNavigation();
   const siteSettings = await getSiteSettings();
+  const carouselSlides = await getAllSlides();
 
   return {
     props: {
       siteNavigation,
       siteSettings,
       topSelling,
+      carouselSlides,
     },
     revalidate: 60,
   };
