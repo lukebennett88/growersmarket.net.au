@@ -20,7 +20,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
-import { IsAny } from 'react-hook-form';
 import slugify from 'slugify';
 
 interface IProductTypePage {
