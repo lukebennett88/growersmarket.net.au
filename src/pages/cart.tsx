@@ -32,7 +32,7 @@ function CartPage({
 }: {
   topSelling: ITopSellingProducts;
   carouselSlides: Array<ISlide>;
-}) {
+}): React.ReactElement {
   const count = useCartCount();
   const [step, setStep] = React.useState(1);
   const authUser = useAuthUser();
@@ -67,7 +67,7 @@ function CartPage({
               {step === 1 && <Summary setStep={setStep} />}
               {step === 2 && <Login setStep={setStep} authUser={authUser} />}
               {step === 3 && <Delivery setStep={setStep} />}
-              {step === 4 && <ConfirmOrder />}
+              {step === 4 && <ConfirmOrder authUser={authUser} />}
             </HorizontalPadding>
           </div>
           <TopSellingProducts topSelling={topSelling} />

@@ -25,7 +25,11 @@ const preventNavigation = (event: TouchEvent) => {
     event.preventDefault();
 };
 
-const ProductSlider: React.FC = ({ children }) => {
+interface IProductSlider {
+  children: React.ReactNode;
+}
+
+function ProductSlider({ children }: IProductSlider): React.ReactElement {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [isMounted, setIsMounted] = React.useState(false);
   const sliderContainerRef = React.useRef<HTMLDivElement>(null);
@@ -110,9 +114,9 @@ const ProductSlider: React.FC = ({ children }) => {
       )}
     </div>
   );
-};
+}
 
-function Carousel({ slides }: { slides: ISlide[] }) {
+function Carousel({ slides }: { slides: ISlide[] }): React.ReactElement {
   return (
     <ProductSlider>
       {slides.map((slide) => (

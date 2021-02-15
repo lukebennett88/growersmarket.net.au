@@ -1,11 +1,47 @@
+import { useCart } from '@lib/hooks/use-cart';
 import { useCheckoutUrl } from '@lib/hooks/use-checkout-url';
 import Link from 'next/link';
 
-function ConfirmOrder() {
+import { ProductSummary } from './product-summary';
+
+function ConfirmOrder({ authUser }): React.ReactElement {
   const checkout = useCheckoutUrl();
+  const cart = useCart();
   return (
     <>
-      <div>Confirm Order</div>
+      <h2 className="mt-8 text-xl font-bold text-green-dark">
+        {authUser.firebaseUser.displayName}&rsquo;s Order Details
+      </h2>
+
+      <dl className="mt-4 space-y-4">
+        <div>
+          <dt className="inline font-bold">Delivery or Pick Up? </dt>
+          <dd className="inline">Delivery</dd>
+        </div>
+        <div>
+          <dt className="inline font-bold">Delivering Zone: </dt>
+          <dd className="inline">Wauchope</dd>
+        </div>
+        <div>
+          <dt className="inline font-bold">Delivery Date: </dt>
+          <dd className="inline">Friday, 15th March</dd>
+        </div>
+      </dl>
+      <h2 className="mt-16 text-xl font-bold text-green-dark">
+        Your Shopping Cart
+      </h2>
+      <ProductSummary />
+      <h2 className="mt-16 text-xl font-bold text-green-dark">Total Costs</h2>
+      <dl className="grid mt-16 gap-y-2">
+        <div className="flex justify-between">
+          <dt className="font-bold">Subtotal:</dt>
+          <dd>${Number(cart?.totalPrice || 0).toFixed(2)}</dd>
+        </div>
+        <div className="flex justify-between">
+          <dt className="font-bold">Shipping:</dt>
+          <dd>Calculated at checkout</dd>
+        </div>
+      </dl>
       <div className="flex justify-between mt-16">
         <Link href="/">
           <a className="inline-flex items-center space-x-2 cta text-green-dark bg-yellow">

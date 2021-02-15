@@ -26,7 +26,7 @@ function HorizontalPadding({
   children,
   as = 'div',
   variant = Variant.TRANSPARENT,
-}: IHorizontalPadding) {
+}: IHorizontalPadding): React.ReactElement {
   return React.createElement(
     as,
     {

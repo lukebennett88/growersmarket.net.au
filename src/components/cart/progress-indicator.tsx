@@ -5,7 +5,7 @@ interface IStep {
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function Step({ index, children, step, setStep }: IStep) {
+function Step({ index, children, step, setStep }: IStep): React.ReactElement {
   return (
     <li className="relative grid">
       <button
@@ -29,7 +29,7 @@ function ProgressIndicator({
 }: {
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
-}) {
+}): React.ReactElement {
   return (
     <ol className="grid mt-4 text-center sm:grid-cols-4">
       <Step index={1} step={step} setStep={setStep}>

@@ -3,7 +3,7 @@ interface ILogin {
   authUser: Record<string, unknown>;
 }
 
-function Login({ setStep, authUser }: ILogin) {
+function Login({ setStep, authUser }: ILogin): React.ReactElement {
   if (authUser.clientInitialized && authUser.email) {
     setStep(3);
   }

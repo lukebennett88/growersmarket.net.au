@@ -12,7 +12,7 @@ interface IBreadcrumbs {
   navigation: IPage[];
 }
 
-function Breadcrumbs({ navigation }: IBreadcrumbs) {
+function Breadcrumbs({ navigation }: IBreadcrumbs): React.ReactElement {
   return (
     <nav
       className="flex py-2 text-white bg-green-dark"

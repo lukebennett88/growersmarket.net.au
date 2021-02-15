@@ -5,7 +5,7 @@ interface IContainer {
   children: React.ReactNode;
 }
 
-function Container({ children, as = 'div' }: IContainer) {
+function Container({ children, as = 'div' }: IContainer): React.ReactElement {
   return React.createElement(
     as,
     {

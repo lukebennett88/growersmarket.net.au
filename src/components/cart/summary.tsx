@@ -1,19 +1,13 @@
-import { LineItem } from '@components/line-item';
-import { useCart, useCartItems } from '@lib/index';
+import { useCart } from '@lib/index';
 import Link from 'next/link';
 
-function ProductSummary() {
-  const lineItems = useCartItems();
-  return (
-    <ul className="grid gap-8 mt-12">
-      {lineItems.map((lineItem) => (
-        <LineItem key={lineItem.id} lineItem={lineItem} />
-      ))}
-    </ul>
-  );
+import { ProductSummary } from './product-summary';
+
+interface ISummary {
+  setStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function Summary({ setStep }) {
+function Summary({ setStep }: ISummary): React.ReactElement {
   const cart = useCart();
   const nextStep = () => setStep(2);
   return (

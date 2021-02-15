@@ -1,7 +1,11 @@
 import Link from 'next/link';
 import * as React from 'react';
 
-function Delivery({ setStep }) {
+interface IDelivery {
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+}
+
+function Delivery({ setStep }: IDelivery): React.ReactElement {
   const nextStep = () => setStep(4);
   const [deliveryMethod, setDeliveryMethod] = React.useState('');
   const [deliveryArea, setDeliveryArea] = React.useState('');
