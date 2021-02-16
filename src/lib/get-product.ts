@@ -14,6 +14,7 @@ const GET_PRODUCT = gql`
           }
         }
       }
+      description
       descriptionHtml
       handle
       id
@@ -58,6 +59,7 @@ interface IProduct {
       };
     }>;
   };
+  description: string;
   descriptionHtml: string;
   handle: string;
   images: {
