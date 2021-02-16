@@ -1,5 +1,5 @@
 export default {
-  title: 'Nav item',
+  title: 'Main navigation',
   name: 'navItem',
   type: 'object',
   fieldsets: [

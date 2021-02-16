@@ -1,5 +1,6 @@
 import S from '@sanity/desk-tool/structure-builder';
 import { BsGearFill, BsLink45Deg } from 'react-icons/bs';
+import { IoMegaphoneOutline } from 'react-icons/io5';
 
 export default () =>
   S.list()
@@ -12,7 +13,11 @@ export default () =>
           item.getId() !== 'siteSettings' &&
           item.getId() !== 'carousel'
       ),
-      // Site settings
+      // CTA Carousel
+      S.listItem()
+        .title('Carousel Slider')
+        .icon(IoMegaphoneOutline)
+        .child(S.document().schemaType('carousel').documentId('carousel')),
       // Site navigation copy
       S.listItem()
         .title('Navigation')
@@ -25,9 +30,4 @@ export default () =>
         .child(
           S.document().schemaType('siteSettings').documentId('siteSettings')
         ),
-      // Carousel
-      S.listItem()
-        .title('Carousel Slider')
-        .icon(BsGearFill)
-        .child(S.document().schemaType('carousel').documentId('carousel')),
     ]);
