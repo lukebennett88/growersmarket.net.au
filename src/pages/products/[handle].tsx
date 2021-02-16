@@ -83,7 +83,6 @@ function ProductPage({
   // Complete breadcrumb navigation
   const navigation = [productType, collection, currentPage];
 
-  console.log(product.images.edges);
   return (
     <>
       <NextSeo title={product.title} description={product.description} />
