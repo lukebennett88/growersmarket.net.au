@@ -28,6 +28,7 @@ function App({ Component, pageProps }: AppProps) {
             locale: 'en_AU',
             url: config.siteUrl,
             site_name: config.title,
+            images: [{ url: './growers-market.jpg' }],
           }}
         />
         <Layout>
