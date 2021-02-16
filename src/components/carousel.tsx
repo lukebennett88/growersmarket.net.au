@@ -145,12 +145,12 @@ function Slide({ slide, className }: { slide: ISlide; className: string }) {
         src={src}
         loader={loader}
         layout="fill"
-        alt=""
+        alt={slide.backgroundImage?.altText}
         // style={{
         //   filter: 'grayscale(1)',
         //   mixBlendMode: 'multiply',
         // }}
-        className="absolute inset-0 object-cover w-full h-full"
+        className="absolute inset-0 object-cover w-full h-full mix-blend-mode-multiply filter-grayscale"
       />
       <Container>
         <HorizontalPadding variant={HorizontalPadding.variant.TRANSPARENT}>

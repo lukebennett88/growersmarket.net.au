@@ -18,7 +18,7 @@
   textarea:focus,
   select:focus,
   [tabindex]:focus {
-    @apply ring outline-none;
+    @apply outline-none ring;
   }
 
   /* See https://piccalil.li/quick-tip/a-safer-way-to-vertically-fill-the-viewport/ for details */
@@ -34,7 +34,7 @@
   }
 
   .cta {
-    @apply px-8 py-2 inline-block font-bold text-white rounded-full bg-green-dark;
+    @apply inline-block px-8 py-2 font-bold text-white rounded-full bg-green-dark;
   }
 
   [data-reach-combobox-option][aria-selected='true'] {
@@ -69,6 +69,9 @@
     }
     .drop-shadow {
       filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.125));
+    }
+    .mix-blend-mode-multiply {
+      mix-blend-mode: multiply;
     }
   }
 }

@@ -11,6 +11,7 @@ module.exports = {
     backdropFilter: {
       none: 'none',
       blur: 'blur(8px)',
+      grayscale: 'grayscale(1)',
     },
     extend: {
       colors: {
