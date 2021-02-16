@@ -10,6 +10,12 @@ export default {
   ],
   fields: [
     {
+      title: 'Title',
+      name: 'title',
+      type: 'string',
+      description: 'This the label for the nav item to be shown in Sanity',
+    },
+    {
       name: 'sanityPage',
       type: 'sanityPage',
     },
