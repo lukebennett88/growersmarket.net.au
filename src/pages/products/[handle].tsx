@@ -83,12 +83,18 @@ function ProductPage({
   // Complete breadcrumb navigation
   const navigation = [productType, collection, currentPage];
 
+  console.log(product.images.edges);
   return (
     <>
-      <NextSeo title={product.title} />
+      <NextSeo title={product.title} description={product.description} />
       <ProductJsonLd
         productName={product.title}
-        images={[product.images.edges[0].node.originalSrc]}
+        images={[
+          product.images.edges.length === 0
+            ? ''
+            : product.images.edges[0].node.originalSrc,
+        ]}
+        description={product.description}
         offers={[
           {
             price: Number(product.priceRange?.minVariantPrice?.amount).toFixed(

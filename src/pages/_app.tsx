@@ -10,12 +10,10 @@ import { AppProps } from 'next/app';
 import { DefaultSeo } from 'next-seo';
 
 import { config } from '../../config';
-// import defaultSeoImage from './growers-market.jpg';
 
 initAuth();
 
 function App({ Component, pageProps }: AppProps) {
-  // console.log(defaultSeoImage);
   return (
     <ShopifyContextProvider
       shopName={process.env.NEXT_PUBLIC_SHOPIFY_SHOP_NAME}
