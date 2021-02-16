@@ -10,6 +10,7 @@ import { AppProps } from 'next/app';
 import { DefaultSeo } from 'next-seo';
 
 import { config } from '../../config';
+import siteSettings from '../data/site-settings.json';
 
 initAuth();
 
@@ -28,7 +29,7 @@ function App({ Component, pageProps }: AppProps) {
             locale: 'en_AU',
             url: config.siteUrl,
             site_name: config.title,
-            images: [{ url: '/growers-market.jpg' }],
+            images: [{ url: siteSettings.shareImage.asset.url }],
           }}
         />
         <Layout>
