@@ -110,7 +110,7 @@ function MobileMenu({ isOpen, setIsOpen }) {
             <div className="flex-1 h-0 mt-5 overflow-y-auto">
               <nav className="flex flex-col h-full">
                 <div className="space-y-1">
-                  {siteNavigation.map((navItem) => (
+                  {siteNavigation.mainNavigation.map((navItem) => (
                     <Link key={navItem.id} href={navItem.route}>
                       <a
                         onClick={close}

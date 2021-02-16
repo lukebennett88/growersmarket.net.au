@@ -176,6 +176,26 @@ const SANITY_DATA = gql`
           slug
         }
       }
+      footerNavItems {
+        id: _key
+        subHeading
+        links {
+          id: _key
+          sanityPage {
+            referencePage {
+              title
+              slug {
+                current
+              }
+            }
+            label
+          }
+          externalPage {
+            label
+            slug
+          }
+        }
+      }
     }
   }
 `;
@@ -206,7 +226,7 @@ async function getSiteNavigation() {
     },
   });
 
-  return [
+  const collectionPages = [
     {
       id: '43c526b2-66b1-4522-b253-114367b3aebc',
       title: 'Fruit',
@@ -231,7 +251,10 @@ async function getSiteNavigation() {
       route: 'pre-packed-boxes',
       subMenu: await getCollectionsByProductType('Pre-Packed Boxes'),
     },
-    ...data.Navigation.navItems.map(({ id, sanityPage, externalPage }) => ({
+  ];
+
+  const sanityPages = data.Navigation.navItems.map(
+    ({ id, sanityPage, externalPage }) => ({
       id,
       title:
         externalPage?.label ||
@@ -240,8 +263,31 @@ async function getSiteNavigation() {
       route: externalPage?.slug
         ? `${externalPage?.slug}`
         : `pages/${sanityPage?.referencePage.slug.current}`,
-    })),
-  ];
+    })
+  );
+
+  return {
+    mainNavigation: [...collectionPages, ...sanityPages],
+    footerNavigation: {
+      collectionPages,
+      navLinks: data.Navigation.footerNavItems.map(
+        ({ id, subHeading, links }) => ({
+          id,
+          subHeading,
+          links: links.map((link) => ({
+            id,
+            title:
+              link.externalPage?.label ||
+              link.sanityPage?.label ||
+              link.sanityPage?.referencePage.title,
+            route: link.externalPage?.slug
+              ? `${link.externalPage?.slug}`
+              : `pages/${link.sanityPage?.referencePage.slug.current}`,
+          })),
+        })
+      ),
+    },
+  };
 }
 
 async function saveNavigationToFS() {
