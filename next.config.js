@@ -4,6 +4,6 @@ module.exports = {
     webpack5: true,
   },
   images: {
-    domains: ['cdn.shopify.com', 'burst.shopifycdn.com'],
+    domains: ['cdn.sanity.io', 'cdn.shopify.com', 'burst.shopifycdn.com'],
   },
 };

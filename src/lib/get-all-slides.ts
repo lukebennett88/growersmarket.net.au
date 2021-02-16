@@ -14,7 +14,7 @@ const GET_ALL_SLIDES = gql`
         backgroundImage {
           altText
           asset {
-            url
+            _id
           }
         }
       }
@@ -41,7 +41,7 @@ interface ISlide {
   backgroundImage: {
     altText: string | null;
     asset: {
-      url: string;
+      _id: string;
     };
   };
 }
