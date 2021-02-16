@@ -5774,7 +5774,7 @@
   dependencies:
     "@sanity/image-url" "^0.140.19"
 
-"next-seo@^4.18.0":
+"next-seo@^4.19.0":
   "integrity" "sha512-+jgXd1UW0XKLiBMrumjPDANeV82mTHTxGZJwU6T1mlNougKpXINlDgIHkN30sM2eDXh+xXOURj99WN2Tm9K6rg=="
   "resolved" "https://registry.yarnpkg.com/next-seo/-/next-seo-4.19.0.tgz"
   "version" "4.19.0"
