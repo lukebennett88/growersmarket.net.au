@@ -1,18 +1,5 @@
 {
-  "name": "growersmarket",
-  "private": true,
-  "version": "1.0.0",
-  "description": "",
-  "main": "package.json",
   "author": "services PD <services@phirannodesigns.com.au>",
-  "license": "UNLICENSED",
-  "scripts": {
-    "start": "sanity start",
-    "build": "sanity build"
-  },
-  "keywords": [
-    "sanity"
-  ],
   "dependencies": {
     "@sanity/base": "^2.3.6",
     "@sanity/block-content-to-react": "^2.0.7",
@@ -27,9 +14,21 @@
     "react-dom": "^17.0",
     "react-icons": "^4.1.0"
   },
-  "devDependencies": {},
+  "description": "",
+  "keywords": [
+    "sanity"
+  ],
+  "license": "UNLICENSED",
+  "main": "package.json",
+  "name": "growersmarket",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/phirannodesigns/growersmarket.net.au.git"
-  }
+  },
+  "scripts": {
+    "build": "sanity build",
+    "start": "sanity start"
+  },
+  "version": "1.0.0"
 }
