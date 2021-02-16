@@ -11,6 +11,7 @@ import blockContent from './blockContent';
 import carousel from './carousel';
 import cta from './cta';
 import externalPage from './externalPage';
+import footerNavSection from './footerNavSection';
 import googleMaps from './googleMaps';
 import imageWithAltText from './imageWithAltText';
 import keyValuePair from './keyValuePair';
@@ -49,6 +50,7 @@ export default createSchema({
     slide,
     richText,
     navItem,
+    footerNavSection,
     page,
     sanityPage,
     externalPage,

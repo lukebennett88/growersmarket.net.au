@@ -131,7 +131,9 @@ const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthedBeforeInit: AuthAction.RETURN_NULL,
   whenUnauthedAfterInit: AuthAction.RENDER,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-});
+})(({ AuthUser }) => ({
+  props: {},
+}));
 
 export default withAuthUser({
   whenAuthed: AuthAction.REDIRECT_TO_APP,

@@ -14,11 +14,14 @@ import { HorizontalPadding } from './horizontal-padding';
 
 function Nav() {
   const [tabIndex, setTabIndex] = React.useState(
-    () => siteNavigation?.filter((navItem) => navItem.subMenu).length
+    () =>
+      siteNavigation?.mainNavigation.filter((navItem) => navItem.subMenu).length
   );
 
   const closeTab = () =>
-    setTabIndex(siteNavigation?.filter((navItem) => navItem.subMenu).length);
+    setTabIndex(
+      siteNavigation?.mainNavigation.filter((navItem) => navItem.subMenu).length
+    );
 
   const ref = React.useRef();
 
@@ -37,7 +40,7 @@ function Nav() {
             <div className="hidden lg:flex-1 lg:flex lg:items-center lg:justify-between">
               <HorizontalPadding as="nav">
                 <TabList as="ul" className="relative z-10 flex -mx-4">
-                  {siteNavigation?.map((navItem) =>
+                  {siteNavigation?.mainNavigation.map((navItem) =>
                     navItem.subMenu ? (
                       <NavButton key={navItem.id} navItem={navItem} />
                     ) : (
@@ -54,7 +57,7 @@ function Nav() {
           </Container>
         </div>
         <TabPanels>
-          {siteNavigation?.map(
+          {siteNavigation?.mainNavigation.map(
             (navItem, index) =>
               navItem.subMenu && (
                 <TabPanel key={navItem.id}>

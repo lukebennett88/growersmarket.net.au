@@ -101,16 +101,5 @@ async function getSiteNavigation() {
   ];
 }
 
-interface INavItem {
-  id: string;
-  title: string;
-  route: string;
-  subMenu?: Array<{
-    id: string;
-    handle: string;
-    title: string;
-  }>;
-}
-
 export { getSiteNavigation };
 export type { INavItem };

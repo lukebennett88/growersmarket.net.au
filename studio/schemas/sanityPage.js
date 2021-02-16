@@ -6,13 +6,13 @@ export default {
   fieldset: 'menuItem',
   fields: [
     {
-      Label: 'Page',
+      title: 'Page',
       name: 'referencePage',
       type: 'reference',
       to: [{ type: 'page' }],
     },
     {
-      Label: 'Label',
+      title: 'Label',
       name: 'label',
       type: 'string',
       description:

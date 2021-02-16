@@ -12,7 +12,7 @@ export default {
   preview: {
     prepare() {
       return {
-        title: 'Carousel Slider',
+        title: 'CTA Carousel',
       };
     },
   },

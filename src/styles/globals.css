@@ -37,12 +37,12 @@
     @apply inline-block px-8 py-2 font-bold text-white rounded-full bg-green-dark;
   }
 
+  /* purgecss start ignore */
   [data-reach-combobox-option][aria-selected='true'] {
     @apply bg-gray-200;
   }
 
   /* Style Firebase login modal */
-  /* purgecss start ignore */
   .firebaseui-container {
     @apply w-full font-sans max-w-sm mx-0 rounded-md shadow-md !important;
   }

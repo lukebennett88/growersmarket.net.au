@@ -2,10 +2,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ReactElement } from 'react';
 
-import { config } from '../../config';
+import siteNavigation from '../data/site-navigation.json';
+import siteSettings from '../data/site-settings.json';
 import { ContactForm } from './contact-form';
 
 function Footer() {
+  const [
+    categories,
+    information,
+    myAccount,
+  ] = siteNavigation.footerNavigation.navLinks;
   return (
     <footer aria-labelledby="footer-heading" className="bg-gray-light">
       <h2 id="footer-heading" className="sr-only">
@@ -35,22 +41,27 @@ function Footer() {
             </div>
             <div>
               <h4 className="font-bold tracking-wider text-green-dark">
-                Categories
+                {categories.subHeading}
               </h4>
               <ul className="mt-4 space-y-4">
-                {config.footerMenu.categories.map(({ label, slug }) => (
-                  <FooterLink key={label} label={label} slug={slug} />
+                {siteNavigation.footerNavigation.collectionPages.map(
+                  ({ id, route, title }) => (
+                    <FooterLink key={id} route={route} title={title} />
+                  )
+                )}
+                {categories.links.map(({ id, route, title }) => (
+                  <FooterLink key={id} route={route} title={title} />
                 ))}
               </ul>
             </div>
             <div>
               <div>
                 <h4 className="font-bold tracking-wider text-green-dark">
-                  Information
+                  {information.subHeading}
                 </h4>
                 <ul className="mt-4 space-y-4">
-                  {config.footerMenu.information.map(({ label, slug }) => (
-                    <FooterLink key={label} label={label} slug={slug} />
+                  {information.links.map(({ id, route, title }) => (
+                    <FooterLink key={id} route={route} title={title} />
                   ))}
                 </ul>
               </div>
@@ -58,11 +69,11 @@ function Footer() {
             <div>
               <div>
                 <h4 className="font-bold tracking-wider text-green-dark">
-                  My Account
+                  {myAccount.subHeading}
                 </h4>
                 <ul className="mt-4 space-y-4">
-                  {config.footerMenu.myAccount.map(({ label, slug }) => (
-                    <FooterLink key={label} label={label} slug={slug} />
+                  {myAccount.links.map(({ id, route, title }) => (
+                    <FooterLink key={id} route={route} title={title} />
                   ))}
                 </ul>
               </div>
@@ -71,8 +82,13 @@ function Footer() {
                   Follow Us
                 </h4>
                 <ul className="mt-4 space-y-4">
-                  {config.footerMenu.followUs.map(({ label, slug }) => (
-                    <FooterLink key={label} label={label} slug={slug} />
+                  {siteSettings?.socialLinks.map(({ socialNetwork, link }) => (
+                    <FooterLink
+                      key={socialNetwork}
+                      title={socialNetwork}
+                      route={link}
+                      url
+                    />
                   ))}
                 </ul>
               </div>
@@ -82,8 +98,13 @@ function Footer() {
                 Follow Us
               </h4>
               <ul className="mt-4 space-y-4">
-                {config.footerMenu.followUs.map(({ label, slug }) => (
-                  <FooterLink key={label} label={label} slug={slug} />
+                {siteSettings?.socialLinks.map(({ socialNetwork, link }) => (
+                  <FooterLink
+                    key={socialNetwork}
+                    title={socialNetwork}
+                    route={link}
+                    url
+                  />
                 ))}
               </ul>
             </div>
@@ -113,18 +134,19 @@ function Footer() {
 }
 
 interface IFooterLink {
-  slug: string;
-  label: string;
+  route: string;
+  title: string;
+  url?: boolean;
 }
 
-function FooterLink({ slug, label }: IFooterLink): ReactElement {
+function FooterLink({ route, title, url }: IFooterLink): ReactElement {
   return (
     <li>
       <a
-        href={`/${slug}`}
+        href={`${url ? '' : '/'}${route}`}
         className="text-base text-gray-500 hover:text-gray-900"
       >
-        {label}
+        {title}
       </a>
     </li>
   );

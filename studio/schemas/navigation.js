@@ -8,6 +8,11 @@ export default {
       type: 'array',
       of: [{ type: 'navItem' }],
     },
+    {
+      name: 'footerNavItems',
+      type: 'array',
+      of: [{ type: 'footerNavSection' }],
+    },
   ],
   preview: {
     prepare() {
