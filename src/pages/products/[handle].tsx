@@ -18,10 +18,9 @@ import {
   ITopSellingProducts,
   useHandleAddToCart,
 } from '@lib/index';
-import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { ProductJsonLd } from 'next-seo';
+import { NextSeo, ProductJsonLd } from 'next-seo';
 import * as React from 'react';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 import slugify from 'slugify';
@@ -84,28 +83,25 @@ function ProductPage({
   // Complete breadcrumb navigation
   const navigation = [productType, collection, currentPage];
 
-  console.log(router);
   return (
     <>
-      <Head>
-        <title>{product.title}</title>
-        <ProductJsonLd
-          productName={product.title}
-          images={['product.images.edges[0].node.originalSrc']}
-          offers={[
-            {
-              price: Number(
-                product.priceRange?.minVariantPrice?.amount
-              ).toFixed(2),
-              priceCurrency: 'AUD',
-              url: `https://www.growersmarket.net.au/${router.asPath}`,
-              seller: {
-                name: 'Growers Market',
-              },
+      <NextSeo title={product.title} />
+      <ProductJsonLd
+        productName={product.title}
+        images={[product.images.edges[0].node.originalSrc]}
+        offers={[
+          {
+            price: Number(product.priceRange?.minVariantPrice?.amount).toFixed(
+              2
+            ),
+            priceCurrency: 'AUD',
+            url: `https://www.growersmarket.net.au${router.asPath}`,
+            seller: {
+              name: 'Growers Market',
             },
-          ]}
-        />
-      </Head>
+          },
+        ]}
+      />
       <Carousel slides={carouselSlides} />
       <Breadcrumbs navigation={navigation} />
       <Container>
