@@ -11,10 +11,22 @@ import { CartIcon, SignInIcon } from './vectors';
 import { Logo } from './vectors/logo';
 
 function Shopbar() {
-  const cart = useCart();
   const [isOpen, setIsOpen] = React.useState(false);
+
   const toggle = () => setIsOpen((prev) => !prev);
+
   const close = () => setIsOpen(false);
+
+  const cart = useCart();
+
+  const [total, setTotal] = React.useState('0.00');
+
+  React.useEffect(() => {
+    if (cart?.totalPrice) {
+      setTotal(cart.totalPrice);
+    }
+  }, [cart?.totalPrice]);
+
   return (
     <div className="relative z-20 font-bold bg-white">
       <Container>
@@ -39,7 +51,6 @@ function Shopbar() {
               <div className="hidden sm:block">
                 <Searchbar />
               </div>
-              {/* // TODO: Show login if user is not logged in */}
               <Link href="/account">
                 <a className="relative flex flex-col items-center text-xs leading-none text-center sm:flex-row sm:space-x-2">
                   <SignInIcon className="w-7 h-7" />
@@ -49,9 +60,7 @@ function Shopbar() {
               <Link href="/cart">
                 <a className="relative flex flex-col items-center text-xs leading-none text-center sm:flex-row sm:space-x-2">
                   <CartIcon className="w-7 h-7" />
-                  <span className="mt-1 sr-only sm:not-sr-only">
-                    ${cart?.totalPrice ? cart.totalPrice : '0.00'}
-                  </span>
+                  <span className="mt-1 sr-only sm:not-sr-only">${total}</span>
                 </a>
               </Link>
             </div>
