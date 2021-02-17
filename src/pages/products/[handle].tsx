@@ -85,7 +85,18 @@ function ProductPage({
 
   return (
     <>
-      <NextSeo title={product.title} description={product.description} />
+      <NextSeo
+        title={product.title}
+        description={product.description}
+        images={[
+          {
+            url:
+              product.images.edges.length === 0
+                ? ''
+                : product.images.edges[0].node.originalSrc,
+          },
+        ]}
+      />
       <ProductJsonLd
         productName={product.title}
         images={[
