@@ -100,7 +100,7 @@ function Footer() {
               <ul className="mt-4 space-y-4">
                 {siteSettings?.socialLinks.map(({ socialNetwork, link }) => (
                   <FooterLink
-                    key={socialNetwork}
+                    key={`${socialNetwork} ${link}`}
                     title={socialNetwork}
                     route={link}
                     url
