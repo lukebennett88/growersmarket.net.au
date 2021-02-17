@@ -90,7 +90,7 @@ function TopSellingProduct({
       </div>
       <div className="flex flex-col col-start-2">
         <div className="font-bold">
-          <Link href={node.handle}>
+          <Link href={`/products/${node.handle}`}>
             <a className="block">
               <h3 className="text-sm">{node.title}</h3>
             </a>
