@@ -1,15 +1,62 @@
+import { SignInModal } from '@components/signin-modal';
+import { SignInIcon } from '@components/vectors';
+import Link from 'next/link';
+import * as React from 'react';
+
 interface ILogin {
-  setStep: React.Dispatch<React.SetStateAction<number>>;
   authUser: Record<string, unknown>;
+  setState: React.Dispatch<
+    React.SetStateAction<{
+      step: number;
+    }>
+  >;
 }
 
-function Login({ setStep, authUser }: ILogin): React.ReactElement {
+function Login({ setState, authUser }: ILogin): React.ReactElement {
+  const [showDialog, setShowDialog] = React.useState(false);
+
   if (authUser.clientInitialized && authUser.email) {
-    setStep(3);
+    setState((prevState) => ({ ...prevState, step: 3 }));
   }
+
   return (
     <>
-      <div>Login</div>
+      <div className="py-24">
+        <div className="flex items-center justify-center space-x-6">
+          <SignInIcon className="w-16" />
+          <div>
+            <h1 className="text-2xl font-bold">Log into your account</h1>
+            <p>Click the button bellow to log in or sign up.</p>
+          </div>
+        </div>
+        <div className="mt-4 text-center sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
+          <div className="flex items-center justify-center">
+            <button
+              type="button"
+              onClick={() => setShowDialog(true)}
+              className="flex-shrink-0 cta"
+            >
+              Log in / Sign up
+            </button>
+          </div>
+          <p className="mt-24 text-sm">
+            By signing up, you agree to the Growers Market{' '}
+            <Link href="/pages/terms-of-service">
+              <a className="font-bold">Terms and Conditions</a>
+            </Link>{' '}
+            and{' '}
+            <Link href="/pages/privacy-policy">
+              <a className="font-bold">Privacy Policy</a>
+            </Link>
+            .
+          </p>
+        </div>
+      </div>
+      <SignInModal
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+        signInSuccessUrl="/cart"
+      />
     </>
   );
 }

@@ -4,7 +4,21 @@ import Link from 'next/link';
 
 import { ProductSummary } from './product-summary';
 
-function ConfirmOrder({ authUser }): React.ReactElement {
+interface IConfirmOrder {
+  authUser?: {
+    firebaseUser: {
+      displayName?: string;
+    };
+  };
+  state: {
+    step: number;
+    deliveryMethod: string;
+    deliveryArea: string;
+    deliveryDate: string;
+  };
+}
+
+function ConfirmOrder({ authUser, state }: IConfirmOrder): React.ReactElement {
   const checkout = useCheckoutUrl();
   const cart = useCart();
   return (
@@ -16,15 +30,17 @@ function ConfirmOrder({ authUser }): React.ReactElement {
       <dl className="mt-4 space-y-4">
         <div>
           <dt className="inline font-bold">Delivery or Pick Up? </dt>
-          <dd className="inline">Delivery</dd>
+          <dd className="inline">{state.deliveryMethod}</dd>
         </div>
         <div>
           <dt className="inline font-bold">Delivering Zone: </dt>
-          <dd className="inline">Wauchope</dd>
+          <dd className="inline">{state.deliveryArea}</dd>
         </div>
         <div>
-          <dt className="inline font-bold">Delivery Date: </dt>
-          <dd className="inline">Friday, 15th March</dd>
+          <dt className="inline font-bold">
+            {state.deliveryMethod === 'DELIVERY' ? 'Delivery' : 'Pickup'} Date:{' '}
+          </dt>
+          <dd className="inline">{state.deliveryDate}</dd>
         </div>
       </dl>
       <h2 className="mt-16 text-xl font-bold text-green-dark">
@@ -42,6 +58,9 @@ function ConfirmOrder({ authUser }): React.ReactElement {
           <dd>Calculated at checkout</dd>
         </div>
       </dl>
+      <div className="prose">
+        <pre>{JSON.stringify(state, null, 2)}</pre>
+      </div>
       <div className="flex justify-between mt-16">
         <Link href="/">
           <a className="inline-flex items-center space-x-2 cta text-green-dark bg-yellow">
@@ -61,7 +80,6 @@ function ConfirmOrder({ authUser }): React.ReactElement {
             Continue Shopping
           </a>
         </Link>
-
         <a
           href={checkout}
           className="inline-flex items-center space-x-2 cta text-green-dark bg-yellow"

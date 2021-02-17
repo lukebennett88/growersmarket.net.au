@@ -4,12 +4,16 @@ import Link from 'next/link';
 import { ProductSummary } from './product-summary';
 
 interface ISummary {
-  setStep: React.Dispatch<React.SetStateAction<number>>;
+  setState: React.Dispatch<
+    React.SetStateAction<{
+      step: number;
+    }>
+  >;
 }
 
-function Summary({ setStep }: ISummary): React.ReactElement {
+function Summary({ setState }: ISummary): React.ReactElement {
   const cart = useCart();
-  const nextStep = () => setStep(2);
+  const nextStep = () => setState((prevState) => ({ ...prevState, step: 2 }));
   return (
     <>
       <ProductSummary />

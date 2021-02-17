@@ -34,8 +34,14 @@ function CartPage({
   carouselSlides: Array<ISlide>;
 }): React.ReactElement {
   const count = useCartCount();
-  const [step, setStep] = React.useState(1);
   const authUser = useAuthUser();
+  const [state, setState] = React.useState({
+    step: 1,
+    deliveryMethod: '',
+    deliveryArea: '',
+    deliveryDate: '',
+  });
+  console.log(state);
   return (
     <>
       <NextSeo title="Cart" />
@@ -63,11 +69,17 @@ function CartPage({
                     : 'is empty'}
                 </strong>
               </p>
-              <ProgressIndicator step={step} setStep={setStep} />
-              {step === 1 && <Summary setStep={setStep} />}
-              {step === 2 && <Login setStep={setStep} authUser={authUser} />}
-              {step === 3 && <Delivery setStep={setStep} />}
-              {step === 4 && <ConfirmOrder authUser={authUser} />}
+              <ProgressIndicator step={state.step} setState={setState} />
+              {state.step === 1 && <Summary setState={setState} />}
+              {state.step === 2 && (
+                <Login setState={setState} authUser={authUser} />
+              )}
+              {state.step === 3 && (
+                <Delivery state={state} setState={setState} />
+              )}
+              {state.step === 4 && (
+                <ConfirmOrder state={state} authUser={authUser} />
+              )}
             </HorizontalPadding>
           </div>
           <TopSellingProducts topSelling={topSelling} />

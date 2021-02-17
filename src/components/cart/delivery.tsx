@@ -1,26 +1,48 @@
+import dayjs from 'dayjs';
 import Link from 'next/link';
 import * as React from 'react';
 
+type TState = {
+  step: number;
+  deliveryMethod: string;
+  deliveryArea: string;
+  deliveryDate: string;
+};
+
+type TSetState = React.Dispatch<React.SetStateAction<TState>>;
+
 interface IDelivery {
-  setStep: React.Dispatch<React.SetStateAction<number>>;
+  state: TState;
+  setState: TSetState;
 }
 
-function Delivery({ setStep }: IDelivery): React.ReactElement {
-  const nextStep = () => setStep(4);
-  const [deliveryMethod, setDeliveryMethod] = React.useState('');
-  const [deliveryArea, setDeliveryArea] = React.useState('');
-  const [deliveryDate, setDeliveryDate] = React.useState('');
+function Delivery({ state, setState }: IDelivery): React.ReactElement {
+  const nextStep = () => setState((prevState) => ({ ...prevState, step: 4 }));
+
   return (
     <div className="grid gap-8">
-      <DeliveryOrPickup active={deliveryMethod} setActive={setDeliveryMethod} />
-      <YourAddress active={deliveryArea} setActive={setDeliveryArea} />
-      {deliveryMethod === 'PICKUP' &&
-        (deliveryArea === 'PORT_MACQUARIE' ||
-          deliveryArea === 'WAUCHOPE' ||
-          deliveryArea === 'LAURIETON' ||
-          deliveryArea === 'KEMPSEY' ||
-          deliveryArea === 'LORD_HOWE_ISLAND') && (
-          <PickupDay active={deliveryDate} setActive={setDeliveryDate} />
+      <DeliveryOrPickup
+        active={state.deliveryMethod}
+        setActive={setState}
+        property="deliveryMethod"
+      />
+      <YourAddress
+        active={state.deliveryArea}
+        setActive={setState}
+        property="deliveryArea"
+      />
+      {(state.deliveryMethod === 'PICKUP' ||
+        state.deliveryMethod === 'DELIVERY') &&
+        (state.deliveryArea === 'PORT_MACQUARIE' ||
+          state.deliveryArea === 'WAUCHOPE' ||
+          state.deliveryArea === 'LAURIETON' ||
+          state.deliveryArea === 'KEMPSEY' ||
+          state.deliveryArea === 'LORD_HOWE_ISLAND') && (
+          <PickupDay
+            active={state.deliveryDate}
+            setActive={setState}
+            property="deliveryDate"
+          />
         )}
       <div className="flex justify-between mt-16">
         <Link href="/">
@@ -42,10 +64,11 @@ function Delivery({ setStep }: IDelivery): React.ReactElement {
           </a>
         </Link>
 
-        {((deliveryMethod === 'PICKUP' &&
-          deliveryArea !== '' &&
-          deliveryDate !== '') ||
-          (deliveryMethod === 'DELIVERY' && deliveryArea !== '')) && (
+        {((state.deliveryMethod === 'PICKUP' &&
+          state.deliveryArea !== '' &&
+          state.deliveryDate !== '') ||
+          (state.deliveryMethod === 'DELIVERY' &&
+            state.deliveryArea !== '')) && (
           <button
             type="button"
             onClick={nextStep}
@@ -122,25 +145,31 @@ function Section({
 
 interface ISectionWrapper {
   active: string;
-  setActive: React.Dispatch<React.SetStateAction<string>>;
+  setActive: TSetState;
+  property: string;
 }
 
 function DeliveryOrPickup({
   active,
   setActive,
+  property,
 }: ISectionWrapper): React.ReactElement {
   return (
     <Section heading="Delivery or Pick Up?" colsClass="grid-cols-2">
       <Button
         isActive={active === 'PICKUP'}
-        setActive={() => setActive('PICKUP')}
+        setActive={() =>
+          setActive((prevState) => ({ ...prevState, [property]: 'PICKUP' }))
+        }
       >
         <h3 className="font-bold">Pick Up</h3>
         <p>($15 minimum spend)</p>
       </Button>
       <Button
         isActive={active === 'DELIVERY'}
-        setActive={() => setActive('DELIVERY')}
+        setActive={() =>
+          setActive((prevState) => ({ ...prevState, [property]: 'DELIVERY' }))
+        }
       >
         <h3 className="font-bold">Delivery</h3>
         <p>($40 minimum spend)</p>
@@ -152,12 +181,18 @@ function DeliveryOrPickup({
 function YourAddress({
   active,
   setActive,
+  property,
 }: ISectionWrapper): React.ReactElement {
   return (
     <Section heading="Your Address">
       <Button
         isActive={active === 'PORT_MACQUARIE'}
-        setActive={() => setActive('PORT_MACQUARIE')}
+        setActive={() =>
+          setActive((prevState) => ({
+            ...prevState,
+            [property]: 'PORT_MACQUARIE',
+          }))
+        }
       >
         <h3 className="font-bold">Port Macquarie</h3>
         <p>Delivered on: Monday, Tuesday, Wednesday, Thursday, Friday.</p>
@@ -165,7 +200,9 @@ function YourAddress({
       </Button>
       <Button
         isActive={active === 'WAUCHOPE'}
-        setActive={() => setActive('WAUCHOPE')}
+        setActive={() =>
+          setActive((prevState) => ({ ...prevState, [property]: 'WAUCHOPE' }))
+        }
       >
         <h3 className="font-bold">Wauchope</h3>
         <p>Delivered on: Monday, Wednesday, Friday.</p>
@@ -173,7 +210,9 @@ function YourAddress({
       </Button>
       <Button
         isActive={active === 'LAURIETON'}
-        setActive={() => setActive('LAURIETON')}
+        setActive={() =>
+          setActive((prevState) => ({ ...prevState, [property]: 'LAURIETON' }))
+        }
       >
         <h3 className="font-bold">
           Laurieton / Lake Cathie / North Haven / Bonny Hills
@@ -182,8 +221,10 @@ function YourAddress({
         <p>Please place your order before 10am the day prior to delivery.</p>
       </Button>
       <Button
-        setActive={() => setActive('KEMPSEY')}
         isActive={active === 'KEMPSEY'}
+        setActive={() =>
+          setActive((prevState) => ({ ...prevState, [property]: 'KEMPSEY' }))
+        }
       >
         <h3 className="font-bold">Kempsey/Crescent Head</h3>
         <p>Delivered on: Friday.</p>
@@ -191,8 +232,13 @@ function YourAddress({
       </Button>
       {/* // TODO: Check if Lord Howe Island should be listed here */}
       <Button
-        setActive={() => setActive('LORD_HOWE_ISLAND')}
         isActive={active === 'LORD_HOWE_ISLAND'}
+        setActive={() =>
+          setActive((prevState) => ({
+            ...prevState,
+            [property]: 'LORD_HOWE_ISLAND',
+          }))
+        }
       >
         <h3 className="font-bold">Lord Howe Island</h3>
         <p>Delivered on: Monday, Tuesday, Wednesday, Thursday, Friday.</p>
@@ -202,44 +248,101 @@ function YourAddress({
   );
 }
 
-function PickupDay({ active, setActive }: ISectionWrapper): React.ReactElement {
+function dayAsString(dayIndex: number) {
+  const weekdays = new Array(7);
+  weekdays[0] = 'Sunday';
+  weekdays[1] = 'Monday';
+  weekdays[2] = 'Tuesday';
+  weekdays[3] = 'Wednesday';
+  weekdays[4] = 'Thursday';
+  weekdays[5] = 'Friday';
+  weekdays[6] = 'Saturday';
+
+  return weekdays[dayIndex];
+}
+
+function getDates(startDate, daysToAdd) {
+  const aryDates = [];
+
+  for (let i = 0; i <= daysToAdd; i += 1) {
+    const currentDate = new Date();
+    currentDate.setDate((startDate.getDate() as number) + i);
+    aryDates.push(
+      `${
+        dayAsString(currentDate.getDay()) as number
+      }, ${currentDate.getDate()} ${
+        monthAsString(currentDate.getMonth()) as number
+      } ${currentDate.getFullYear()}`
+    );
+  }
+
+  return aryDates;
+}
+
+function monthAsString(monthIndex) {
+  const month = [];
+  month[0] = 'January';
+  month[1] = 'February';
+  month[2] = 'March';
+  month[3] = 'April';
+  month[4] = 'May';
+  month[5] = 'June';
+  month[6] = 'July';
+  month[7] = 'August';
+  month[8] = 'September';
+  month[9] = 'October';
+  month[10] = 'November';
+  month[11] = 'December';
+
+  return month[monthIndex];
+}
+
+const startDate = new Date();
+
+const aryDates = getDates(startDate, 7);
+
+function nth(d) {
+  if (d > 3 && d < 21) return `${d as string}th`;
+  switch (d % 10) {
+    case 1:
+      return `${d as string}st`;
+
+    case 2:
+      return `${d as string}nd`;
+
+    case 3:
+      return `${d as string}rd`;
+
+    default:
+      return `${d as string}th`;
+  }
+}
+
+function PickupDay({
+  active,
+  setActive,
+  property,
+}: ISectionWrapper): React.ReactElement {
   return (
     <Section heading="Pickup Day">
-      <Button
-        setActive={() => setActive('MONDAY')}
-        isActive={active === 'MONDAY'}
-      >
-        <h3 className="font-bold">Monday</h3>
-        <p>15th February</p>
-      </Button>
-      <Button
-        setActive={() => setActive('TUESDAY')}
-        isActive={active === 'TUESDAY'}
-      >
-        <h3 className="font-bold">Tuesday</h3>
-        <p>16th February</p>
-      </Button>
-      <Button
-        setActive={() => setActive('WEDNESDAY')}
-        isActive={active === 'WEDNESDAY'}
-      >
-        <h3 className="font-bold">Wednesday</h3>
-        <p>17th February</p>
-      </Button>
-      <Button
-        setActive={() => setActive('THURSDAY')}
-        isActive={active === 'THURSDAY'}
-      >
-        <h3 className="font-bold">Thursday</h3>
-        <p>18th February</p>
-      </Button>
-      <Button
-        setActive={() => setActive('FRIDAY')}
-        isActive={active === 'FRIDAY'}
-      >
-        <h3 className="font-bold">Friday</h3>
-        <p>19th February</p>
-      </Button>
+      {aryDates.map(
+        (date) =>
+          !date.includes('Sat') &&
+          !date.includes('Sun') && (
+            <Button
+              key={date}
+              isActive={active === date}
+              setActive={() =>
+                setActive((prevState) => ({ ...prevState, [property]: date }))
+              }
+            >
+              <h3 className="font-bold">{dayjs(date).format('dddd')}</h3>
+              <p>
+                {nth(dayjs(date).format('D'))} {dayjs(date).format('MMMM')}
+              </p>
+            </Button>
+          )
+      )}
     </Section>
   );
 }
