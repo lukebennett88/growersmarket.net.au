@@ -89,29 +89,25 @@ function ProductPage({
         title={product.title}
         description={product.description.replace(/["“]/g, "'")}
         openGraph={{
-          images: [
+          images: product.images.edges.length > 0 && [
             {
-              url:
-                product.images.edges.length === 0
-                  ? ''
-                  : product.images.edges[0].node.originalSrc,
+              url: product.images.edges[0].node.originalSrc,
             },
           ],
         }}
       />
       <ProductJsonLd
         productName={product.title}
-        images={[
-          product.images.edges.length === 0
-            ? ''
-            : product.images.edges[0].node.originalSrc,
-        ]}
+        images={
+          product.images.edges.length > 0 &&
+          product.images.edges.map(({ node }) => node.originalSrc)
+        }
         description={product.description.replace(/["“]/g, "'")}
         offers={[
           {
-            price: Number(product.priceRange?.minVariantPrice?.amount).toFixed(
-              2
-            ),
+            price:
+              product.priceRange?.minVariantPrice?.amount &&
+              Number(product.priceRange.minVariantPrice.amount).toFixed(2),
             priceCurrency: 'AUD',
             url: `https://www.growersmarket.net.au${router.asPath}`,
             seller: {
