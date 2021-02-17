@@ -87,7 +87,7 @@ function ProductPage({
     <>
       <NextSeo
         title={product.title}
-        description={product.description.replace(/["']+/g, '')}
+        description={product.description.replace(/["“]/g, "'")}
         openGraph={{
           images: [
             {
@@ -106,7 +106,7 @@ function ProductPage({
             ? ''
             : product.images.edges[0].node.originalSrc,
         ]}
-        description={product.description.replace(/["']+/g, '')}
+        description={product.description.replace(/["“]/g, "'")}
         offers={[
           {
             price: Number(product.priceRange?.minVariantPrice?.amount).toFixed(
