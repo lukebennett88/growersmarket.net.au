@@ -88,14 +88,16 @@ function ProductPage({
       <NextSeo
         title={product.title}
         description={product.description}
-        images={[
-          {
-            url:
-              product.images.edges.length === 0
-                ? ''
-                : product.images.edges[0].node.originalSrc,
-          },
-        ]}
+        openGraph={{
+          images: [
+            {
+              url:
+                product.images.edges.length === 0
+                  ? ''
+                  : product.images.edges[0].node.originalSrc,
+            },
+          ],
+        }}
       />
       <ProductJsonLd
         productName={product.title}
