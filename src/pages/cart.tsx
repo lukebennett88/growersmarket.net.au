@@ -41,7 +41,6 @@ function CartPage({
     deliveryArea: '',
     deliveryDate: '',
   });
-  console.log(state);
   return (
     <>
       <NextSeo title="Cart" />
