@@ -81,32 +81,14 @@ function Footer() {
                 <h4 className="font-bold tracking-wider text-green-dark">
                   Follow Us
                 </h4>
-                <ul className="mt-4 space-y-4">
-                  {siteSettings?.socialLinks.map(({ socialNetwork, link }) => (
-                    <FooterLink
-                      key={socialNetwork}
-                      title={socialNetwork}
-                      route={link}
-                      url
-                    />
-                  ))}
-                </ul>
+                <SocialLinks />
               </div>
             </div>
             <div className="sm:hidden">
               <h4 className="font-bold tracking-wider text-green-dark">
                 Follow Us
               </h4>
-              <ul className="mt-4 space-y-4">
-                {siteSettings?.socialLinks.map(({ socialNetwork, link }) => (
-                  <FooterLink
-                    key={`${socialNetwork} ${link}`}
-                    title={socialNetwork}
-                    route={link}
-                    url
-                  />
-                ))}
-              </ul>
+              <SocialLinks />
             </div>
           </div>
           <div className="grid gap-8 mt-12 xl:mt-0 xl:col-span-3">
@@ -149,6 +131,21 @@ function FooterLink({ route, title, url }: IFooterLink): ReactElement {
         {title}
       </a>
     </li>
+  );
+}
+
+function SocialLinks() {
+  return (
+    <ul className="mt-4 space-y-4">
+      {siteSettings?.socialLinks.map(({ socialNetwork, link }) => (
+        <FooterLink
+          key={socialNetwork}
+          title={socialNetwork}
+          route={link}
+          url
+        />
+      ))}
+    </ul>
   );
 }
 

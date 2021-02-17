@@ -275,7 +275,7 @@ async function getSiteNavigation() {
           id,
           subHeading,
           links: links.map((link) => ({
-            id,
+            id: link.id,
             title:
               link.externalPage?.label ||
               link.sanityPage?.label ||
