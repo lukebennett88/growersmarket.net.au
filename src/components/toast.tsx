@@ -13,6 +13,8 @@ const transition = { min: 0, max: 100, bounceDamping: 9 };
 function Toast({ showDialog, setShowDialog, image, title, quantity }) {
   const { pathname } = useRouter();
 
+  const close = () => setShowDialog(false);
+
   if (pathname === '/cart') {
     return null;
   }
@@ -21,7 +23,7 @@ function Toast({ showDialog, setShowDialog, image, title, quantity }) {
     <AnimatePresence>
       {showDialog && (
         <AnimatedDialogOverlay
-          onDismiss={() => setShowDialog(false)}
+          onDismiss={close}
           initial="closed"
           animate="open"
           exit="closed"
@@ -64,24 +66,25 @@ function Toast({ showDialog, setShowDialog, image, title, quantity }) {
                       : {quantity}
                     </p>
                     <p className="mt-1 text-sm text-gray-500">Added to cart.</p>
-                    <div className="flex mt-4">
+                    <div className="flex mt-4 space-x-3">
+                      <button
+                        type="button"
+                        onClick={close}
+                        className="inline-flex items-center px-5 py-2 text-sm font-medium leading-4 text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm whitespace-nowrap hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-dark"
+                      >
+                        Continue Shopping
+                      </button>
                       <Link href="/cart">
-                        <a className="inline-flex items-center px-5 py-2 text-sm font-medium leading-4 text-white border border-transparent rounded-full shadow-sm bg-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-dark">
+                        <a className="inline-flex items-center px-5 py-2 text-sm font-medium leading-4 text-white border border-transparent rounded-full shadow-sm whitespace-nowrap bg-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-dark">
                           Go to cart
                         </a>
                       </Link>
-                      <button
-                        type="button"
-                        className="inline-flex items-center px-5 py-2 ml-3 text-sm font-medium leading-4 text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-dark"
-                      >
-                        Checkout
-                      </button>
                     </div>
                   </div>
                   <div className="flex flex-shrink-0 ml-4">
                     <button
                       type="button"
-                      onClick={() => setShowDialog(false)}
+                      onClick={close}
                       className="inline-flex text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-dark"
                     >
                       <span className="sr-only">Close</span>
