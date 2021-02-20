@@ -260,13 +260,14 @@ function YourAddress({
 dayjs.extend(advancedFormat);
 
 interface IDay {
-  index: number;
   active: string;
-  setActive: TSetState;
+  deliveryArea: string;
+  index: number;
   property: string;
+  setActive: TSetState;
 }
 
-function Day({ index, active, setActive, property, deliveryArea }: IDay) {
+function Day({ active, deliveryArea, index, property, setActive }: IDay) {
   const date = dayjs()
     .add(index + 1, 'day')
     .toISOString();

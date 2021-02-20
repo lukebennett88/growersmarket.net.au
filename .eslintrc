@@ -22,6 +22,7 @@
     "no-underscore-dangle": 0,
     "react/no-array-index-key": 1,
     "react/no-danger": 1,
+    "react/no-unused-prop-types": 1,
     "react/react-in-jsx-scope": 0,
     "react/require-default-props": 0,
     "scanjs-rules/identifier_localStorage": 0,
