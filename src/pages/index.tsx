@@ -187,8 +187,13 @@ async function getStaticProps() {
           products(first: 8, sortKey: CREATED) {
             edges {
               node {
-                handle
                 id
+                compareAtPriceRange {
+                  minVariantPrice {
+                    amount
+                  }
+                }
+                handle
                 images(first: 1) {
                   edges {
                     node {
@@ -222,8 +227,13 @@ async function getStaticProps() {
         ) {
           edges {
             node {
-              handle
               id
+              compareAtPriceRange {
+                minVariantPrice {
+                  amount
+                }
+              }
+              handle
               images(first: 1) {
                 edges {
                   node {
@@ -256,8 +266,13 @@ async function getStaticProps() {
         ) {
           edges {
             node {
-              handle
               id
+              compareAtPriceRange {
+                minVariantPrice {
+                  amount
+                }
+              }
+              handle
               images(first: 1) {
                 edges {
                   node {
@@ -290,8 +305,13 @@ async function getStaticProps() {
         ) {
           edges {
             node {
-              handle
               id
+              compareAtPriceRange {
+                minVariantPrice {
+                  amount
+                }
+              }
+              handle
               images(first: 1) {
                 edges {
                   node {

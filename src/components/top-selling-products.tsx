@@ -11,6 +11,7 @@ import slugify from 'slugify';
 
 import { HorizontalPadding } from './horizontal-padding';
 import { Toast } from './toast';
+import { OnSaleBadge } from './vectors';
 
 interface TopSellingProductsProps {
   topSelling: ITopSellingProducts;
@@ -70,9 +71,16 @@ function TopSellingProduct({
     quantity: 1,
     setShowDialog,
   });
+
+  const price = Number(node.priceRange.minVariantPrice.amount);
+
+  const comparePrice = Number(node.compareAtPriceRange.minVariantPrice.amount);
+
+  const isOnSale = comparePrice !== 0 && comparePrice > price;
+
   return (
-    <li className="grid grid-cols-2 gap-4">
-      <div className="bg-white">
+    <li className="grid grid-cols-2 gap-6">
+      <div className="relative bg-white">
         {node.images?.edges?.[0]?.node?.originalSrc && (
           <Link href={`/products/${node.handle}`}>
             <a aria-hidden tabIndex={-1} className="block bg-white">
@@ -87,6 +95,9 @@ function TopSellingProduct({
             </a>
           </Link>
         )}
+        {isOnSale && (
+          <OnSaleBadge className="absolute w-10 h-10 -top-4 -right-4" />
+        )}
       </div>
       <div className="flex flex-col col-start-2">
         <div className="font-bold">
@@ -97,9 +108,7 @@ function TopSellingProduct({
           </Link>
           <div className="text-2xl">
             <sup className="text-sm">$</sup>
-            <span>
-              {Number(node.priceRange.minVariantPrice.amount).toFixed(2)}
-            </span>
+            <span>{price.toFixed(2)}</span>
           </div>
         </div>
         <div className="pt-4 mt-auto">

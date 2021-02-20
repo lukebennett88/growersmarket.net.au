@@ -5,6 +5,7 @@ import * as React from 'react';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 
 import { Toast } from './toast';
+import { OnSaleBadge } from './vectors';
 
 interface IProductCard {
   product: {
@@ -18,6 +19,11 @@ interface IProductCard {
             originalSrc: string;
           };
         }[];
+      };
+      compareAtPriceRange: {
+        minVariantPrice: {
+          amount: string;
+        };
       };
       priceRange: {
         minVariantPrice: {
@@ -53,10 +59,18 @@ function ProductCard({ product }: IProductCard) {
     setShowDialog,
   });
 
+  const price = Number(product.node.priceRange.minVariantPrice.amount);
+
+  const comparePrice = Number(
+    product.node.compareAtPriceRange.minVariantPrice.amount
+  );
+
+  const isOnSale = comparePrice !== 0 && comparePrice > price;
+
   return (
     <li className="flex flex-col">
       <Link href={`/products/${product.node.handle}`}>
-        <a aria-hidden tabIndex={-1} className="inline-block">
+        <a aria-hidden tabIndex={-1} className="relative inline-block">
           <div className="relative h-0 aspect-w-4 aspect-h-3">
             <div className="absolute inset-0 flex">
               {product.node.images?.edges?.[0]?.node?.originalSrc && (
@@ -70,6 +84,9 @@ function ProductCard({ product }: IProductCard) {
               )}
             </div>
           </div>
+          {isOnSale && (
+            <OnSaleBadge className="absolute w-10 h-10 -top-4 -right-4" />
+          )}
         </a>
       </Link>
       <div className="grid grid-cols-2 gap-4 mt-4">
@@ -80,9 +97,7 @@ function ProductCard({ product }: IProductCard) {
         </Link>
         <div className="text-2xl text-right">
           <sup className="text-sm">$</sup>
-          <span>
-            {Number(product.node.priceRange.minVariantPrice.amount).toFixed(2)}
-          </span>
+          <span>{price.toFixed(2)}</span>
         </div>
       </div>
       <div className="pt-3 mt-auto">

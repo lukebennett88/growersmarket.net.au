@@ -7,8 +7,13 @@ const GET_TOP_SELLING = gql`
     products(first: 3, sortKey: BEST_SELLING, query: $query) {
       edges {
         node {
-          handle
           id
+          compareAtPriceRange {
+            minVariantPrice {
+              amount
+            }
+          }
+          handle
           images(first: 1) {
             edges {
               node {
@@ -48,6 +53,11 @@ interface ITopSellingProductNode {
         originalSrc: string;
       };
     }>;
+  };
+  compareAtPriceRange: {
+    minVariantPrice: {
+      amount: string;
+    };
   };
   priceRange: {
     minVariantPrice: {

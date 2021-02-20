@@ -10,9 +10,13 @@ const GET_COLLECTION = gql`
       products(sortKey: TITLE, first: 250) {
         edges {
           node {
-            handle
             id
-            title
+            compareAtPriceRange {
+              minVariantPrice {
+                amount
+              }
+            }
+            handle
             images(first: 1) {
               edges {
                 node {
@@ -26,6 +30,7 @@ const GET_COLLECTION = gql`
                 amount
               }
             }
+            title
             variants(first: 1) {
               edges {
                 node {
@@ -46,9 +51,13 @@ interface ICollectionByHandle {
   products: {
     edges: Array<{
       node: {
-        handle: string;
         id: string;
-        title: string;
+        handle: string;
+        compareAtPriceRange: {
+          minVariantPrice: {
+            amount: string;
+          };
+        };
         images: {
           edges: Array<{
             node: {
@@ -62,6 +71,7 @@ interface ICollectionByHandle {
             amount: string;
           };
         };
+        title: string;
         variants: {
           edges: Array<{
             node: {

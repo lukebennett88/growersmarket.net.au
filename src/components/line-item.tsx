@@ -5,6 +5,7 @@ import Link from 'next/link';
 import * as React from 'react';
 
 import { QuantityPicker } from './quantity-picker';
+import { OnSaleBadge } from './vectors';
 
 function LineItem({ lineItem }) {
   // Variant to add to cart
@@ -35,9 +36,15 @@ function LineItem({ lineItem }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [variantId, quantity]);
 
+  const price = Number(lineItem.variant.price);
+
+  const comparePrice = Number(lineItem.variant.compareAtPrice);
+
+  const isOnSale = comparePrice !== 0 && comparePrice > price;
+
   return (
-    <li key={lineItem.id} className="grid max-w-md grid-cols-2 gap-4">
-      <div className="bg-white">
+    <li key={lineItem.id} className="grid max-w-md grid-cols-2 gap-6">
+      <div className="relative bg-white">
         {lineItem.variant.image?.src && (
           <Link href={`/products/${lineItem.variant.product.handle as string}`}>
             <a aria-hidden tabIndex={-1} className="block bg-white">
@@ -52,6 +59,9 @@ function LineItem({ lineItem }) {
             </a>
           </Link>
         )}
+        {isOnSale && (
+          <OnSaleBadge className="absolute w-10 h-10 -top-4 -right-4" />
+        )}
       </div>
       <div className="flex flex-col col-start-2">
         <div className="font-bold">
@@ -62,7 +72,7 @@ function LineItem({ lineItem }) {
           </Link>
           <div className="text-2xl">
             <sup className="text-sm">$</sup>
-            <span>{Number(lineItem.variant.price).toFixed(2)}</span>
+            <span>{price.toFixed(2)}</span>
           </div>
         </div>
         <div className="pt-4 mt-auto">
