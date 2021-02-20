@@ -1,3 +1,4 @@
+import { BagIcon, DeliveryIcon } from '@components/vectors';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import Link from 'next/link';
@@ -168,6 +169,7 @@ function DeliveryOrPickup({
           setActive((prevState) => ({ ...prevState, [property]: 'PICKUP' }))
         }
       >
+        <BagIcon className="h-12 mx-auto" />
         <h3 className="font-bold">Pick Up</h3>
         <p>($15 minimum spend)</p>
       </Button>
@@ -177,6 +179,7 @@ function DeliveryOrPickup({
           setActive((prevState) => ({ ...prevState, [property]: 'DELIVERY' }))
         }
       >
+        <DeliveryIcon className="h-12 mx-auto" />
         <h3 className="font-bold">Delivery</h3>
         <p>($40 minimum spend)</p>
       </Button>
