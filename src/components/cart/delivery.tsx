@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 import Link from 'next/link';
 import * as React from 'react';
 
@@ -41,6 +42,7 @@ function Delivery({ state, setState }: IDelivery): React.ReactElement {
           <PickupDay
             active={state.deliveryDate}
             setActive={setState}
+            deliveryArea={state.deliveryArea}
             property="deliveryDate"
           />
         )}
@@ -98,22 +100,25 @@ interface IButton {
   children: React.ReactNode;
   isActive: boolean;
   setActive: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  isDisabled?: boolean;
 }
 
 function Button({
   children,
   isActive,
   setActive,
+  isDisabled,
 }: IButton): React.ReactElement {
   return (
     <button
       type="button"
       onClick={setActive}
-      className={`p-4 border rounded transition duration-150 ease-in-out ${
+      disabled={isDisabled}
+      className={`p-4 border rounded transition duration-150 ease-in-out${
         isActive
-          ? 'bg-green-dark text-white'
-          : 'bg-white hover:border-green-dark'
-      }`}
+          ? ' bg-green-dark text-white'
+          : ' bg-white hover:border-green-dark'
+      }${isDisabled ? ' opacity-50' : ''}`}
     >
       {children}
     </button>
@@ -147,6 +152,7 @@ interface ISectionWrapper {
   active: string;
   setActive: TSetState;
   property: string;
+  deliveryArea?: string;
 }
 
 function DeliveryOrPickup({
@@ -248,101 +254,90 @@ function YourAddress({
   );
 }
 
-function dayAsString(dayIndex: number) {
-  const weekdays = new Array(7);
-  weekdays[0] = 'Sunday';
-  weekdays[1] = 'Monday';
-  weekdays[2] = 'Tuesday';
-  weekdays[3] = 'Wednesday';
-  weekdays[4] = 'Thursday';
-  weekdays[5] = 'Friday';
-  weekdays[6] = 'Saturday';
+dayjs.extend(advancedFormat);
 
-  return weekdays[dayIndex];
+interface IDay {
+  index: number;
+  active: string;
+  setActive: TSetState;
+  property: string;
 }
 
-function getDates(startDate, daysToAdd) {
-  const aryDates = [];
+function Day({ index, active, setActive, property, deliveryArea }: IDay) {
+  const date = dayjs()
+    .add(index + 1, 'day')
+    .toISOString();
 
-  for (let i = 0; i <= daysToAdd; i += 1) {
-    const currentDate = new Date();
-    currentDate.setDate((startDate.getDate() as number) + i);
-    aryDates.push(
-      `${
-        dayAsString(currentDate.getDay()) as number
-      }, ${currentDate.getDate()} ${
-        monthAsString(currentDate.getMonth()) as number
-      } ${currentDate.getFullYear()}`
-    );
+  const dateRef = React.useRef(date);
+
+  const dayOfWeek = dayjs(dateRef.current).format('dddd');
+
+  const isWeekend = dayOfWeek.includes('Sat') || dayOfWeek.includes('Sun');
+
+  if (isWeekend) {
+    return null;
   }
 
-  return aryDates;
-}
+  const dayWithOrdinal = dayjs(dateRef.current).format('Do');
 
-function monthAsString(monthIndex) {
-  const month = [];
-  month[0] = 'January';
-  month[1] = 'February';
-  month[2] = 'March';
-  month[3] = 'April';
-  month[4] = 'May';
-  month[5] = 'June';
-  month[6] = 'July';
-  month[7] = 'August';
-  month[8] = 'September';
-  month[9] = 'October';
-  month[10] = 'November';
-  month[11] = 'December';
+  const month = dayjs(dateRef.current).format('MMMM');
 
-  return month[monthIndex];
-}
+  const IS_DISABLED = {
+    PORT_MACQUARIE: false,
+    WAUCHOPE: dayOfWeek === 'Tuesday' || dayOfWeek === 'Thursday',
+    LAURIETON:
+      dayOfWeek === 'Monday' ||
+      dayOfWeek === 'Wednesday' ||
+      dayOfWeek === 'Thursday',
+    KEMPSEY:
+      dayOfWeek === 'Monday' ||
+      dayOfWeek === 'Tuesday' ||
+      dayOfWeek === 'Wednesday' ||
+      dayOfWeek === 'Thursday',
+    LORD_HOWE_ISLAND: false,
+  };
 
-const startDate = new Date();
-
-const aryDates = getDates(startDate, 7);
-
-function nth(d) {
-  if (d > 3 && d < 21) return `${d as string}th`;
-  switch (d % 10) {
-    case 1:
-      return `${d as string}st`;
-
-    case 2:
-      return `${d as string}nd`;
-
-    case 3:
-      return `${d as string}rd`;
-
-    default:
-      return `${d as string}th`;
-  }
+  return (
+    <Button
+      key={dateRef.current}
+      isDisabled={IS_DISABLED[deliveryArea]}
+      isActive={active === dateRef.current}
+      setActive={() =>
+        setActive((prevState) => ({
+          ...prevState,
+          [property]: dateRef.current,
+        }))
+      }
+    >
+      <h3 className="font-bold">{dayOfWeek}</h3>
+      <p>
+        {dayWithOrdinal} {month}
+      </p>
+    </Button>
+  );
 }
 
 function PickupDay({
   active,
   setActive,
   property,
+  deliveryArea,
 }: ISectionWrapper): React.ReactElement {
   return (
     <Section heading="Pickup Day">
-      {aryDates.map(
-        (date) =>
-          !date.includes('Sat') &&
-          !date.includes('Sun') && (
-            <Button
-              key={date}
-              isActive={active === date}
-              setActive={() =>
-                setActive((prevState) => ({ ...prevState, [property]: date }))
-              }
-            >
-              <h3 className="font-bold">{dayjs(date).format('dddd')}</h3>
-              <p>
-                {nth(dayjs(date).format('D'))} {dayjs(date).format('MMMM')}
-              </p>
-            </Button>
-          )
-      )}
+      {Array.from({ length: 7 })
+        .fill('')
+        .map((_, i) => (
+          <Day
+            // eslint-disable-next-line react/no-array-index-key
+            key={i}
+            index={i}
+            active={active}
+            setActive={setActive}
+            property={property}
+            deliveryArea={deliveryArea}
+          />
+        ))}
     </Section>
   );
 }
