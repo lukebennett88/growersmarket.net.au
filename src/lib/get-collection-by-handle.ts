@@ -5,7 +5,7 @@ import { apolloClient } from './apollo-client';
 const GET_COLLECTION = gql`
   query GetCollectionQuery($handle: String!) {
     collectionByHandle(handle: $handle) {
-      title
+      id
       description
       products(sortKey: TITLE, first: 250) {
         edges {
@@ -41,12 +41,12 @@ const GET_COLLECTION = gql`
           }
         }
       }
+      title
     }
   }
 `;
 
 interface ICollectionByHandle {
-  title: string;
   description: string;
   products: {
     edges: Array<{
@@ -82,6 +82,7 @@ interface ICollectionByHandle {
       };
     }>;
   };
+  title: string;
 }
 
 async function getCollectionByHandle(variables) {
