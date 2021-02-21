@@ -69,6 +69,7 @@ function ProductCard({ product }: IProductCard) {
       setIsLoading(true);
       await addToCart();
     } catch (error) {
+      // eslint-disable-next-line no-alert
       alert(error);
     } finally {
       setIsLoading(false);

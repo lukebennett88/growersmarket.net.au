@@ -70,6 +70,7 @@ function ProductPage({
       setIsLoading(true);
       await addToCart();
     } catch (error) {
+      // eslint-disable-next-line no-alert
       alert(error);
     } finally {
       setIsLoading(false);
