@@ -8,7 +8,7 @@ import { useAddItemToCart } from './use-add-item-to-cart';
  * @param {function} setShowDialog function to update state used to display add to cart (Toast) alert
  */
 
-interface IuseHandleAddToCart {
+interface IUseHandleAddToCart {
   variantId: string;
   quantity?: number;
   setShowDialog: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +18,7 @@ export function useHandleAddToCart({
   variantId,
   quantity = 1,
   setShowDialog,
-}: IuseHandleAddToCart) {
+}: IUseHandleAddToCart) {
   const addItemToCart = useAddItemToCart();
   async function handleAddToCart() {
     try {
