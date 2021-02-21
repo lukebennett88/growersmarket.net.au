@@ -1,5 +1,6 @@
 import { useCart } from '@lib/hooks/use-cart';
 import { useCheckoutUrl } from '@lib/hooks/use-checkout-url';
+import dayjs from 'dayjs';
 import Link from 'next/link';
 
 import { ProductSummary } from './product-summary';
@@ -16,11 +17,30 @@ interface IConfirmOrder {
     deliveryArea: string;
     deliveryDate: string;
   };
+  setState: React.Dispatch<
+    React.SetStateAction<{
+      step: number;
+      deliveryMethod: string;
+      deliveryArea: string;
+      deliveryDate: string;
+    }>
+  >;
 }
 
-function ConfirmOrder({ authUser, state }: IConfirmOrder): React.ReactElement {
+function ConfirmOrder({
+  authUser,
+  state,
+  setState,
+}: IConfirmOrder): React.ReactElement {
   const checkout = useCheckoutUrl();
   const cart = useCart();
+  if (
+    state.deliveryMethod === '' ||
+    state.deliveryArea === '' ||
+    state.deliveryDate === ''
+  ) {
+    setState((prevState) => ({ ...prevState, step: 3 }));
+  }
   return (
     <>
       <h2 className="mt-8 text-xl font-bold text-green-dark">
@@ -38,9 +58,11 @@ function ConfirmOrder({ authUser, state }: IConfirmOrder): React.ReactElement {
         </div>
         <div>
           <dt className="inline font-bold">
-            {state.deliveryMethod === 'DELIVERY' ? 'Delivery' : 'Pickup'} Date:{' '}
+            {state.deliveryMethod === 'Delivery' ? 'Delivery' : 'Pickup'} Date:{' '}
           </dt>
-          <dd className="inline">{state.deliveryDate}</dd>
+          <dd className="inline">
+            {dayjs(state.deliveryDate).format('dddd, Do MMMM')}
+          </dd>
         </div>
       </dl>
       <h2 className="mt-16 text-xl font-bold text-green-dark">
@@ -55,12 +77,9 @@ function ConfirmOrder({ authUser, state }: IConfirmOrder): React.ReactElement {
         </div>
         <div className="flex justify-between">
           <dt className="font-bold">Shipping:</dt>
-          <dd>Calculated at checkout</dd>
+          <dd>${state.deliveryMethod === 'Delivery' ? '15.00' : '0.00'}</dd>
         </div>
       </dl>
-      <div className="prose">
-        <pre>{JSON.stringify(state, null, 2)}</pre>
-      </div>
       <div className="flex justify-between mt-16">
         <Link href="/">
           <a className="inline-flex items-center space-x-2 cta text-green-dark bg-yellow">

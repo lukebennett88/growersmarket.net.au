@@ -77,7 +77,11 @@ function CartPage({
                 <Delivery state={state} setState={setState} />
               )}
               {state.step === 4 && (
-                <ConfirmOrder state={state} authUser={authUser} />
+                <ConfirmOrder
+                  state={state}
+                  setState={setState}
+                  authUser={authUser}
+                />
               )}
             </HorizontalPadding>
           </div>
