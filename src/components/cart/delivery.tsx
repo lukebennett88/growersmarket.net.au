@@ -33,13 +33,15 @@ function Delivery({ state, setState }: IDelivery): React.ReactElement {
         setActive={setState}
         property="deliveryArea"
       />
-      {(state.deliveryMethod === 'PICKUP' ||
-        state.deliveryMethod === 'DELIVERY') &&
-        (state.deliveryArea === 'PORT_MACQUARIE' ||
-          state.deliveryArea === 'WAUCHOPE' ||
-          state.deliveryArea === 'LAURIETON' ||
-          state.deliveryArea === 'KEMPSEY' ||
-          state.deliveryArea === 'LORD_HOWE_ISLAND') && (
+      {(state.deliveryMethod === 'Pickup' ||
+        state.deliveryMethod === 'Delivery') &&
+        // eslint-disable-next-line sonarjs/no-duplicate-string
+        (state.deliveryArea === 'Port Macquarie' ||
+          state.deliveryArea === 'Wauchope' ||
+          state.deliveryArea === 'Laurieton' ||
+          state.deliveryArea === 'Kempsey' ||
+          // eslint-disable-next-line sonarjs/no-duplicate-string
+          state.deliveryArea === 'Lord Howe Island') && (
           <PickupDay
             active={state.deliveryDate}
             setActive={setState}
@@ -67,10 +69,10 @@ function Delivery({ state, setState }: IDelivery): React.ReactElement {
           </a>
         </Link>
 
-        {((state.deliveryMethod === 'PICKUP' &&
+        {((state.deliveryMethod === 'Pickup' &&
           state.deliveryArea !== '' &&
           state.deliveryDate !== '') ||
-          (state.deliveryMethod === 'DELIVERY' &&
+          (state.deliveryMethod === 'Delivery' &&
             state.deliveryArea !== '')) && (
           <button
             type="button"
@@ -119,7 +121,7 @@ function Button({
         isActive
           ? ' bg-green-dark text-white'
           : ' bg-white hover:border-green-dark'
-      }${isDisabled ? ' opacity-50' : ''}`}
+      }${isDisabled ? ' opacity-75' : ''}`}
     >
       {children}
     </button>
@@ -153,6 +155,7 @@ interface ISectionWrapper {
   active: string;
   setActive: TSetState;
   property: string;
+  // eslint-disable-next-line react/no-unused-prop-types
   deliveryArea?: string;
 }
 
@@ -164,9 +167,9 @@ function DeliveryOrPickup({
   return (
     <Section heading="Delivery or Pick Up?" colsClass="grid-cols-2">
       <Button
-        isActive={active === 'PICKUP'}
+        isActive={active === 'Pickup'}
         setActive={() =>
-          setActive((prevState) => ({ ...prevState, [property]: 'PICKUP' }))
+          setActive((prevState) => ({ ...prevState, [property]: 'Pickup' }))
         }
       >
         <BagIcon className="h-12 mx-auto" />
@@ -174,9 +177,9 @@ function DeliveryOrPickup({
         <p>($15 minimum spend)</p>
       </Button>
       <Button
-        isActive={active === 'DELIVERY'}
+        isActive={active === 'Delivery'}
         setActive={() =>
-          setActive((prevState) => ({ ...prevState, [property]: 'DELIVERY' }))
+          setActive((prevState) => ({ ...prevState, [property]: 'Delivery' }))
         }
       >
         <DeliveryIcon className="h-12 mx-auto" />
@@ -195,11 +198,11 @@ function YourAddress({
   return (
     <Section heading="Your Address">
       <Button
-        isActive={active === 'PORT_MACQUARIE'}
+        isActive={active === 'Port Macquarie'}
         setActive={() =>
           setActive((prevState) => ({
             ...prevState,
-            [property]: 'PORT_MACQUARIE',
+            [property]: 'Port Macquarie',
           }))
         }
       >
@@ -208,9 +211,9 @@ function YourAddress({
         <p>Please place your order before 10am the day prior to delivery.</p>
       </Button>
       <Button
-        isActive={active === 'WAUCHOPE'}
+        isActive={active === 'Wauchope'}
         setActive={() =>
-          setActive((prevState) => ({ ...prevState, [property]: 'WAUCHOPE' }))
+          setActive((prevState) => ({ ...prevState, [property]: 'Wauchope' }))
         }
       >
         <h3 className="font-bold">Wauchope</h3>
@@ -218,9 +221,9 @@ function YourAddress({
         <p>Please place your order before 10am the day prior to delivery.</p>
       </Button>
       <Button
-        isActive={active === 'LAURIETON'}
+        isActive={active === 'Laurieton'}
         setActive={() =>
-          setActive((prevState) => ({ ...prevState, [property]: 'LAURIETON' }))
+          setActive((prevState) => ({ ...prevState, [property]: 'Laurieton' }))
         }
       >
         <h3 className="font-bold">
@@ -230,9 +233,9 @@ function YourAddress({
         <p>Please place your order before 10am the day prior to delivery.</p>
       </Button>
       <Button
-        isActive={active === 'KEMPSEY'}
+        isActive={active === 'Kempsey'}
         setActive={() =>
-          setActive((prevState) => ({ ...prevState, [property]: 'KEMPSEY' }))
+          setActive((prevState) => ({ ...prevState, [property]: 'Kempsey' }))
         }
       >
         <h3 className="font-bold">Kempsey/Crescent Head</h3>
@@ -241,11 +244,11 @@ function YourAddress({
       </Button>
       {/* // TODO: Check if Lord Howe Island should be listed here */}
       <Button
-        isActive={active === 'LORD_HOWE_ISLAND'}
+        isActive={active === 'Lord Howe Island'}
         setActive={() =>
           setActive((prevState) => ({
             ...prevState,
-            [property]: 'LORD_HOWE_ISLAND',
+            [property]: 'Lord Howe Island',
           }))
         }
       >
@@ -287,18 +290,18 @@ function Day({ active, deliveryArea, index, property, setActive }: IDay) {
   const month = dayjs(dateRef.current).format('MMMM');
 
   const IS_DISABLED = {
-    PORT_MACQUARIE: false,
-    WAUCHOPE: dayOfWeek === 'Tuesday' || dayOfWeek === 'Thursday',
-    LAURIETON:
+    'Port Macquarie': false,
+    Wauchope: dayOfWeek === 'Tuesday' || dayOfWeek === 'Thursday',
+    Laurieton:
       dayOfWeek === 'Monday' ||
       dayOfWeek === 'Wednesday' ||
       dayOfWeek === 'Thursday',
-    KEMPSEY:
+    Kempsey:
       dayOfWeek === 'Monday' ||
       dayOfWeek === 'Tuesday' ||
       dayOfWeek === 'Wednesday' ||
       dayOfWeek === 'Thursday',
-    LORD_HOWE_ISLAND: false,
+    'Lord Howe Island': false,
   };
 
   return (
