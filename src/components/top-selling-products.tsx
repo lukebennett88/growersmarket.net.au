@@ -1,11 +1,12 @@
 import {
   ITopSellingProductNode,
   ITopSellingProducts,
-  useHandleAddToCart,
+  useAddToCart,
 } from '@lib/index';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
+import { FaSpinner } from 'react-icons/fa';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 import slugify from 'slugify';
 
@@ -66,16 +67,27 @@ function TopSellingProduct({
   // State for showing add to cart toast notifications
   const [showDialog, setShowDialog] = React.useState(false);
 
-  const { handleAddToCart } = useHandleAddToCart({
+  // Function to add products to cart
+  const { addToCart } = useAddToCart({
     variantId,
     quantity: 1,
     setShowDialog,
   });
 
-  const addToCart = () => {
-    setShowDialog(true);
-    handleAddToCart();
-  };
+  // State for showing loading spinner while waiting for handleAddToCart to fire
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  // Wrapper function to handle loading state
+  async function handleAddToCart() {
+    try {
+      setIsLoading(true);
+      await addToCart();
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const price = Number(node.priceRange.minVariantPrice.amount);
 
@@ -125,11 +137,17 @@ function TopSellingProduct({
         <div className="pt-4 mt-auto">
           <button
             type="button"
-            onClick={addToCart}
-            className="inline-flex items-center justify-center px-6 py-1 space-x-3 text-sm whitespace-nowrap cta"
+            onClick={handleAddToCart}
+            className={`inline-flex items-center justify-center px-6 py-1 space-x-3 text-sm whitespace-nowrap cta${
+              isLoading ? ' opacity-75' : ''
+            }`}
           >
             <span>Add to Cart</span>
-            <HiOutlineShoppingCart className="w-6 h-6" />
+            {isLoading ? (
+              <FaSpinner className="w-6 opacity-50 h-7 animate-spin" />
+            ) : (
+              <HiOutlineShoppingCart className="w-7 h-7" />
+            )}
           </button>
         </div>
       </div>

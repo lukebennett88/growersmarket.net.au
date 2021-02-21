@@ -14,13 +14,13 @@ interface IUseHandleAddToCart {
   setShowDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function useHandleAddToCart({
+export function useAddToCart({
   variantId,
   quantity = 1,
   setShowDialog,
 }: IUseHandleAddToCart) {
   const addItemToCart = useAddItemToCart();
-  async function handleAddToCart() {
+  async function addToCart() {
     try {
       await addItemToCart(variantId, quantity);
       setShowDialog(true);
@@ -30,5 +30,5 @@ export function useHandleAddToCart({
       setShowDialog(false);
     }
   }
-  return { handleAddToCart };
+  return { addToCart };
 }

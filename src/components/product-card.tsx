@@ -1,7 +1,8 @@
-import { useHandleAddToCart } from '@lib/hooks';
+import { useAddToCart } from '@lib/hooks';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
+import { FaSpinner } from 'react-icons/fa';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 
 import { Toast } from './toast';
@@ -53,11 +54,26 @@ function ProductCard({ product }: IProductCard) {
   const [showDialog, setShowDialog] = React.useState(false);
 
   // Function to add products to cart
-  const { handleAddToCart } = useHandleAddToCart({
+  const { addToCart } = useAddToCart({
     variantId,
     quantity: QUANTITY,
     setShowDialog,
   });
+
+  // State for showing loading spinner while waiting for handleAddToCart to fire
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  // Wrapper function to handle loading state
+  async function handleAddToCart() {
+    try {
+      setIsLoading(true);
+      await addToCart();
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const price = Number(product.node.priceRange.minVariantPrice.amount);
 
@@ -103,11 +119,17 @@ function ProductCard({ product }: IProductCard) {
       <div className="pt-3 mt-auto">
         <button
           type="button"
-          className="inline-flex items-center justify-center w-full space-x-3 cta"
           onClick={handleAddToCart}
+          className={`inline-flex items-center justify-center w-full space-x-3 cta${
+            isLoading ? ' opacity-75' : ''
+          }`}
         >
           <span>Add to Cart</span>
-          <HiOutlineShoppingCart className="w-7 h-7" />
+          {isLoading ? (
+            <FaSpinner className="w-6 opacity-50 h-7 animate-spin" />
+          ) : (
+            <HiOutlineShoppingCart className="w-7 h-7" />
+          )}
         </button>
       </div>
       <Toast

@@ -16,12 +16,13 @@ import {
   IProduct,
   ISlide,
   ITopSellingProducts,
-  useHandleAddToCart,
+  useAddToCart,
 } from '@lib/index';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { NextSeo, ProductJsonLd } from 'next-seo';
 import * as React from 'react';
+import { FaSpinner } from 'react-icons/fa';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 import slugify from 'slugify';
 
@@ -54,11 +55,26 @@ function ProductPage({
   const [showDialog, setShowDialog] = React.useState(false);
 
   // Function to add item to cart
-  const { handleAddToCart } = useHandleAddToCart({
+  const { addToCart } = useAddToCart({
     variantId,
     quantity,
     setShowDialog,
   });
+
+  // State for showing loading spinner while waiting for handleAddToCart to fire
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  // Wrapper function to handle loading state
+  async function handleAddToCart() {
+    try {
+      setIsLoading(true);
+      await addToCart();
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   // Product type for breadcrumb navigation
   const productType = {
@@ -156,11 +172,18 @@ function ProductPage({
                     />
                     <button
                       type="button"
-                      className="inline-flex items-center justify-center space-x-3 cta"
+                      disabled={isLoading}
+                      className={`inline-flex items-center justify-center space-x-3 cta${
+                        isLoading ? ' opacity-75' : ''
+                      }`}
                       onClick={handleAddToCart}
                     >
                       <span>Add to Cart</span>
-                      <HiOutlineShoppingCart className="w-7 h-7" />
+                      {isLoading ? (
+                        <FaSpinner className="w-6 opacity-50 h-7 animate-spin" />
+                      ) : (
+                        <HiOutlineShoppingCart className="w-7 h-7" />
+                      )}
                     </button>
                   </div>
                   <div
