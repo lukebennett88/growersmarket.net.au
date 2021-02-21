@@ -1,0 +1,100 @@
+import { useCartContext } from '@lib/cart-provider';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import * as React from 'react';
+
+import { Button } from './button';
+import { Section } from './section';
+
+function PickupDay(): React.ReactElement {
+  const { state } = useCartContext();
+
+  if (!(state.deliveryMethod !== '' && state.deliveryZone !== '')) {
+    return null;
+  }
+
+  return (
+    <Section heading="Pickup Day">
+      {Array.from({ length: 7 })
+        .fill('')
+        .map((_, index) => (
+          <Day
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+            index={index}
+          />
+        ))}
+    </Section>
+  );
+}
+
+dayjs.extend(advancedFormat);
+
+interface IDay {
+  index: number;
+}
+
+function Day({ index }: IDay) {
+  const { state, setState } = useCartContext();
+
+  const { deliveryZone } = state;
+
+  const date = dayjs()
+    .add(index + 1, 'day')
+    .format('YYYY-MM-DD');
+
+  const dayOfWeek = dayjs(date).format('dddd');
+
+  const isWeekend = dayOfWeek.includes('Sat') || dayOfWeek.includes('Sun');
+
+  if (isWeekend) {
+    return null;
+  }
+
+  const dayWithOrdinal = dayjs(date).format('Do');
+
+  const month = dayjs(date).format('MMMM');
+
+  // TODO: Source this information from Sanity
+  const IS_DISABLED = {
+    'Port Macquarie': false,
+    Wauchope: dayOfWeek === 'Tuesday' || dayOfWeek === 'Thursday',
+    Laurieton:
+      dayOfWeek === 'Monday' ||
+      dayOfWeek === 'Wednesday' ||
+      dayOfWeek === 'Thursday',
+    Kempsey:
+      dayOfWeek === 'Monday' ||
+      dayOfWeek === 'Tuesday' ||
+      dayOfWeek === 'Wednesday' ||
+      dayOfWeek === 'Thursday',
+    'Lord Howe Island': false,
+  };
+
+  const propertyName = 'deliveryZone';
+
+  const isActive = state[propertyName] === date;
+
+  const setActive = () =>
+    // @ts-ignore
+    setState((prevState) => ({
+      ...prevState,
+      [propertyName]: date,
+    }));
+
+  return (
+    <Button
+      key={date}
+      isDisabled={IS_DISABLED[deliveryZone]}
+      isActive={isActive}
+      setActive={setActive}
+    >
+      <h3 className="font-bold">{dayOfWeek}</h3>
+      <p>
+        {dayWithOrdinal} {month}
+      </p>
+    </Button>
+  );
+}
+
+export { PickupDay };
