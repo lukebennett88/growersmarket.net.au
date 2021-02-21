@@ -72,11 +72,22 @@ function TopSellingProduct({
     setShowDialog,
   });
 
+  const addToCart = () => {
+    setShowDialog(true);
+    handleAddToCart();
+  };
+
   const price = Number(node.priceRange.minVariantPrice.amount);
 
   const comparePrice = Number(node.compareAtPriceRange.minVariantPrice.amount);
 
-  const isOnSale = comparePrice !== 0 && comparePrice > price;
+  const [isOnSale, setisOnSale] = React.useState(false);
+
+  React.useEffect(() => {
+    if (comparePrice !== 0 && comparePrice > price) {
+      setisOnSale(true);
+    }
+  }, [comparePrice, price]);
 
   return (
     <li className="grid grid-cols-2 gap-6">
@@ -114,7 +125,7 @@ function TopSellingProduct({
         <div className="pt-4 mt-auto">
           <button
             type="button"
-            onClick={handleAddToCart}
+            onClick={addToCart}
             className="inline-flex items-center justify-center px-6 py-1 space-x-3 text-sm whitespace-nowrap cta"
           >
             <span>Add to Cart</span>
