@@ -3,6 +3,7 @@ import { Input, Textarea } from '@components/form-elements';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
+import { FaSpinner } from 'react-icons/fa';
 
 interface DataProps {
   email_address: string;
@@ -75,8 +76,17 @@ function ContactForm() {
         className="w-full border-gray-300 focus:ring-2 focus:ring-blue-500 focus-within:ring-opacity-50"
       />
       <div>
-        <button type="submit" disabled={isSubmitting} className="cta">
-          Submit
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={`inline-flex items-center justify-center space-x-3 cta${
+            isSubmitting ? ' opacity-75' : ''
+          }`}
+        >
+          <span>Submit</span>
+          {isSubmitting && (
+            <FaSpinner className="w-6 opacity-50 h-7 animate-spin" />
+          )}
         </button>
       </div>
     </form>
