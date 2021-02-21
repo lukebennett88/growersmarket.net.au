@@ -1,54 +1,40 @@
 import { BagIcon, DeliveryIcon } from '@components/vectors';
+import { TSetState, useCartContext } from '@lib/cart-provider';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import Link from 'next/link';
 import * as React from 'react';
 
-type TState = {
-  step: number;
-  deliveryMethod: string;
-  deliveryArea: string;
-  deliveryDate: string;
-};
-
-type TSetState = React.Dispatch<React.SetStateAction<TState>>;
-
-interface IDelivery {
-  state: TState;
-  setState: TSetState;
-}
-
-function Delivery({ state, setState }: IDelivery): React.ReactElement {
+function Delivery(): React.ReactElement {
   const nextStep = () => setState((prevState) => ({ ...prevState, step: 4 }));
 
+  const { state, setState } = useCartContext();
+
   return (
-    <div className="grid gap-8">
+    <div className="grid gap-8 mt-8">
       <DeliveryOrPickup
         active={state.deliveryMethod}
         setActive={setState}
         property="deliveryMethod"
       />
-      <YourAddress
-        active={state.deliveryArea}
+      <DeliveryZone
+        active={state.deliveryZone}
         setActive={setState}
-        property="deliveryArea"
+        property="deliveryZone"
       />
-      {(state.deliveryMethod === 'Pickup' ||
-        state.deliveryMethod === 'Delivery') &&
-        // eslint-disable-next-line sonarjs/no-duplicate-string
-        (state.deliveryArea === 'Port Macquarie' ||
-          state.deliveryArea === 'Wauchope' ||
-          state.deliveryArea === 'Laurieton' ||
-          state.deliveryArea === 'Kempsey' ||
-          // eslint-disable-next-line sonarjs/no-duplicate-string
-          state.deliveryArea === 'Lord Howe Island') && (
-          <PickupDay
-            active={state.deliveryDate}
-            setActive={setState}
-            deliveryArea={state.deliveryArea}
-            property="deliveryDate"
-          />
-        )}
+      <PickupDay
+        active={state.deliveryDate}
+        setActive={setState}
+        deliveryZone={state.deliveryZone}
+        property="deliveryDate"
+      />
+
+      <PickupTime
+        active={state.pickupTime}
+        setActive={setState}
+        property="pickupTime"
+      />
+
       <div className="flex justify-between mt-16">
         <Link href="/">
           <a className="inline-flex items-center space-x-2 cta text-green-dark bg-yellow">
@@ -69,31 +55,37 @@ function Delivery({ state, setState }: IDelivery): React.ReactElement {
           </a>
         </Link>
 
-        {((state.deliveryMethod === 'Pickup' &&
-          state.deliveryArea !== '' &&
-          state.deliveryDate !== '') ||
-          (state.deliveryMethod === 'Delivery' &&
-            state.deliveryArea !== '')) && (
-          <button
-            type="button"
-            onClick={nextStep}
-            className="inline-flex items-center space-x-2 cta text-green-dark bg-yellow"
-          >
-            Next Step
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="w-5 h-5 -mr-3"
+        {((state.deliveryMethod === 'Pickup' && state.pickupTime !== '') ||
+          state.deliveryMethod === 'Delivery') &&
+          // eslint-disable-next-line sonarjs/no-duplicate-string
+          (state.deliveryZone === 'Port Macquarie' ||
+            state.deliveryZone === 'Wauchope' ||
+            state.deliveryZone === 'Laurieton' ||
+            state.deliveryZone === 'Kempsey' ||
+            // eslint-disable-next-line sonarjs/no-duplicate-string
+            state.deliveryZone === 'Lord Howe Island') &&
+          // Would be good if we can check if the pickup day is valid here
+          state.deliveryDate !== '' && (
+            <button
+              type="button"
+              onClick={nextStep}
+              className="inline-flex items-center space-x-2 cta text-green-dark bg-yellow"
             >
-              <path
-                fillRule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-        )}
+              Next Step
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5 -mr-3"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          )}
       </div>
     </div>
   );
@@ -156,7 +148,7 @@ interface ISectionWrapper {
   setActive: TSetState;
   property: string;
   // eslint-disable-next-line react/no-unused-prop-types
-  deliveryArea?: string;
+  deliveryZone?: string;
 }
 
 function DeliveryOrPickup({
@@ -190,11 +182,19 @@ function DeliveryOrPickup({
   );
 }
 
-function YourAddress({
+function DeliveryZone({
   active,
   setActive,
   property,
 }: ISectionWrapper): React.ReactElement {
+  const { state } = useCartContext();
+
+  if (
+    !(state.deliveryMethod === 'Pickup' || state.deliveryMethod === 'Delivery')
+  ) {
+    return null;
+  }
+
   return (
     <Section heading="Your Address">
       <Button
@@ -223,7 +223,10 @@ function YourAddress({
       <Button
         isActive={active === 'Laurieton'}
         setActive={() =>
-          setActive((prevState) => ({ ...prevState, [property]: 'Laurieton' }))
+          setActive((prevState) => ({
+            ...prevState,
+            [property]: 'Laurieton',
+          }))
         }
       >
         <h3 className="font-bold">
@@ -262,15 +265,46 @@ function YourAddress({
 
 dayjs.extend(advancedFormat);
 
+function PickupDay({
+  active,
+  setActive,
+  property,
+  deliveryZone,
+}: ISectionWrapper): React.ReactElement {
+  const { state } = useCartContext();
+
+  if (!(state.deliveryMethod !== '' && state.deliveryZone !== '')) {
+    return null;
+  }
+
+  return (
+    <Section heading="Pickup Day">
+      {Array.from({ length: 7 })
+        .fill('')
+        .map((_, index) => (
+          <Day
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+            index={index}
+            active={active}
+            setActive={setActive}
+            property={property}
+            deliveryZone={deliveryZone}
+          />
+        ))}
+    </Section>
+  );
+}
+
 interface IDay {
   active: string;
-  deliveryArea: string;
+  deliveryZone: string;
   index: number;
   property: string;
   setActive: TSetState;
 }
 
-function Day({ active, deliveryArea, index, property, setActive }: IDay) {
+function Day({ active, deliveryZone, index, property, setActive }: IDay) {
   const date = dayjs()
     .add(index + 1, 'day')
     .toISOString();
@@ -307,7 +341,7 @@ function Day({ active, deliveryArea, index, property, setActive }: IDay) {
   return (
     <Button
       key={dateRef.current}
-      isDisabled={IS_DISABLED[deliveryArea]}
+      isDisabled={IS_DISABLED[deliveryZone]}
       isActive={active === dateRef.current}
       setActive={() =>
         setActive((prevState) => ({
@@ -324,27 +358,47 @@ function Day({ active, deliveryArea, index, property, setActive }: IDay) {
   );
 }
 
-function PickupDay({
+function PickupTime({
   active,
   setActive,
   property,
-  deliveryArea,
 }: ISectionWrapper): React.ReactElement {
+  const { state } = useCartContext();
+  if (
+    !(
+      state.deliveryMethod === 'Pickup' &&
+      state.deliveryZone !== '' &&
+      state.deliveryDate !== ''
+    )
+  )
+    return null;
+
   return (
     <Section heading="Pickup Day">
-      {Array.from({ length: 7 })
-        .fill('')
-        .map((_, i) => (
-          <Day
-            // eslint-disable-next-line react/no-array-index-key
-            key={i}
-            index={i}
-            active={active}
-            setActive={setActive}
-            property={property}
-            deliveryArea={deliveryArea}
-          />
-        ))}
+      <Button
+        isActive={active === '9am – 11am'}
+        setActive={() =>
+          setActive((prevState) => ({ ...prevState, [property]: '9am – 11am' }))
+        }
+      >
+        <h3 className="font-bold">9am – 11am</h3>
+      </Button>
+      <Button
+        isActive={active === '11am – 2pm'}
+        setActive={() =>
+          setActive((prevState) => ({ ...prevState, [property]: '11am – 2pm' }))
+        }
+      >
+        <h3 className="font-bold">11am – 2pm</h3>
+      </Button>
+      <Button
+        isActive={active === '2pm – 6pm'}
+        setActive={() =>
+          setActive((prevState) => ({ ...prevState, [property]: '2pm – 6pm' }))
+        }
+      >
+        <h3 className="font-bold">2pm – 6pm</h3>
+      </Button>
     </Section>
   );
 }

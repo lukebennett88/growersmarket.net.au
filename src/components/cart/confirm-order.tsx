@@ -5,42 +5,27 @@ import Link from 'next/link';
 
 import { ProductSummary } from './product-summary';
 
-interface IConfirmOrder {
-  authUser?: {
-    firebaseUser: {
-      displayName?: string;
-    };
-  };
-  state: {
-    step: number;
-    deliveryMethod: string;
-    deliveryArea: string;
-    deliveryDate: string;
-  };
-  setState: React.Dispatch<
-    React.SetStateAction<{
-      step: number;
-      deliveryMethod: string;
-      deliveryArea: string;
-      deliveryDate: string;
-    }>
-  >;
-}
-
-function ConfirmOrder({
-  authUser,
-  state,
-  setState,
-}: IConfirmOrder): React.ReactElement {
+function ConfirmOrder({ authUser, state, setState }): React.ReactElement {
   const checkout = useCheckoutUrl();
+
   const cart = useCart();
-  if (
-    state.deliveryMethod === '' ||
-    state.deliveryArea === '' ||
-    state.deliveryDate === ''
-  ) {
+
+  if (state.deliveryMethod === '') {
     setState((prevState) => ({ ...prevState, step: 3 }));
   }
+
+  if (state.deliveryZone === '') {
+    setState((prevState) => ({ ...prevState, step: 3 }));
+  }
+
+  if (state.deliveryDate === '') {
+    setState((prevState) => ({ ...prevState, step: 3 }));
+  }
+
+  if (state.deliveryMethod === 'Pickup' && state.pickupTime === '') {
+    setState((prevState) => ({ ...prevState, step: 3 }));
+  }
+
   return (
     <>
       <h2 className="mt-8 text-xl font-bold text-green-dark">
@@ -53,8 +38,12 @@ function ConfirmOrder({
           <dd className="inline">{state.deliveryMethod}</dd>
         </div>
         <div>
+          <dt className="inline font-bold">Delivery or Pick Up? </dt>
+          <dd className="inline">{state.deliveryMethod}</dd>
+        </div>
+        <div>
           <dt className="inline font-bold">Delivering Zone: </dt>
-          <dd className="inline">{state.deliveryArea}</dd>
+          <dd className="inline">{state.deliveryZone}</dd>
         </div>
         <div>
           <dt className="inline font-bold">

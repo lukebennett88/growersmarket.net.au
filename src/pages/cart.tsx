@@ -1,8 +1,4 @@
-import { ConfirmOrder } from '@components/cart/confirm-order';
-import { Delivery } from '@components/cart/delivery';
-import { Login } from '@components/cart/login';
-import { ProgressIndicator } from '@components/cart/progress-indicator';
-import { Summary } from '@components/cart/summary';
+import { CartContent } from '@components/cart/cart-content';
 import {
   Breadcrumbs,
   Carousel,
@@ -10,6 +6,7 @@ import {
   HorizontalPadding,
   TopSellingProducts,
 } from '@components/index';
+import { CartContextProvider } from '@lib/cart-provider';
 import {
   getAllSlides,
   getTopSelling,
@@ -19,7 +16,6 @@ import {
 } from '@lib/index';
 import {
   AuthAction,
-  useAuthUser,
   withAuthUser,
   withAuthUserTokenSSR,
 } from 'next-firebase-auth';
@@ -34,13 +30,7 @@ function CartPage({
   carouselSlides: Array<ISlide>;
 }): React.ReactElement {
   const count = useCartCount();
-  const authUser = useAuthUser();
-  const [state, setState] = React.useState({
-    step: 1,
-    deliveryMethod: '',
-    deliveryArea: '',
-    deliveryDate: '',
-  });
+
   return (
     <>
       <NextSeo title="Cart" />
@@ -68,21 +58,9 @@ function CartPage({
                     : 'is empty'}
                 </strong>
               </p>
-              <ProgressIndicator step={state.step} setState={setState} />
-              {state.step === 1 && <Summary setState={setState} />}
-              {state.step === 2 && (
-                <Login setState={setState} authUser={authUser} />
-              )}
-              {state.step === 3 && (
-                <Delivery state={state} setState={setState} />
-              )}
-              {state.step === 4 && (
-                <ConfirmOrder
-                  state={state}
-                  setState={setState}
-                  authUser={authUser}
-                />
-              )}
+              <CartContextProvider>
+                <CartContent />
+              </CartContextProvider>
             </HorizontalPadding>
           </div>
           <TopSellingProducts topSelling={topSelling} />
