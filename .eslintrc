@@ -27,6 +27,7 @@
     "react/require-default-props": 0,
     "scanjs-rules/identifier_localStorage": 0,
     "scanjs-rules/property_localStorage": 0,
+    "sonarjs/no-duplicate-string": 1,
     "unicorn/no-array-reduce": 0,
     "unicorn/no-new-array": 0,
     "unicorn/prefer-spread": 0
