@@ -82,7 +82,13 @@ function ProductCard({ product }: IProductCard) {
     product.node.compareAtPriceRange.minVariantPrice.amount
   );
 
-  const isOnSale = comparePrice !== 0 && comparePrice > price;
+  const [isOnSale, setisOnSale] = React.useState(false);
+
+  React.useEffect(() => {
+    if (comparePrice !== 0 && comparePrice > price) {
+      setisOnSale(true);
+    }
+  }, [comparePrice, price]);
 
   return (
     <li className="flex flex-col">
