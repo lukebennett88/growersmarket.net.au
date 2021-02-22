@@ -11,18 +11,28 @@ function Summary(): React.ReactElement {
 
   const nextStep = () => setState((prevState) => ({ ...prevState, step: 2 }));
 
+  const cartTotal = Number(cart?.totalPrice || 0).toFixed(2);
+
   return (
     <>
       <ProductSummary />
       <dl className="grid mt-16 gap-y-2">
         <div className="flex justify-between">
           <dt className="font-bold">Subtotal:</dt>
-          <dd>${Number(cart?.totalPrice || 0).toFixed(2)}</dd>
+          <dd>${cartTotal}</dd>
         </div>
         <div className="flex justify-between">
           <dt className="font-bold">Shipping:</dt>
           <dd>Calculated at checkout</dd>
         </div>
+        {Number(cartTotal) < 15 ? (
+          <div className="flex justify-between text-red-400">
+            <dt className="font-bold">Warning:</dt>
+            <dd>Cart minimum total should be $15.00</dd>
+          </div>
+        ) : (
+          ''
+        )}
       </dl>
       <div className="flex justify-between mt-16">
         <Link href="/">
@@ -43,26 +53,29 @@ function Summary(): React.ReactElement {
             Continue Shopping
           </a>
         </Link>
-
-        <button
-          type="button"
-          onClick={nextStep}
-          className="inline-flex items-center space-x-2 cta text-green-dark bg-yellow"
-        >
-          Next Step
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-5 h-5 -mr-3"
+        {Number(cartTotal) >= 15 ? (
+          <button
+            type="button"
+            onClick={nextStep}
+            className="inline-flex items-center space-x-2 cta text-green-dark bg-yellow"
           >
-            <path
-              fillRule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
+            Next Step
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-5 h-5 -mr-3"
+            >
+              <path
+                fillRule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        ) : (
+          ''
+        )}
       </div>
     </>
   );

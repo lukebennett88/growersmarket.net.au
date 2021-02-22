@@ -29,6 +29,12 @@ function ConfirmOrder({ authUser }): React.ReactElement {
 
   const cart = useCart();
 
+  const cartTotal = Number(cart?.totalPrice || 0).toFixed(2);
+
+  if (Number(cartTotal) < 15) {
+    setState((prevState) => ({ ...prevState, step: 1 }));
+  }
+
   const handleChange = (event) =>
     setState((prevState) => ({
       ...prevState,
