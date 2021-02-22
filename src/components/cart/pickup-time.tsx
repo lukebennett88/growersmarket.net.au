@@ -8,11 +8,9 @@ function PickupTime(): React.ReactElement {
   const { state, setState } = useCartContext();
 
   if (
-    !(
-      state.deliveryMethod === 'Pickup' &&
-      state.deliveryZone !== '' &&
-      state.deliveryDate !== ''
-    )
+    state.deliveryMethod === '' ||
+    state.deliveryMethod === 'Delivery' ||
+    state.deliveryDate === ''
   ) {
     return null;
   }

@@ -9,12 +9,15 @@ import { Section } from './section';
 function PickupDay(): React.ReactElement {
   const { state } = useCartContext();
 
-  if (!(state.deliveryMethod !== '' && state.deliveryZone !== '')) {
+  if (
+    state.deliveryMethod === '' ||
+    (state.deliveryMethod === 'Delivery' && state.deliveryZone === '')
+  ) {
     return null;
   }
 
   return (
-    <Section heading="Pickup Day">
+    <Section heading={`${state.deliveryMethod} Day`}>
       {Array.from({ length: 7 })
         .fill('')
         .map((_, index) => (
@@ -71,12 +74,11 @@ function Day({ index }: IDay) {
     'Lord Howe Island': false,
   };
 
-  const propertyName = 'deliveryZone';
+  const propertyName = 'deliveryDate';
 
   const isActive = state[propertyName] === date;
 
   const setActive = () =>
-    // @ts-ignore
     setState((prevState) => ({
       ...prevState,
       [propertyName]: date,

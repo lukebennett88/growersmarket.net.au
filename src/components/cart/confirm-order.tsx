@@ -1,3 +1,4 @@
+import { useCartContext } from '@lib/cart-provider';
 import { useCart } from '@lib/hooks/use-cart';
 import { useCheckoutUrl } from '@lib/hooks/use-checkout-url';
 import dayjs from 'dayjs';
@@ -5,20 +6,14 @@ import Link from 'next/link';
 
 import { ProductSummary } from './product-summary';
 
-function ConfirmOrder({ authUser, state, setState }): React.ReactElement {
-  const checkout = useCheckoutUrl();
+function ConfirmOrder({ authUser }): React.ReactElement {
+  const { state, setState } = useCartContext();
 
-  const cart = useCart();
+  if (!authUser.clientInitialized || !authUser.email) {
+    setState((prevState) => ({ ...prevState, step: 2 }));
+  }
 
   if (state.deliveryMethod === '') {
-    setState((prevState) => ({ ...prevState, step: 3 }));
-  }
-
-  if (state.deliveryZone === '') {
-    setState((prevState) => ({ ...prevState, step: 3 }));
-  }
-
-  if (state.deliveryDate === '') {
     setState((prevState) => ({ ...prevState, step: 3 }));
   }
 
@@ -26,17 +21,30 @@ function ConfirmOrder({ authUser, state, setState }): React.ReactElement {
     setState((prevState) => ({ ...prevState, step: 3 }));
   }
 
+  if (state.deliveryMethod === 'Delivery' && state.deliveryDate === '') {
+    setState((prevState) => ({ ...prevState, step: 3 }));
+  }
+
+  const checkout = useCheckoutUrl();
+
+  const cart = useCart();
+
+  const handleChange = (event) =>
+    setState((prevState) => ({
+      ...prevState,
+      customerNotes: event.target.value,
+    }));
+
+  console.log(state);
+
   return (
     <>
       <h2 className="mt-8 text-xl font-bold text-green-dark">
-        {authUser.firebaseUser.displayName}&rsquo;s Order Details
+        {authUser?.firebaseUser?.displayName}
+        &rsquo;s Order Details
       </h2>
 
       <dl className="mt-4 space-y-4">
-        <div>
-          <dt className="inline font-bold">Delivery or Pick Up? </dt>
-          <dd className="inline">{state.deliveryMethod}</dd>
-        </div>
         <div>
           <dt className="inline font-bold">Delivery or Pick Up? </dt>
           <dd className="inline">{state.deliveryMethod}</dd>
@@ -69,6 +77,18 @@ function ConfirmOrder({ authUser, state, setState }): React.ReactElement {
           <dd>${state.deliveryMethod === 'Delivery' ? '15.00' : '0.00'}</dd>
         </div>
       </dl>
+      <h2 className="mt-16 text-xl font-bold text-green-dark">Notes</h2>
+      <label htmlFor="notes">
+        <span className="sr-only">Order notes</span>
+        <textarea
+          id="notes"
+          name="notes"
+          value={state.customerNotes}
+          onChange={handleChange}
+          rows={6}
+          className="block w-full mt-2 focus:ring-2 focus:ring-green-dark focus:border-transparent"
+        />
+      </label>
       <div className="flex justify-between mt-16">
         <Link href="/">
           <a className="inline-flex items-center space-x-2 cta text-green-dark bg-yellow">
