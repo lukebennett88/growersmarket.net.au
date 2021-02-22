@@ -27,6 +27,7 @@ function DeliveryOrPickup(): React.ReactElement {
     <Section heading="Delivery or Pick Up?" colsClass="grid-cols-2">
       {deliveryMethods.map((method) => (
         <Button
+          key={method.title}
           isActive={state[property] === method.title}
           setActive={() =>
             setState((prevState) => ({
