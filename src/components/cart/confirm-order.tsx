@@ -3,13 +3,10 @@ import { useCart } from '@lib/hooks/use-cart';
 import { useCheckoutUrl } from '@lib/hooks/use-checkout-url';
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import { useAuthUser } from 'next-firebase-auth';
 
 import { ProductSummary } from './product-summary';
 
-function ConfirmOrder(): React.ReactElement {
-  const { authUser } = useAuthUser();
-
+function ConfirmOrder({ authUser }): React.ReactElement {
   const { state, setState } = useCartContext();
 
   if (!authUser?.clientInitialized || !authUser.email) {

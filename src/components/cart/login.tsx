@@ -2,13 +2,10 @@ import { SignInModal } from '@components/signin-modal';
 import { SignInIcon } from '@components/vectors';
 import { useCartContext } from '@lib/cart-provider';
 import Link from 'next/link';
-import { useAuthUser } from 'next-firebase-auth';
 import * as React from 'react';
 
-function Login(): React.ReactElement {
+function Login({ authUser }): React.ReactElement {
   const [showDialog, setShowDialog] = React.useState(false);
-
-  const { authUser } = useAuthUser();
 
   const { setState } = useCartContext();
 
