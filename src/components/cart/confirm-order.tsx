@@ -12,7 +12,7 @@ function ConfirmOrder(): React.ReactElement {
 
   const { state, setState } = useCartContext();
 
-  if (!authUser.clientInitialized || !authUser.email) {
+  if (!authUser?.clientInitialized || !authUser.email) {
     setState((prevState) => ({ ...prevState, step: 2 }));
   }
 

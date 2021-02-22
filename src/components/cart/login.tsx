@@ -12,7 +12,7 @@ function Login(): React.ReactElement {
 
   const { setState } = useCartContext();
 
-  if (authUser.clientInitialized && authUser.email) {
+  if (authUser?.clientInitialized && authUser.email) {
     setState((prevState) => ({ ...prevState, step: 3 }));
   }
 
