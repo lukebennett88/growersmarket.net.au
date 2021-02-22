@@ -80,6 +80,14 @@ function ConfirmOrder({ authUser }): React.ReactElement {
           <dt className="font-bold">Shipping:</dt>
           <dd>${state.deliveryMethod === 'Delivery' ? '15.00' : '0.00'}</dd>
         </div>
+        {state.deliveryMethod === 'Delivery' && Number(cartTotal) < 40 ? (
+          <div className="flex justify-between">
+            <dt className="font-bold">Below $40 total fee:</dt>
+            <dd>$7.00</dd>
+          </div>
+        ) : (
+          ''
+        )}
       </dl>
       <h2 className="mt-16 text-xl font-bold text-green-dark">Notes</h2>
       <label htmlFor="notes">
