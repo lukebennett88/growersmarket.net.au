@@ -1,19 +1,16 @@
 import { SignInModal } from '@components/signin-modal';
 import { SignInIcon } from '@components/vectors';
+import { useCartContext } from '@lib/cart-provider';
 import Link from 'next/link';
+import { useAuthUser } from 'next-firebase-auth';
 import * as React from 'react';
 
-interface ILogin {
-  authUser: Record<string, unknown>;
-  setState: React.Dispatch<
-    React.SetStateAction<{
-      step: number;
-    }>
-  >;
-}
-
-function Login({ setState, authUser }: ILogin): React.ReactElement {
+function Login(): React.ReactElement {
   const [showDialog, setShowDialog] = React.useState(false);
+
+  const { authUser } = useAuthUser();
+
+  const { setState } = useCartContext();
 
   if (authUser.clientInitialized && authUser.email) {
     setState((prevState) => ({ ...prevState, step: 3 }));

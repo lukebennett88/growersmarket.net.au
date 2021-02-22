@@ -1,19 +1,16 @@
+import { useCartContext } from '@lib/cart-provider';
 import { useCart } from '@lib/index';
 import Link from 'next/link';
 
 import { ProductSummary } from './product-summary';
 
-interface ISummary {
-  setState: React.Dispatch<
-    React.SetStateAction<{
-      step: number;
-    }>
-  >;
-}
+function Summary(): React.ReactElement {
+  const { setState } = useCartContext();
 
-function Summary({ setState }: ISummary): React.ReactElement {
   const cart = useCart();
+
   const nextStep = () => setState((prevState) => ({ ...prevState, step: 2 }));
+
   return (
     <>
       <ProductSummary />
