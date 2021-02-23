@@ -54,7 +54,7 @@ function CartPage({
         ]}
       />
       <Container>
-        <div className="relative grid lg:grid-cols-3">
+        <div className="relative z-0 grid lg:grid-cols-3">
           <div className="py-16 lg:col-span-2">
             <HorizontalPadding>
               <h1 className="text-2xl font-bold">Checkout</h1>
