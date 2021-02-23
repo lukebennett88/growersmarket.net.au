@@ -50,6 +50,38 @@ function Day({ index }: IDay) {
 
   const isWeekend = dayOfWeek.includes('Sat') || dayOfWeek.includes('Sun');
 
+  // TODO: Source this information from Sanity
+  const IS_DISABLED = React.useMemo(
+    () => ({
+      'Port Macquarie': false,
+      Wauchope: dayOfWeek === 'Tuesday' || dayOfWeek === 'Thursday',
+      Laurieton:
+        dayOfWeek === 'Monday' ||
+        dayOfWeek === 'Wednesday' ||
+        dayOfWeek === 'Thursday',
+      Kempsey:
+        dayOfWeek === 'Monday' ||
+        dayOfWeek === 'Tuesday' ||
+        dayOfWeek === 'Wednesday' ||
+        dayOfWeek === 'Thursday',
+      'Lord Howe Island': false,
+    }),
+    [dayOfWeek]
+  );
+
+  const propertyName = 'deliveryDate';
+
+  const isActive = state[propertyName] === date;
+
+  React.useEffect(() => {
+    if (IS_DISABLED[deliveryZone]) {
+      setState((prevState) => ({
+        ...prevState,
+        [propertyName]: '',
+      }));
+    }
+  }, [IS_DISABLED, deliveryZone, setState]);
+
   if (isWeekend) {
     return null;
   }
@@ -57,26 +89,6 @@ function Day({ index }: IDay) {
   const dayWithOrdinal = dayjs(date).format('Do');
 
   const month = dayjs(date).format('MMMM');
-
-  // TODO: Source this information from Sanity
-  const IS_DISABLED = {
-    'Port Macquarie': false,
-    Wauchope: dayOfWeek === 'Tuesday' || dayOfWeek === 'Thursday',
-    Laurieton:
-      dayOfWeek === 'Monday' ||
-      dayOfWeek === 'Wednesday' ||
-      dayOfWeek === 'Thursday',
-    Kempsey:
-      dayOfWeek === 'Monday' ||
-      dayOfWeek === 'Tuesday' ||
-      dayOfWeek === 'Wednesday' ||
-      dayOfWeek === 'Thursday',
-    'Lord Howe Island': false,
-  };
-
-  const propertyName = 'deliveryDate';
-
-  const isActive = state[propertyName] === date;
 
   const setActive = () =>
     setState((prevState) => ({
