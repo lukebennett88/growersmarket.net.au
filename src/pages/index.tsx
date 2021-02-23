@@ -111,20 +111,17 @@ function FrequentlyAskedQuestions({ faqs }) {
           </h2>
           <div className="mt-5 prose prose-on-dark">
             <ol>
-              {faqs.map(({ id, _type, blockContentRaw }) =>
-                _type === 'richText' ? (
-                  <li>
-                    <SanityBlockContent
-                      key={id}
-                      blocks={blockContentRaw}
-                      renderContainerOnSingleChild
-                      projectId={process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}
-                      dataset={process.env.NEXT_PUBLIC_SANITY_DATASET}
-                      className="mt-5"
-                    />
-                  </li>
-                ) : null
-              )}
+              {faqs.map(({ id, blockContentRaw }) => (
+                <li key={id}>
+                  <SanityBlockContent
+                    blocks={blockContentRaw}
+                    renderContainerOnSingleChild
+                    projectId={process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}
+                    dataset={process.env.NEXT_PUBLIC_SANITY_DATASET}
+                    className="mt-5"
+                  />
+                </li>
+              ))}
             </ol>
           </div>
           <div className="mt-5">
