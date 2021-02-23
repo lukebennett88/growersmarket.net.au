@@ -1,8 +1,11 @@
 import { useCartContext } from '@lib/cart-provider';
-import { useCart } from '@lib/hooks/use-cart';
 import { useCheckoutUrl } from '@lib/hooks/use-checkout-url';
+import { useShopifyContext } from '@lib/shopify-context';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import Router from 'next/router';
+import * as React from 'react';
+import { FaSpinner } from 'react-icons/fa';
 
 import { ProductSummary } from './product-summary';
 
@@ -25,9 +28,7 @@ function ConfirmOrder({ authUser }): React.ReactElement {
     setState((prevState) => ({ ...prevState, step: 3 }));
   }
 
-  const checkout = useCheckoutUrl();
-
-  const cart = useCart();
+  const checkoutUrl = useCheckoutUrl();
 
   const cartTotal = Number(cart?.totalPrice || 0).toFixed(2);
 
@@ -40,6 +41,64 @@ function ConfirmOrder({ authUser }): React.ReactElement {
       ...prevState,
       customerNotes: event.target.value,
     }));
+
+  const { cart, client, setCart } = useShopifyContext();
+
+  const customAttributes =
+    state.deliveryMethod === 'Pickup'
+      ? [
+          {
+            key: 'Delivery Method',
+            value: state.deliveryMethod,
+          },
+          {
+            key: 'Delivery Date',
+            value: state.deliveryDate,
+          },
+          {
+            key: 'Pickup Time',
+            value: state.pickupTime,
+          },
+        ]
+      : [
+          {
+            key: 'Delivery Method',
+            value: state.deliveryMethod,
+          },
+          {
+            key: 'Delivery Zone',
+            value: state.deliveryZone,
+          },
+          {
+            key: 'Delivery Date',
+            value: state.deliveryDate,
+          },
+        ];
+
+  const checkoutId = cart.id;
+  const input = {
+    note: state.customerNotes,
+    customAttributes,
+  };
+
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const handleCheckout = async () => {
+    setIsLoading(true);
+    try {
+      const newCheckout = await client.checkout.updateAttributes(
+        checkoutId,
+        input
+      );
+      setCart(newCheckout);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      setIsLoading(false);
+    } finally {
+      Router.push(checkoutUrl);
+    }
+  };
 
   return (
     <>
@@ -89,9 +148,8 @@ function ConfirmOrder({ authUser }): React.ReactElement {
           ''
         )}
       </dl>
-      <h2 className="mt-16 text-xl font-bold text-green-dark">Notes</h2>
       <label htmlFor="notes">
-        <span className="sr-only">Order notes</span>
+        <h2 className="mt-16 text-xl font-bold text-green-dark">Notes</h2>
         <textarea
           id="notes"
           name="notes"
@@ -120,24 +178,32 @@ function ConfirmOrder({ authUser }): React.ReactElement {
             Continue Shopping
           </a>
         </Link>
-        <a
-          href={checkout}
-          className="inline-flex items-center space-x-2 cta text-green-dark bg-yellow"
+        <button
+          type="button"
+          disabled={isLoading}
+          onClick={handleCheckout}
+          className={`inline-flex items-center space-x-2 text-green-dark bg-yellow cta${
+            isLoading ? ' opacity-75' : ''
+          }`}
         >
           Checkout
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-5 h-5 -mr-3"
-          >
-            <path
-              fillRule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </a>
+          {isLoading ? (
+            <FaSpinner className="w-5 h-5 ml-2.5 -mr-3 animate-spin opacity-50" />
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-5 h-5 -mr-3"
+            >
+              <path
+                fillRule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+          )}
+        </button>
       </div>
     </>
   );
