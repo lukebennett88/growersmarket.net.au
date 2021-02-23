@@ -26,13 +26,11 @@ function Summary(): React.ReactElement {
           <dd>Calculated at checkout</dd>
         </div>
         {Number(cartTotal) < 15 ? (
-          <div className="flex justify-between text-red-400">
+          <div className="flex justify-between text-red">
             <dt className="font-bold">Warning:</dt>
-            <dd>Cart minimum total should be $15.00</dd>
+            <dd>Minimum order amount is $15.00</dd>
           </div>
-        ) : (
-          ''
-        )}
+        ) : null}
       </dl>
       <div className="flex justify-between mt-16">
         <Link href="/">
