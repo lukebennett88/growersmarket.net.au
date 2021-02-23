@@ -6,12 +6,14 @@ import {
   ProductCard,
   ProductGrid,
 } from '@components/index';
-import { apolloClient, getAllSlides } from '@lib/index';
+import { apolloClient, getAllFAQs, getAllSlides } from '@lib/index';
+import SanityBlockContent from '@sanity/block-content-to-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 
 function HomePage({
+  faqs,
   specials,
   bestSellingFruit,
   bestSellingVegetables,
@@ -32,7 +34,7 @@ function HomePage({
               <TopSellingBoxes products={bestSellingBoxes.edges} />
             </div>
             <div className="grid gap-12 mt-12 lg:grid-cols-5">
-              <FrequentlyAskedQuestions />
+              <FrequentlyAskedQuestions faqs={faqs} />
               <DeliverySchedule />
             </div>
           </Container>
@@ -93,7 +95,7 @@ function TopSellingBoxes({ products }) {
   );
 }
 
-function FrequentlyAskedQuestions() {
+function FrequentlyAskedQuestions({ faqs }) {
   return (
     <article className="grid lg:col-span-2">
       <HorizontalPadding variant={HorizontalPadding.variant.GREEN}>
@@ -107,35 +109,23 @@ function FrequentlyAskedQuestions() {
               Questions
             </span>
           </h2>
-          <h3 className="mt-5 font-bold leading-7">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna.
-          </h3>
-          <div className="mt-5 prose text-white">
-            <dl className="space-y-5">
-              <div>
-                <dt className="font-bold">1. Lorem ipsum dolor sit?</dt>
-                <dd>
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat....{' '}
-                  <a href="#" style={{ color: '#ffffff' }} className="italic">
-                    read more
-                  </a>
-                </dd>
-              </div>
-              <div>
-                <dt className="font-bold">
-                  2. Lorem ipsum est sit dolor sed magna sit?
-                </dt>
-                <dd>
-                  Ut enim ad minim veniam, quis nostrud exercitation ullanco
-                  laboris nisi ut aliquip ex ea commodo consequat....{' '}
-                  <a href="#" style={{ color: '#ffffff' }} className="italic">
-                    read more
-                  </a>
-                </dd>
-              </div>
-            </dl>
+          <div className="mt-5">
+            <ol className="list-decimal faq">
+              {faqs.slice(0, 3).map(({ _key, _type, blockContentRaw }) =>
+                _type === 'richText' ? (
+                  <li>
+                    <SanityBlockContent
+                      key={_key}
+                      blocks={blockContentRaw}
+                      renderContainerOnSingleChild
+                      projectId={process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}
+                      dataset={process.env.NEXT_PUBLIC_SANITY_DATASET}
+                      className="mt-5"
+                    />
+                  </li>
+                ) : null
+              )}
+            </ol>
           </div>
           <div className="mt-5">
             <Link href="/pages/faq/">
@@ -345,6 +335,7 @@ async function getStaticProps() {
   });
 
   const carouselSlides = await getAllSlides();
+  const faqs = await getAllFAQs();
 
   return {
     props: {
@@ -353,6 +344,7 @@ async function getStaticProps() {
       bestSellingVegetables: data.bestSellingVegetables,
       carouselSlides,
       specials: data.specials.products,
+      faqs,
     },
     revalidate: 60,
   };
