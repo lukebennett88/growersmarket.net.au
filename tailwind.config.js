@@ -45,7 +45,11 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      borderColor: ['disabled'],
+      cursor: ['disabled'],
+      opacity: ['disabled'],
+    },
   },
   plugins: [
     // Apect ratio plugin docs: https://github.com/tailwindlabs/tailwindcss-aspect-ratio#readme
