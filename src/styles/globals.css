@@ -37,16 +37,6 @@
     @apply inline-block px-8 py-2 font-bold text-white rounded-full bg-green-dark;
   }
 
-  /* FAQ */
-  .faq p,
-  .faq h2 {
-    @apply text-base;
-  }
-  .faq h2,
-  .faq li::marker {
-    @apply font-bold;
-  }
-
   /* purgecss start ignore */
   [data-reach-combobox-option][aria-selected='true'] {
     @apply bg-gray-200;

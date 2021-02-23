@@ -109,13 +109,13 @@ function FrequentlyAskedQuestions({ faqs }) {
               Questions
             </span>
           </h2>
-          <div className="mt-5">
-            <ol className="list-decimal faq">
-              {faqs.slice(0, 3).map(({ _key, _type, blockContentRaw }) =>
+          <div className="mt-5 prose prose-on-dark">
+            <ol>
+              {faqs.map(({ id, _type, blockContentRaw }) =>
                 _type === 'richText' ? (
                   <li>
                     <SanityBlockContent
-                      key={_key}
+                      key={id}
                       blocks={blockContentRaw}
                       renderContainerOnSingleChild
                       projectId={process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}
@@ -335,6 +335,7 @@ async function getStaticProps() {
   });
 
   const carouselSlides = await getAllSlides();
+
   const faqs = await getAllFAQs();
 
   return {
@@ -344,7 +345,7 @@ async function getStaticProps() {
       bestSellingVegetables: data.bestSellingVegetables,
       carouselSlides,
       specials: data.specials.products,
-      faqs,
+      faqs: faqs.slice(0, 2),
     },
     revalidate: 60,
   };

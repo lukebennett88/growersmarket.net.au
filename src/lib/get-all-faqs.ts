@@ -6,7 +6,7 @@ const GET_FAQS = gql`
   query FAQsQuery {
     Page(id: "1887c410-abe0-4b02-b4e6-ad80620a305b") {
       content {
-        _key
+        id: _key
         _type
         blockContentRaw
       }
