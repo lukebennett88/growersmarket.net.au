@@ -1,7 +1,6 @@
 import { SignInModal } from '@components/signin-modal';
 import { SignInIcon } from '@components/vectors';
 import { useCartContext } from '@lib/cart-provider';
-import { useCart } from '@lib/index';
 import Link from 'next/link';
 import * as React from 'react';
 
@@ -10,16 +9,8 @@ function Login({ authUser }): React.ReactElement {
 
   const { setState } = useCartContext();
 
-  const cart = useCart();
-
-  const cartTotal = Number(cart?.totalPrice || 0).toFixed(2);
-
   if (authUser?.clientInitialized && authUser.email) {
     setState((prevState) => ({ ...prevState, step: 3 }));
-  }
-
-  if (Number(cartTotal) < 15) {
-    setState((prevState) => ({ ...prevState, step: 1 }));
   }
 
   return (
