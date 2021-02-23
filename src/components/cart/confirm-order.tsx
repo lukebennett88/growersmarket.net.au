@@ -9,8 +9,17 @@ import { FaSpinner } from 'react-icons/fa';
 
 import { ProductSummary } from './product-summary';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function ConfirmOrder({ authUser }): React.ReactElement {
   const { state, setState } = useCartContext();
+
+  const { cart, client, setCart } = useShopifyContext();
+
+  const cartTotal = Number(cart?.totalPrice || 0).toFixed(2);
+
+  if (Number(cartTotal) < 15) {
+    setState((prevState) => ({ ...prevState, step: 1 }));
+  }
 
   if (!authUser?.clientInitialized || !authUser.email) {
     setState((prevState) => ({ ...prevState, step: 2 }));
@@ -35,8 +44,6 @@ function ConfirmOrder({ authUser }): React.ReactElement {
       ...prevState,
       customerNotes: event.target.value,
     }));
-
-  const { cart, client, setCart } = useShopifyContext();
 
   const customAttributes =
     state.deliveryMethod === 'Pickup'
@@ -94,6 +101,11 @@ function ConfirmOrder({ authUser }): React.ReactElement {
     }
   };
 
+  const subtotal = Number(cart?.totalPrice || 0);
+
+  const shippingCost =
+    state.deliveryMethod === 'Delivery' && Number(cartTotal) < 40 ? 15 : 0;
+
   return (
     <>
       <h2 className="mt-8 text-xl font-bold text-green-dark">
@@ -127,11 +139,17 @@ function ConfirmOrder({ authUser }): React.ReactElement {
       <dl className="grid mt-16 gap-y-2">
         <div className="flex justify-between">
           <dt className="font-bold">Subtotal:</dt>
-          <dd>${Number(cart?.totalPrice || 0).toFixed(2)}</dd>
+          <dd className="tabular-nums">${subtotal.toFixed(2)}</dd>
         </div>
         <div className="flex justify-between">
           <dt className="font-bold">Shipping:</dt>
-          <dd>${state.deliveryMethod === 'Delivery' ? '15.00' : '0.00'}</dd>
+          <dd className="tabular-nums">${shippingCost.toFixed(2)}</dd>
+        </div>
+        <div className="flex justify-between">
+          <dt className="font-bold">Total:</dt>
+          <dd className="tabular-nums">
+            ${(subtotal + shippingCost).toFixed(2)}
+          </dd>
         </div>
       </dl>
       <label htmlFor="notes">

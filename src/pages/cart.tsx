@@ -31,6 +31,16 @@ function CartPage({
 }): React.ReactElement {
   const count = useCartCount();
 
+  const [cartCount, setCartCount] = React.useState('is empty');
+
+  React.useEffect(() => {
+    if (count > 0) {
+      setCartCount(
+        `contains ${count as number} ${count === 1 ? 'product' : 'products'}`
+      );
+    }
+  }, [count]);
+
   return (
     <>
       <NextSeo title="Cart" />
@@ -44,19 +54,12 @@ function CartPage({
         ]}
       />
       <Container>
-        <div className="relative grid lg:grid-cols-3">
+        <div className="relative z-0 grid lg:grid-cols-3">
           <div className="py-16 lg:col-span-2">
             <HorizontalPadding>
               <h1 className="text-2xl font-bold">Checkout</h1>
               <p>
-                Your shopping cart{' '}
-                <strong>
-                  {count > 0
-                    ? `contains ${count as number} ${
-                        count === 1 ? 'product' : 'products'
-                      }`
-                    : 'is empty'}
-                </strong>
+                Your shopping cart <strong>{cartCount}</strong>
               </p>
               <CartContextProvider>
                 <CartContent />

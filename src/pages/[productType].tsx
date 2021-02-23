@@ -75,7 +75,7 @@ function ProductTypePage({
                   {collections.map((node) => (
                     <li key={node.id}>
                       <Link href={`/collections/${node.handle}`}>
-                        <a>
+                        <a className="block">
                           <div className="relative aspect-w-4 aspect-h-3">
                             <div className="absolute inset-0 bg-gray-light">
                               {node.image && (

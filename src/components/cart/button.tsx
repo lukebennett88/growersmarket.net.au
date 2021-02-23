@@ -18,11 +18,11 @@ function Button({
       type="button"
       onClick={setActive}
       disabled={isDisabled}
-      className={`p-4 border rounded transition duration-150 ease-in-out${
+      className={`p-4 border rounded transition duration-150 ease-in-out disabled:border-transparent disabled:opacity-75 disabled:cursor-not-allowed ${
         isActive
           ? ' bg-green-dark text-white'
           : ' bg-white hover:border-green-dark'
-      }${isDisabled ? ' opacity-75' : ''}`}
+      }`}
     >
       {children}
     </button>
