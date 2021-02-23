@@ -1,8 +1,17 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 const defaultTheme = require('tailwindcss/defaultTheme');
 const aspectRatio = require('@tailwindcss/aspect-ratio');
 const forms = require('@tailwindcss/forms');
 const typography = require('@tailwindcss/typography');
 const tailwindFilters = require('tailwindcss-filters');
+
+const round = (num) =>
+  num
+    .toFixed(7)
+    .replace(/(\.\d+?)0+$/, '$1')
+    .replace(/\.0$/, '');
+
+const em = (px, base) => `${round(px / base)}em`;
 
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}'],
@@ -40,6 +49,38 @@ module.exports = {
               width: `${theme('width.auto')} !important`,
             },
           },
+        },
+        'on-dark': {
+          css: [
+            {
+              color: theme('colors.white'),
+              a: {
+                color: theme('colors.gray.200'),
+              },
+              strong: {
+                color: theme('colors.gray.200'),
+              },
+              'ol > li::before': {
+                color: theme('colors.gray.200'),
+                fontSize: em(20, 16),
+                fontWeight: theme('fontWeight.bold'),
+              },
+              'ul > li::before': {
+                backgroundColor: theme('colors.gray.200'),
+              },
+              h2: {
+                color: theme('colors.gray.200'),
+              },
+            },
+            {
+              h2: {
+                fontSize: em(20, 16),
+                marginTop: em(32, 20),
+                marginBottom: em(12, 20),
+                lineHeight: round(32 / 20),
+              },
+            },
+          ],
         },
       }),
     },

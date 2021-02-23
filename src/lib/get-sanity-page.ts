@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import { apolloClient } from './apollo-client';
 
 const GET_SANITY_PAGE = gql`
-  query ProductQuery($id: ID!) {
+  query PageQuery($id: ID!) {
     Page(id: $id) {
       title
       description

@@ -146,10 +146,6 @@ function Slide({ slide, className }: { slide: ISlide; className: string }) {
         loader={loader}
         layout="fill"
         alt={slide.backgroundImage?.altText}
-        // style={{
-        //   filter: 'grayscale(1)',
-        //   mixBlendMode: 'multiply',
-        // }}
         className="absolute inset-0 object-cover w-full h-full mix-blend-mode-multiply filter-grayscale"
       />
       <Container>
@@ -158,11 +154,15 @@ function Slide({ slide, className }: { slide: ISlide; className: string }) {
             <h2 className="text-5xl italic text-white">
               <span className="inline-block max-w-prose">{slide.heading}</span>
             </h2>
-            <p className="mt-8">
-              <Link href={slide.ctaSlug}>
-                <a className="text-gray-900 cta bg-yellow">{slide.ctaLabel}</a>
-              </Link>
-            </p>
+            {slide.ctaSlug && slide.ctaLabel && (
+              <p className="mt-8">
+                <Link href={slide.ctaSlug}>
+                  <a className="text-gray-900 cta bg-yellow">
+                    {slide.ctaLabel}
+                  </a>
+                </Link>
+              </p>
+            )}
           </div>
         </HorizontalPadding>
       </Container>

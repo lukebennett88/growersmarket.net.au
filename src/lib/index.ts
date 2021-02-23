@@ -1,6 +1,7 @@
 export * from './apollo-client';
 export * from './get-all-collections';
 export * from './get-all-collections-by-type';
+export * from './get-all-faqs';
 export * from './get-all-sanity-pages';
 export * from './get-all-slides';
 export * from './get-collection-by-handle';
