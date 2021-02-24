@@ -43,6 +43,7 @@ function DeliveryZone(): React.ReactElement {
     <Section heading="Delivery Zone">
       {deliveryZones.map(({ zone, heading, deliveryDays }) => (
         <Button
+          key={zone}
           isActive={state[propertyName] === zone}
           setActive={() =>
             setState((prevState) => ({
