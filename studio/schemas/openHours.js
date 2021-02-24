@@ -16,12 +16,13 @@ export default {
   ],
   preview: {
     select: {
-      title: 'title',
+      title: 'days',
+      subtitle: 'hours'
     },
-    prepare({ title }) {
-      return {
-        title,
-      };
-    },
+    // prepare({ title }) {
+    //   return {
+    //     title,
+    //   };
+    // },
   },
 };

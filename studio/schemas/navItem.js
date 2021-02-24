@@ -9,12 +9,12 @@ export default {
     },
   ],
   fields: [
-    {
-      title: 'Title',
-      name: 'title',
-      type: 'string',
-      description: 'This the label for the nav item to be shown in Sanity',
-    },
+    // {
+    //   title: 'Title',
+    //   name: 'title',
+    //   type: 'string',
+    //   description: 'This the label for the nav item to be shown in Sanity',
+    // },
     {
       name: 'sanityPage',
       type: 'sanityPage',
@@ -24,4 +24,16 @@ export default {
       type: 'externalPage',
     },
   ],
+  preview: {
+    select: {
+      title1: 'sanityPage.label',
+      title2: 'externalPage.label',
+    },
+    prepare(selection) {
+      const {title1, title2} = selection
+      return {
+        title: title1 || title2,
+      }
+    }
+  },
 };

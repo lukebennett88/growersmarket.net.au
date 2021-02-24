@@ -1,4 +1,4 @@
-import { BagIcon, DeliveryIcon } from '@components/vectors';
+import { PickupIcon, DeliveryIcon } from '@components/vectors';
 import { TDeliveryMethod, useCartContext } from '@lib/cart-provider';
 import * as React from 'react';
 
@@ -8,7 +8,7 @@ import { Section } from './section';
 const deliveryMethods = [
   {
     title: 'Pickup',
-    icon: BagIcon,
+    icon: PickupIcon,
     minSpend: '15',
   },
   {
