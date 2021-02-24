@@ -49,6 +49,13 @@ function ConfirmOrder({ authUser }): React.ReactElement {
     setState((prevState) => ({ ...prevState, step: 3 }));
   }
 
+  // Scroll to top of page
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
   const checkoutUrl = useCheckoutUrl();
 
   const handleChange = (event) =>
@@ -57,40 +64,64 @@ function ConfirmOrder({ authUser }): React.ReactElement {
       customerNotes: event.target.value,
     }));
 
-  const customAttributes =
-    state.deliveryMethod === 'Pickup'
-      ? [
-          {
-            key: 'Delivery Method',
-            value: state.deliveryMethod,
-          },
-          {
-            key: 'Delivery Date',
-            value: state.deliveryDate,
-          },
-          {
-            key: 'Pickup Time',
-            value: state.pickupTime,
-          },
-        ]
-      : [
-          {
-            key: 'Delivery Method',
-            value: state.deliveryMethod,
-          },
-          {
-            key: 'Delivery Zone',
-            value: state.deliveryZone,
-          },
-          {
-            key: 'Delivery Date',
-            value: state.deliveryDate,
-          },
-          {
-            key: 'Shipping Type',
-            value: state.shippingType,
-          },
-        ];
+  let customAttributes = [];
+
+  if (state.deliveryMethod === 'Pickup') {
+    customAttributes = [
+      {
+        key: 'Delivery Method',
+        value: state.deliveryMethod,
+      },
+      {
+        key: 'Delivery Date',
+        value: state.deliveryDate,
+      },
+      {
+        key: 'Pickup Time',
+        value: state.pickupTime,
+      },
+    ];
+  }
+
+  if (
+    state.deliveryMethod === 'Delivery' &&
+    state.deliveryZone === 'Lord Howe Island'
+  ) {
+    customAttributes = [
+      {
+        key: 'Delivery Method',
+        value: state.deliveryMethod,
+      },
+      {
+        key: 'Delivery Zone',
+        value: state.deliveryZone,
+      },
+      {
+        key: 'Shipping Type',
+        value: state.shippingType,
+      },
+    ];
+  }
+
+  if (
+    state.deliveryMethod === 'Delivery' &&
+    state.deliveryZone !== 'Lord Howe Island'
+  ) {
+    customAttributes = [
+      {
+        key: 'Delivery Method',
+        value: state.deliveryMethod,
+      },
+      {
+        key: 'Delivery Zone',
+        value: state.deliveryZone,
+      },
+      {
+        key: 'Delivery Date',
+        value: state.deliveryDate,
+      },
+    ];
+  }
 
   const checkoutId = cart.id;
   const input = {
@@ -120,7 +151,7 @@ function ConfirmOrder({ authUser }): React.ReactElement {
   const subtotal = Number(cart?.totalPrice || 0);
 
   const shippingCost =
-    state.deliveryMethod === 'Delivery' && Number(cartTotal) < 40 ? 15 : 0;
+    state.deliveryMethod === 'Delivery' && Number(cartTotal) < 40 ? 7 : 0;
 
   return (
     <>
@@ -138,7 +169,12 @@ function ConfirmOrder({ authUser }): React.ReactElement {
           <dt className="inline font-bold">Delivering Zone: </dt>
           <dd className="inline">{state.deliveryZone}</dd>
         </div>
-        {state.deliveryZone !== 'Lord Howe Island' ? (
+        {state.deliveryZone === 'Lord Howe Island' ? (
+          <div>
+            <dt className="inline font-bold">Delivery Method: </dt>
+            <dd className="inline">{state.shippingType}</dd>
+          </div>
+        ) : (
           <div>
             <dt className="inline font-bold">
               {state.deliveryMethod === 'Delivery' ? 'Delivery' : 'Pickup'}{' '}
@@ -148,14 +184,7 @@ function ConfirmOrder({ authUser }): React.ReactElement {
               {dayjs(state.deliveryDate).format('dddd, Do MMMM')}
             </dd>
           </div>
-        ) : null}
-
-        {state.deliveryZone === 'Lord Howe Island' ? (
-          <div>
-            <dt className="inline font-bold">Shipping type: </dt>
-            <dd className="inline">{state.shippingType}</dd>
-          </div>
-        ) : null}
+        )}
       </dl>
       <h2 className="mt-16 text-xl font-bold text-green-dark">
         Your Shopping Cart

@@ -1,4 +1,5 @@
-import { DeliveryIcon } from '@components/vectors';
+import { PlaneIcon } from '@components/vectors/plane-icon';
+import { ShipIcon } from '@components/vectors/ship-icon';
 import { TShippingType, useCartContext } from '@lib/cart-provider';
 import * as React from 'react';
 
@@ -8,13 +9,11 @@ import { Section } from './section';
 const shippingTypes = [
   {
     title: 'Ship',
-    icon: DeliveryIcon,
-    // minSpend: '15',
+    icon: ShipIcon,
   },
   {
     title: 'Plane',
-    icon: DeliveryIcon,
-    // minSpend: '40',
+    icon: PlaneIcon,
   },
 ];
 
@@ -28,7 +27,7 @@ function ShipOrPlane(): React.ReactElement {
   const property = 'shippingType';
 
   return (
-    <Section heading="Shipping type: Ship or Plane?" colsClass="grid-cols-2">
+    <Section heading="Delivery Method" colsClass="grid-cols-2">
       {shippingTypes.map((method) => (
         <Button
           key={method.title}
@@ -40,9 +39,8 @@ function ShipOrPlane(): React.ReactElement {
             }))
           }
         >
-          <method.icon className="h-12 mx-auto" />
+          <method.icon aria-hidden className="h-12 mx-auto" />
           <h3 className="font-bold">{method.title}</h3>
-          {/* <p>(${method.minSpend} minimum spend)</p> */}
         </Button>
       ))}
     </Section>
