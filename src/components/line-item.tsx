@@ -14,14 +14,14 @@ function LineItem({ lineItem }) {
   // Number of items in cart
   const [quantity, setQuantity] = React.useState<number>(lineItem.quantity);
 
-  // Increment quantity
+  // Decrement quantity
   const decrement = (): void => {
     if (quantity > 0) {
       setQuantity((prevQty) => prevQty - 1);
     }
   };
 
-  // Decrement quantity
+  // Increment quantity
   const increment = (): void => setQuantity((prevQty) => prevQty + 1);
 
   const removeFromCart = useRemoveItemFromCart();
@@ -35,6 +35,12 @@ function LineItem({ lineItem }) {
     updateQuantity(variantId, quantity);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [variantId, quantity]);
+
+  React.useEffect(() => {
+    if (lineItem.quantity > quantity) {
+      setQuantity((prevQty) => prevQty + 1);
+    }
+  }, [lineItem.quantity, quantity]);
 
   const price = Number(lineItem.variant.price);
 
