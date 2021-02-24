@@ -32,6 +32,17 @@ export default {
       type: 'string',
     },
     {
+      title: 'Fax number',
+      name: 'faxNumber',
+      type: 'string',
+    },
+    {
+      title: 'Hours',
+      name: 'hours',
+      type: 'array',
+      of: [{ type: 'openHours' }],
+    },
+    {
       title: 'Address',
       name: 'address',
       type: 'address',

@@ -8,10 +8,10 @@ import {
   TopSellingProducts,
 } from '@components/index';
 import { getAllSlides, getTopSelling, ISlide } from '@lib/index';
-import { config } from 'config';
 import { GetStaticPropsResult } from 'next';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
+import siteSettings from '../../data/site-settings.json';
 
 function ContactPage({ topSelling, carouselSlides }): React.ReactElement {
   // Navigation array from Breadcrumbs
@@ -44,31 +44,39 @@ function ContactPage({ topSelling, carouselSlides }): React.ReactElement {
                     <div>
                       <dt className="inline font-bold">Phone: </dt>
                       <dd className="inline">
-                        <a href={`tel:${config.phone}`} className="underline">
-                          {config.phone}
+                        <a
+                          href={`tel:${siteSettings.phoneNumber}`}
+                          className="underline"
+                        >
+                          {siteSettings.phoneNumber}
                         </a>
                       </dd>
                     </div>
                     <div>
                       <dt className="inline font-bold">Fax: </dt>
-                      <dd className="inline">{config.fax}</dd>
+                      <dd className="inline">{siteSettings.faxNumber}</dd>
                     </div>
                     <div>
                       <dt className="inline font-bold">Address: </dt>
                       <dd className="inline">
                         <a
-                          href={config.address.googleMaps.link}
+                          href={siteSettings.address.googleMaps.link}
                           className="underline"
                         >
-                          {config.address.line1}, {config.address.line2}
+                          {siteSettings.address.streetAddress},{' '}
+                          {siteSettings.address.suburb}
                         </a>
                       </dd>
                     </div>
                     <div>
                       <dt className="inline font-bold">Hours: </dt>
                       <dd className="inline">
-                        {config.hours.weekdays} <br />
-                        {config.hours.weekends}
+                        {siteSettings.hours.map(({ days, hours }, index) => (
+                          <React.Fragment key={days}>
+                            {days}: {hours}
+                            {index !== siteSettings.hours.length - 1 && <br />}
+                          </React.Fragment>
+                        ))}
                       </dd>
                     </div>
                   </dl>

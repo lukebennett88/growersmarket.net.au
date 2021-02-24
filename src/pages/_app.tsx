@@ -9,7 +9,6 @@ import { initAuth } from '@lib/init-auth';
 import { AppProps } from 'next/app';
 import { DefaultSeo } from 'next-seo';
 
-import { config } from '../../config';
 import siteSettings from '../data/site-settings.json';
 
 initAuth();
@@ -22,13 +21,13 @@ function App({ Component, pageProps }: AppProps) {
     >
       <ApolloProvider client={apolloClient}>
         <DefaultSeo
-          titleTemplate={`%s | ${config.title}`}
-          description={config.description}
+          titleTemplate={`%s | ${siteSettings.title}`}
+          description={siteSettings.description}
           openGraph={{
             type: 'website',
             locale: 'en_AU',
-            url: config.siteUrl,
-            site_name: config.title,
+            url: siteSettings.siteUrl,
+            site_name: siteSettings.title,
             images: [{ url: siteSettings.shareImage.asset.url }],
           }}
         />
