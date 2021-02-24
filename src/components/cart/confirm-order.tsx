@@ -33,7 +33,19 @@ function ConfirmOrder({ authUser }): React.ReactElement {
     setState((prevState) => ({ ...prevState, step: 3 }));
   }
 
-  if (state.deliveryMethod === 'Delivery' && state.deliveryDate === '') {
+  if (
+    state.deliveryMethod === 'Delivery' &&
+    state.deliveryDate === '' &&
+    state.deliveryZone !== 'Lord Howe Island'
+  ) {
+    setState((prevState) => ({ ...prevState, step: 3 }));
+  }
+
+  if (
+    state.deliveryMethod === 'Delivery' &&
+    state.deliveryZone === 'Lord Howe Island' &&
+    state.shippingType === ''
+  ) {
     setState((prevState) => ({ ...prevState, step: 3 }));
   }
 
@@ -73,6 +85,10 @@ function ConfirmOrder({ authUser }): React.ReactElement {
           {
             key: 'Delivery Date',
             value: state.deliveryDate,
+          },
+          {
+            key: 'Shipping Type',
+            value: state.shippingType,
           },
         ];
 
@@ -122,14 +138,24 @@ function ConfirmOrder({ authUser }): React.ReactElement {
           <dt className="inline font-bold">Delivering Zone: </dt>
           <dd className="inline">{state.deliveryZone}</dd>
         </div>
-        <div>
-          <dt className="inline font-bold">
-            {state.deliveryMethod === 'Delivery' ? 'Delivery' : 'Pickup'} Date:{' '}
-          </dt>
-          <dd className="inline">
-            {dayjs(state.deliveryDate).format('dddd, Do MMMM')}
-          </dd>
-        </div>
+        {state.deliveryZone !== 'Lord Howe Island' ? (
+          <div>
+            <dt className="inline font-bold">
+              {state.deliveryMethod === 'Delivery' ? 'Delivery' : 'Pickup'}{' '}
+              Date:{' '}
+            </dt>
+            <dd className="inline">
+              {dayjs(state.deliveryDate).format('dddd, Do MMMM')}
+            </dd>
+          </div>
+        ) : null}
+
+        {state.deliveryZone === 'Lord Howe Island' ? (
+          <div>
+            <dt className="inline font-bold">Shipping type: </dt>
+            <dd className="inline">{state.shippingType}</dd>
+          </div>
+        ) : null}
       </dl>
       <h2 className="mt-16 text-xl font-bold text-green-dark">
         Your Shopping Cart

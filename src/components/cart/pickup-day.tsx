@@ -11,7 +11,8 @@ function PickupDay(): React.ReactElement {
 
   if (
     state.deliveryMethod === '' ||
-    (state.deliveryMethod === 'Delivery' && state.deliveryZone === '')
+    (state.deliveryMethod === 'Delivery' && state.deliveryZone === '') ||
+    state.deliveryZone === 'Lord Howe Island'
   ) {
     return null;
   }
