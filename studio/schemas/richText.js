@@ -7,11 +7,12 @@ export default {
       title: 'Block Content',
       type: 'blockContent',
       name: 'blockContent',
+      display: 'blockContent'
     },
   ],
   preview: {
     select: {
-      title: 'title',
+      title: 'blockContent[0].children[0].text',
     },
     prepare({ title }) {
       return {
