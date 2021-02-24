@@ -89,12 +89,15 @@ function Day({ index }: IDay) {
     }
   }, [IS_DISABLED, deliveryZone, setState]);
 
+  if (IS_DISABLED[deliveryZone]) {
+    return null;
+  }
+
   if (isWeekend) {
     return null;
   }
 
   const dayWithOrdinal = dayjs(date).format('Do');
-
   const month = dayjs(date).format('MMMM');
 
   const setActive = () =>
