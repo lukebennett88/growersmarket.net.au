@@ -35,11 +35,14 @@ interface IProductSlider {
 function ProductSlider({ children }: IProductSlider): React.ReactElement {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [isMounted, setIsMounted] = React.useState(false);
+  const [pause, setPause] = React.useState(false);
   const sliderContainerRef = React.useRef<HTMLDivElement>(null);
+  const timer = React.useRef<any>();
 
   const [ref, slider] = useKeenSlider<HTMLUListElement>({
     loop: true,
     slidesPerView: 1,
+    duration: 1000,
     mounted: () => setIsMounted(true),
     slideChanged(s) {
       setCurrentSlide(s.details().relativeSlide);
@@ -66,6 +69,17 @@ function ProductSlider({ children }: IProductSlider): React.ReactElement {
     if (e.key === 'ArrowLeft') slider.prev();
     if (e.key === 'ArrowRight') slider.next();
   }
+
+  React.useEffect(() => {
+    timer.current = window.setInterval(() => {
+      if (!pause && slider) {
+        slider.next();
+      }
+    }, 3000);
+    return () => {
+      clearInterval(timer.current);
+    };
+  }, [pause, slider]);
 
   return (
     <div ref={sliderContainerRef} className="relative">
