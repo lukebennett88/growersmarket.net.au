@@ -43,6 +43,28 @@ function ProductTypePage({
   topSelling,
   carouselSlides,
 }: IProductTypePage): React.ReactElement {
+  const [filter, setFilter] = React.useState('All');
+  const [filteredCollections, setFilteredCollections] = React.useState(
+    collections
+  );
+
+  // Update state whenever filter changes
+  React.useEffect(() => {
+    // Start off with all collections
+    let tempCollections = JSON.parse(JSON.stringify(collections));
+    console.log(tempCollections);
+
+    // Then handle the A-Z filter
+    if (filter === 'A – Z (Name)') {
+      tempCollections.sort((a, b) => a.title.localeCompare(b.title));
+    }
+    // Then handle the Z-A filter
+    if (filter === 'Z – A (Name)') {
+      tempCollections.sort((a, b) => b.title.localeCompare(a.title));
+    }
+    setFilteredCollections(tempCollections);
+  }, [filter]);
+
   return (
     <>
       <NextSeo title={`All ${productType}`} />
@@ -65,14 +87,20 @@ function ProductTypePage({
                 <div>
                   <h1 className="text-2xl font-bold">All {productType}</h1>
                   Sort by{' '}
-                  <select name="" id="">
+                  <select
+                    onChange={(e) => setFilter(e.target.value)}
+                    name="filter_collections"
+                    id="filter_collections"
+                  >
+                    <option value="All">All Products</option>
                     <option value="A – Z (Name)">A – Z (Name)</option>
+                    <option value="Z – A (Name)">Z – A (Name)</option>
                   </select>
                 </div>
               </div>
               <div className="mt-2 border-t">
                 <ul className="grid gap-12 mt-2 lg:grid-cols-3">
-                  {collections.map((node) => (
+                  {filteredCollections.map((node) => (
                     <li key={node.id}>
                       <Link href={`/collections/${node.handle}`}>
                         <a className="block">
