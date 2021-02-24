@@ -137,13 +137,13 @@ function SubMenu({ subMenu, isActive, closeTab }) {
         <div className="relative grid grid-cols-2 mx-auto max-w-screen-2xl">
           <div className="py-8 bg-gray-light sm:py-12">
             <HorizontalPadding as="nav">
-              <ul className="grid grid-flow-col grid-cols-3 grid-rows-6 gap-6">
+              <ul className="grid grid-cols-3 gap-6">
                 {subMenu.map((menu) => (
-                  <li key={menu.id}>
+                  <li key={menu.id} className="grid">
                     <Link href={`/collections/${menu.handle as string}`}>
                       <a
                         onClick={closeTab}
-                        className="flex items-center p-3 -m-3 text-base font-bold rounded-md text-green-dark hover:bg-white"
+                        className="flex items-start p-3 -m-3 text-base font-bold rounded-md text-green-dark hover:bg-white"
                       >
                         {menu.title}
                       </a>
