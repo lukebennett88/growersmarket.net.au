@@ -37,15 +37,21 @@ function ProductSlider({ children }: IProductSlider): React.ReactElement {
   const [isMounted, setIsMounted] = React.useState(false);
   const [pause, setPause] = React.useState(false);
   const sliderContainerRef = React.useRef<HTMLDivElement>(null);
-  const timer = React.useRef<any>();
+  const timer = React.useRef(null);
 
-  const [ref, slider] = useKeenSlider<HTMLUListElement>({
+  const [sliderRef, slider] = useKeenSlider<HTMLUListElement>({
     loop: true,
     slidesPerView: 1,
-    duration: 1000,
+    duration: 1500,
     mounted: () => setIsMounted(true),
     slideChanged(s) {
       setCurrentSlide(s.details().relativeSlide);
+    },
+    dragStart: () => {
+      setPause(true);
+    },
+    dragEnd: () => {
+      setPause(false);
     },
   });
 
@@ -55,7 +61,6 @@ function ProductSlider({ children }: IProductSlider): React.ReactElement {
       'touchstart',
       preventNavigation
     );
-
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       sliderContainerRef.current?.removeEventListener(
@@ -65,26 +70,38 @@ function ProductSlider({ children }: IProductSlider): React.ReactElement {
     };
   }, []);
 
-  function handleKeyDown(e) {
-    if (e.key === 'ArrowLeft') slider.prev();
-    if (e.key === 'ArrowRight') slider.next();
-  }
-
+  // Automatically slide through CTAs
   React.useEffect(() => {
     timer.current = window.setInterval(() => {
       if (!pause && slider) {
         slider.next();
       }
-    }, 3000);
+    }, 3500);
     return () => {
       clearInterval(timer.current);
     };
   }, [pause, slider]);
 
+  // Pause slider when hovering over
+  React.useEffect(() => {
+    sliderRef.current.addEventListener('mouseover', () => {
+      setPause(true);
+    });
+    sliderRef.current.addEventListener('mouseout', () => {
+      setPause(false);
+    });
+  }, [sliderRef]);
+
+  // Allow control of carousel with keyboard when focused
+  function handleKeyDown(e) {
+    if (e.key === 'ArrowLeft') slider.prev();
+    if (e.key === 'ArrowRight') slider.next();
+  }
+
   return (
     <div ref={sliderContainerRef} className="relative">
       <ul
-        ref={ref}
+        ref={sliderRef}
         role="region"
         tabIndex={0}
         onKeyDown={(e) => handleKeyDown(e)}
