@@ -1,6 +1,5 @@
 import { useCartContext } from '@lib/cart-provider';
 import { useCart } from '@lib/index';
-import { copyFileSync } from 'fs';
 import * as React from 'react';
 
 import { DeliveryOrPickup } from './delivery-or-pickup';
@@ -11,7 +10,7 @@ import { PickupTime } from './pickup-time';
 import { ShipOrPlane } from './ship-or-plane';
 
 function Delivery(): React.ReactElement {
-  const { state, setState } = useCartContext();
+  const { setState } = useCartContext();
 
   const cart = useCart();
 
