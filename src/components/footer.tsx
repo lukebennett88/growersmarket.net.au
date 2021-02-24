@@ -1,10 +1,10 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ReactElement } from 'react';
 
 import siteNavigation from '../data/site-navigation.json';
 import siteSettings from '../data/site-settings.json';
 import { ContactForm } from './contact-form';
+import { Logo } from './vectors/logo';
 
 function Footer() {
   const [
@@ -22,14 +22,8 @@ function Footer() {
           <div className="space-y-8 xl:col-span-1">
             <Link href="/">
               <a className="block mx-auto max-w-max">
-                <Image
-                  src="/logo.png"
-                  width={200}
-                  height={107}
-                  layout="intrinsic"
-                  alt="Growers Market"
-                  className="drop-shadow"
-                />
+                <span className="sr-only">{siteSettings.title}</span>
+                <Logo className="block h-20 sm:h-24 drop-shadow" />
               </a>
             </Link>
           </div>

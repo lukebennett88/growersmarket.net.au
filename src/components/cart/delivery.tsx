@@ -7,6 +7,7 @@ import { DeliveryZone } from './delivery-zone';
 import { PaginationLinks } from './pagination-links';
 import { PickupDay } from './pickup-day';
 import { PickupTime } from './pickup-time';
+import { ShipOrPlane } from './ship-or-plane';
 
 function Delivery(): React.ReactElement {
   const { setState } = useCartContext();
@@ -23,6 +24,7 @@ function Delivery(): React.ReactElement {
     <div className="grid gap-8 mt-8">
       <DeliveryOrPickup />
       <DeliveryZone />
+      <ShipOrPlane />
       <PickupDay />
       <PickupTime />
       <PaginationLinks />
