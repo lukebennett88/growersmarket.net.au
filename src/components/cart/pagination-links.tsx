@@ -39,7 +39,19 @@ function NextStepButton() {
     return null;
   }
 
-  if (state.deliveryMethod === 'Delivery' && state.deliveryDate === '') {
+  if (
+    state.deliveryMethod === 'Delivery' &&
+    state.deliveryDate === '' &&
+    state.deliveryZone !== 'Lord Howe Island'
+  ) {
+    return null;
+  }
+
+  if (
+    state.deliveryMethod === 'Delivery' &&
+    state.deliveryZone === 'Lord Howe Island' &&
+    state.shippingType === ''
+  ) {
     return null;
   }
 

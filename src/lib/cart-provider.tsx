@@ -13,6 +13,8 @@ type TDeliveryZone =
   | 'Kempsey'
   | 'Lord Howe Island';
 
+type TShippingType = '' | 'Ship' | 'Plane';
+
 type TPickupTime = '' | '9am – 11am' | '11am – 2pm' | '2pm – 6pm';
 
 interface InitialStateValues {
@@ -28,6 +30,9 @@ interface InitialStateValues {
   // Date that customer wants to pick up their order or have it delivered
   deliveryDate: string;
 
+  // How the customer wants to ship their order if the destination is Lord Howe Island
+  shippingType: TShippingType;
+
   // Time window that the customer wants to collect their order
   pickupTime: TPickupTime;
 
@@ -41,6 +46,7 @@ const initialState: InitialStateValues = {
   deliveryMethod: '',
   deliveryZone: '',
   deliveryDate: '',
+  shippingType: '',
   pickupTime: '',
   customerNotes: '',
 };
@@ -91,6 +97,13 @@ function CartContextProvider({ children }) {
 
 // Export everything
 export { CartContext, CartContextProvider, useCartContext };
-export type { IState, TDeliveryMethod, TDeliveryZone, TPickupTime, TSetState };
+export type {
+  IState,
+  TDeliveryMethod,
+  TDeliveryZone,
+  TShippingType,
+  TPickupTime,
+  TSetState,
+};
 
 // Alistair's Code here: https://gist.github.com/mrhut10/dd6e1cb539e8f0b757125fc0c301284b
