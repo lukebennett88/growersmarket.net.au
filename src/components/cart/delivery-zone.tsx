@@ -7,25 +7,26 @@ import { Section } from './section';
 const deliveryZones = [
   {
     zone: 'Port Macquarie',
-    deliveryDays: 'Delivered on: Monday, Tuesday, Wednesday, Thursday, Friday.',
+    deliveryDays: 'Monday, Tuesday, Wednesday, Thursday, Friday.',
   },
   {
     zone: 'Wauchope',
-    deliveryDays: 'Delivered on: Monday, Wednesday, Friday.',
+    heading: 'Wauchope / Sancrox / Thrumster / Sovereign Hills',
+    deliveryDays: 'Monday, Wednesday, Friday.',
   },
   {
     zone: 'Laurieton',
     heading: 'Laurieton / Lake Cathie / North Haven / Bonny Hills',
-    deliveryDays: 'Delivered on: Tuesday and Friday.',
+    deliveryDays: 'Tuesday and Friday.',
   },
   {
     zone: 'Kempsey',
     heading: 'Kempsey/Crescent Head',
-    deliveryDays: 'Delivered on: Friday.',
+    deliveryDays: 'Friday.',
   },
   {
     zone: 'Lord Howe Island',
-    deliveryDays: 'Delivered on: Monday, Tuesday, Wednesday, Thursday, Friday.',
+    deliveryDays: 'Monday, Tuesday, Wednesday, Thursday, Friday.',
   },
 ];
 
@@ -51,7 +52,7 @@ function DeliveryZone(): React.ReactElement {
           }
         >
           <h3 className="font-bold">{heading || zone}</h3>
-          <p>{deliveryDays}</p>
+          <p>Delivered on: {deliveryDays}</p>
           <p>Please place your order before 10am the day prior to delivery.</p>
         </Button>
       ))}
