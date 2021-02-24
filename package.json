@@ -47,7 +47,7 @@
     "postcss": "^8.2.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-firebaseui": "^4.1.0",
+    "react-firebaseui": "^5.0.0-canary1",
     "react-hook-form": "^6.15.4",
     "react-icons": "^4.2.0",
     "react-instantsearch-dom": "^6.10.0",
