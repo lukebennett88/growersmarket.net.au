@@ -26,6 +26,7 @@ import siteSettings from './siteSettings';
 import slide from './slide';
 import socialLinks from './socialLinks';
 import textWithImage from './textWithImage';
+import openHours from './openHours';
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -37,23 +38,24 @@ export default createSchema({
     // The following are document types which will appear
     // in the studio.
     address,
-    googleMaps,
-    link,
-    route,
-    cta,
-    keyValuePair,
-    socialLinks,
-    imageWithAltText,
-    textWithImage,
     blockContent,
     carousel,
-    slide,
-    richText,
-    navItem,
-    footerNavSection,
-    page,
-    sanityPage,
+    cta,
     externalPage,
+    footerNavSection,
+    googleMaps,
+    imageWithAltText,
+    keyValuePair,
+    link,
+    navItem,
+    openHours,
+    page,
+    richText,
+    route,
+    sanityPage,
+    slide,
+    socialLinks,
+    textWithImage,
     // Site metadata
     navigation,
     siteSettings,

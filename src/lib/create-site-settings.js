@@ -23,15 +23,6 @@ const apolloClient = new ApolloClient({
 const SANITY_DATA = gql`
   query SanityQuery {
     SiteSettings(id: "siteSettings") {
-      title
-      description
-      siteUrl
-      shareImage {
-        asset {
-          url
-        }
-      }
-      phoneNumber
       address {
         streetAddress
         suburb
@@ -40,11 +31,25 @@ const SANITY_DATA = gql`
           embed
         }
       }
+      description
+      faxNumber
+      hours {
+        days
+        hours
+      }
+      phoneNumber
+      shareImage {
+        asset {
+          url
+        }
+      }
+      siteUrl
       socialLinks {
         _key
         socialNetwork
         link
       }
+      title
     }
   }
 `;

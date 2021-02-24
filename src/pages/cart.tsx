@@ -22,13 +22,15 @@ import {
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
 
+interface ICartPage {
+  topSelling: ITopSellingProducts;
+  carouselSlides: Array<ISlide>;
+}
+
 function CartPage({
   topSelling,
   carouselSlides,
-}: {
-  topSelling: ITopSellingProducts;
-  carouselSlides: Array<ISlide>;
-}): React.ReactElement {
+}: ICartPage): React.ReactElement {
   const count = useCartCount();
 
   const [cartCount, setCartCount] = React.useState('is empty');
@@ -75,8 +77,7 @@ function CartPage({
 
 const getServerSideProps = withAuthUserTokenSSR({
   whenAuthed: AuthAction.RENDER,
-  whenUnauthedBeforeInit: AuthAction.RENDER,
-  whenUnauthedAfterInit: AuthAction.RENDER,
+  whenUnauthed: AuthAction.RENDER,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 })(async ({ AuthUser }) => {
   const topSelling = await getTopSelling({
@@ -97,4 +98,5 @@ export default withAuthUser({
   whenAuthed: AuthAction.RENDER,
   whenUnauthedBeforeInit: AuthAction.RENDER,
   whenUnauthedAfterInit: AuthAction.RENDER,
+  // @ts-ignore // TODO: fix this warning caused by newly added types in `next-firebase-auth`
 })(CartPage);

@@ -58,10 +58,9 @@ function AuthPage() {
 
 const getServerSideProps = withAuthUserTokenSSR({
   whenAuthed: AuthAction.REDIRECT_TO_APP,
-  whenUnauthedBeforeInit: AuthAction.RETURN_NULL,
-  whenUnauthedAfterInit: AuthAction.RENDER,
+  whenUnauthed: AuthAction.RENDER,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-})(({ AuthUser }) => ({
+})(async ({ AuthUser }) => ({
   props: {},
 }));
 

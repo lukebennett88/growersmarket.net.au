@@ -51,21 +51,28 @@ function Day({ index }: IDay) {
 
   const isWeekend = dayOfWeek.includes('Sat') || dayOfWeek.includes('Sun');
 
+  const isGoodFriday = '2021-04-02';
+
   // TODO: Source this information from Sanity
   const IS_DISABLED = React.useMemo(
     () => ({
-      'Port Macquarie': false,
-      Wauchope: dayOfWeek === 'Tuesday' || dayOfWeek === 'Thursday',
+      'Port Macquarie': date === isGoodFriday,
+      Wauchope:
+        dayOfWeek === 'Tuesday' ||
+        dayOfWeek === 'Thursday' ||
+        date === isGoodFriday,
       Laurieton:
         dayOfWeek === 'Monday' ||
         dayOfWeek === 'Wednesday' ||
-        dayOfWeek === 'Thursday',
+        dayOfWeek === 'Thursday' ||
+        date === isGoodFriday,
       Kempsey:
         dayOfWeek === 'Monday' ||
         dayOfWeek === 'Tuesday' ||
         dayOfWeek === 'Wednesday' ||
-        dayOfWeek === 'Thursday',
-      'Lord Howe Island': false,
+        dayOfWeek === 'Thursday' ||
+        date === isGoodFriday,
+      'Lord Howe Island': isGoodFriday,
     }),
     [dayOfWeek]
   );
