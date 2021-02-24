@@ -81,6 +81,8 @@ function Day({ index }: IDay) {
 
   const isActive = state[propertyName] === date;
 
+  // If the user goes back and changes the delivery zone after selecting a delivery day
+  // and that day is not allowed for the newly selected delivery zone, reset the delivery day
   React.useEffect(() => {
     if (IS_DISABLED[deliveryZone]) {
       setState((prevState) => ({
@@ -90,14 +92,23 @@ function Day({ index }: IDay) {
     }
   }, [IS_DISABLED, deliveryZone, setState]);
 
+  // Don't load options for disabled days
+  if (IS_DISABLED[deliveryZone]) {
+    return null;
+  }
+
+  // Don't load weekends
   if (isWeekend) {
     return null;
   }
 
+  // Get date and format with ordinals
   const dayWithOrdinal = dayjs(date).format('Do');
 
+  // Get month and format
   const month = dayjs(date).format('MMMM');
 
+  // Function to set delivery day
   const setActive = () =>
     setState((prevState) => ({
       ...prevState,
