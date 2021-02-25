@@ -1,5 +1,5 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Transition } from '@headlessui/react';
 import { useOnClickOutside } from '@lib/hooks/use-onclick-outside';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@reach/tabs';
@@ -112,6 +112,40 @@ function NavLink({ navItem, closeTab }) {
   );
 }
 
+interface CTAProps {
+  closeTab: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  href: string;
+  label: string;
+  src: string;
+}
+
+function CTA({ closeTab, href, label, src }: CTAProps): React.ReactElement {
+  return (
+    <li className="grid">
+      <div className="relative aspect-w-1 aspect-h-1">
+        <div className="absolute inset-0 flex flex-col">
+          <Link href={href}>
+            <a
+              tabIndex={-1}
+              onClick={closeTab}
+              className="relative flex-1 block"
+            >
+              <Image src={src} layout="fill" objectFit="cover" />
+            </a>
+          </Link>
+          <div className="relative flex mt-8">
+            <Link href={href}>
+              <a onClick={closeTab} className="w-full text-center cta">
+                {label}
+              </a>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </li>
+  );
+}
+
 function SubMenu({ subMenu, isActive, closeTab, productType }) {
   return (
     <Transition
@@ -158,55 +192,21 @@ function SubMenu({ subMenu, isActive, closeTab, productType }) {
               </ul>
             </HorizontalPadding>
           </div>
-          <div className="py-12 pl-6 pr-8 bg-white">
-            <div>
-              <ul className="grid grid-cols-2 gap-12">
-                <li className="space-y-8">
-                  <div className="relative h-0 aspect-w-4 aspect-h-3">
-                    <Link href="/collections/specials">
-                      <a className="block">
-                        <Image
-                          src="/product-type/specials.jpg"
-                          layout="fill"
-                          objectFit="cover"
-                          quality={100}
-                          className="absolute inset-0 object-contain w-full h-full"
-                        />
-                      </a>
-                    </Link>
-                  </div>
-                  <div>
-                    <Link href="/collections/specials">
-                      <a onClick={closeTab} className="w-full text-center cta">
-                        Shop Specials
-                      </a>
-                    </Link>
-                  </div>
-                </li>
-                <li className="space-y-8">
-                  <div className="relative h-0 aspect-w-4 aspect-h-3">
-                    <Link href={`/${productType.route as string}`}>
-                      <a className="block">
-                        <Image
-                          src={productType.image}
-                          layout="fill"
-                          objectFit="cover"
-                          quality={100}
-                          className="absolute inset-0 object-contain w-full h-full"
-                        />
-                      </a>
-                    </Link>
-                  </div>
-                  <div>
-                    <Link href={`/${productType.route as string}`}>
-                      <a onClick={closeTab} className="w-full text-center cta">
-                        Shop {productType.title}
-                      </a>
-                    </Link>
-                  </div>
-                </li>
-              </ul>
-            </div>
+          <div className="grid py-12 pl-6 pr-8 bg-white">
+            <ul style={{ minHeight: 120 }} className="grid grid-cols-2 gap-8">
+              <CTA
+                closeTab={closeTab}
+                href={`/${productType.route as string}`}
+                label={`Shop ${productType.title as string}`}
+                src={productType.image}
+              />
+              <CTA
+                closeTab={closeTab}
+                href="/collections/specials"
+                label="Shop Specials"
+                src="/product-type/specials.jpg"
+              />
+            </ul>
           </div>
         </div>
       </div>
