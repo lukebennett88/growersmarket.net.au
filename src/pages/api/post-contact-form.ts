@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 
-const postmarkTransport = require('nodemailer-postmark-transport');
-
 interface DataProps {
   email_address: string;
   full_name: string;
@@ -18,17 +16,18 @@ export default async function handler(
 
   const data: DataProps = JSON.parse(body);
 
-  const transport = nodemailer.createTransport(
-    postmarkTransport({
-      auth: {
-        apiKey: process.env.POSTMARK_SERVER_API_TOKEN,
-      },
-    })
-  );
+  const transport = nodemailer.createTransport({
+    host: process.env.SENDGRID_SMTP_SERVER,
+    port: 587,
+    auth: {
+      user: process.env.SENDGRID_USERNAME,
+      pass: process.env.SENDGRID_PASSWORD,
+    },
+  });
 
   const mail = {
-    from: `services@phirannodesigns.com.au`,
-    to: `services@phirannodesigns.com.au`,
+    from: `admin@growersmarket.net.au`,
+    to: `admin@growersmarket.net.au`,
     subject: `New Growers Market Contact Form Submission from ${data.full_name}`,
     html: `<div>
     <h1>New Growers Market Contact Form Submission</h1>
