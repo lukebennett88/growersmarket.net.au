@@ -15,7 +15,6 @@ import {
 import { getSiteSettings } from '@lib/get-site-settings';
 import { getTopSelling, ITopSellingProducts } from '@lib/get-top-selling';
 import { NextSeo } from 'next-seo';
-import { useRouter } from 'next/router';
 import * as React from 'react';
 import slugify from 'slugify';
 
@@ -31,9 +30,6 @@ function CollectionPage({
   carouselSlides,
 }: ICollectionPage): React.ReactElement {
   const { title, description, products } = collection;
-  const {
-    query: { productType },
-  } = useRouter();
 
   return (
     <>
