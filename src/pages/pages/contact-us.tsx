@@ -1,16 +1,16 @@
+import { Breadcrumbs } from '@components/breadcrumbs';
+import { Carousel } from '@components/carousel';
 import { ContactForm } from '@components/contact-form';
-import {
-  Breadcrumbs,
-  Carousel,
-  Container,
-  DeliverySchedule,
-  HorizontalPadding,
-  TopSellingProducts,
-} from '@components/index';
-import { getAllSlides, getTopSelling, ISlide } from '@lib/index';
+import { Container } from '@components/container';
+import { DeliverySchedule } from '@components/delivery-schedule';
+import { HorizontalPadding } from '@components/horizontal-padding';
+import { TopSellingProducts } from '@components/top-selling-products';
+import { getAllSlides, ISlide } from '@lib/get-all-slides';
+import { getTopSelling } from '@lib/get-top-selling';
 import { GetStaticPropsResult } from 'next';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
+
 import siteSettings from '../../data/site-settings.json';
 
 function ContactPage({ topSelling, carouselSlides }): React.ReactElement {

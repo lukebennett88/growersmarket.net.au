@@ -1,4 +1,4 @@
-import { useAddToCart } from '@lib/hooks';
+import { useAddToCart } from '@lib/hooks/use-add-to-cart';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
@@ -6,7 +6,7 @@ import { FaSpinner } from 'react-icons/fa';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 
 import { Toast } from './toast';
-import { OnSaleBadge } from './vectors';
+import { OnSaleBadge } from './vectors/on-sale-badge';
 
 interface IProductCard {
   product: {

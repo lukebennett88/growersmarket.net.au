@@ -4,10 +4,12 @@ import '../styles/globals.css';
 
 import { ApolloProvider } from '@apollo/client';
 import { Layout } from '@components/layout';
-import { apolloClient, ShopifyContextProvider } from '@lib/index';
+import { apolloClient } from '@lib/apollo-client';
 import { initAuth } from '@lib/init-auth';
+import { ShopifyContextProvider } from '@lib/shopify-context';
 import { AppProps } from 'next/app';
 import { DefaultSeo } from 'next-seo';
+import * as React from 'react';
 
 import siteSettings from '../data/site-settings.json';
 

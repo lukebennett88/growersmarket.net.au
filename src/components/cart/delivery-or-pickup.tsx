@@ -1,4 +1,5 @@
-import { PickupIcon, DeliveryIcon } from '@components/vectors';
+import { DeliveryIcon } from '@components/vectors/delivery-icon';
+import { PickupIcon } from '@components/vectors/pickup-icon';
 import { TDeliveryMethod, useCartContext } from '@lib/cart-provider';
 import * as React from 'react';
 
