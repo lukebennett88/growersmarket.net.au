@@ -27,6 +27,14 @@ import slide from './slide';
 import socialLinks from './socialLinks';
 import textWithImage from './textWithImage';
 import openHours from './openHours';
+import daysClosed from './daysClosed';
+
+import * as plugs from '../plugins';
+import plugDefaultFields from '../plugins/_plugDefaultFields';
+
+const allPlugins = Object.values(plugs).map((plug) => {
+  return { ...plug, fields: plugDefaultFields.concat(plug.fields) };
+});
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -59,5 +67,6 @@ export default createSchema({
     // Site metadata
     navigation,
     siteSettings,
-  ]),
+    daysClosed,
+  ]).concat(allPlugins),
 });

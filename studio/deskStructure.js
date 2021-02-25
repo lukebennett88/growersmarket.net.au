@@ -1,6 +1,6 @@
 import S from '@sanity/desk-tool/structure-builder';
 import { BsGearFill, BsLink45Deg } from 'react-icons/bs';
-import { IoMegaphoneOutline } from 'react-icons/io5';
+import { IoMegaphoneOutline, IoIosNavigate } from 'react-icons/io5';
 
 export default () =>
   S.list()
@@ -11,7 +11,8 @@ export default () =>
         (item) =>
           item.getId() !== 'navigation' &&
           item.getId() !== 'siteSettings' &&
-          item.getId() !== 'carousel'
+          item.getId() !== 'carousel' &&
+          item.getId() !== 'daysClosed'
       ),
       // CTA Carousel
       S.listItem()
@@ -23,6 +24,22 @@ export default () =>
         .title('Navigation')
         .icon(BsLink45Deg)
         .child(S.document().schemaType('navigation').documentId('navigation')),
+      S.listItem()
+        .title('Days Closed')
+        .icon(BsLink45Deg)
+        .child(
+          S.list()
+            .title('Days Closed')
+            .items([
+              S.listItem()
+                .title('Locations')
+                .icon(IoIosNavigate)
+                .schemaType('daysClosed')
+                .child(
+                  S.documentTypeList('daysClosed').title('Locations')
+                ),
+            ])
+        ),
       // Site settings
       S.listItem()
         .title('Settings')
