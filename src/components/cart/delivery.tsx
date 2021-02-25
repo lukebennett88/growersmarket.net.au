@@ -1,5 +1,5 @@
 import { useCartContext } from '@lib/cart-provider';
-import { useCart } from '@lib/index';
+import { useCart } from '@lib/hooks/use-cart';
 import * as React from 'react';
 
 import { DeliveryOrPickup } from './delivery-or-pickup';

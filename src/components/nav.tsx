@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Transition } from '@headlessui/react';
-import { useOnClickOutside } from '@lib/hooks/index';
+import { useOnClickOutside } from '@lib/hooks/use-onclick-outside';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@reach/tabs';
 import Image from 'next/image';
 import Link from 'next/link';

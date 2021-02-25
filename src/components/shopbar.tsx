@@ -1,4 +1,4 @@
-import { useCart } from '@lib/index';
+import { useCart } from '@lib/hooks/use-cart';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import Link from 'next/link';
 import * as React from 'react';
@@ -7,8 +7,9 @@ import { HiOutlineSearch } from 'react-icons/hi';
 import { Container } from './container';
 import { HorizontalPadding } from './horizontal-padding';
 import { Searchbar } from './search-bar';
-import { CartIcon, SignInIcon } from './vectors';
+import { CartIcon } from './vectors/cart';
 import { Logo } from './vectors/logo';
+import { SignInIcon } from './vectors/sign-in';
 
 function Shopbar() {
   const [isOpen, setIsOpen] = React.useState(false);

@@ -1,9 +1,11 @@
 /* eslint-disable promise/catch-or-return */
-import { Input, Textarea } from '@components/form-elements';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaSpinner } from 'react-icons/fa';
+
+import { Input } from './form-elements/input';
+import { Textarea } from './form-elements/textarea';
 
 interface DataProps {
   email_address: string;

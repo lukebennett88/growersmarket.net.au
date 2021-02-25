@@ -1,19 +1,13 @@
-import {
-  Breadcrumbs,
-  Carousel,
-  Container,
-  DeliverySchedule,
-  HorizontalPadding,
-  TopSellingProducts,
-} from '@components/index';
-import {
-  getAllCollectionsByType,
-  getAllSlides,
-  getProductTypes,
-  getTopSelling,
-  ISlide,
-  ITopSellingProducts,
-} from '@lib/index';
+import { Breadcrumbs } from '@components/breadcrumbs';
+import { Carousel } from '@components/carousel';
+import { Container } from '@components/container';
+import { DeliverySchedule } from '@components/delivery-schedule';
+import { HorizontalPadding } from '@components/horizontal-padding';
+import { TopSellingProducts } from '@components/top-selling-products';
+import { getAllCollectionsByType } from '@lib/get-all-collections-by-type';
+import { getAllSlides, ISlide } from '@lib/get-all-slides';
+import { getProductTypes } from '@lib/get-product-types';
+import { getTopSelling, ITopSellingProducts } from '@lib/get-top-selling';
 import Image from 'next/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
@@ -51,19 +45,20 @@ function ProductTypePage({
   // Update state whenever filter changes
   React.useEffect(() => {
     // Start off with all collections
-    let tempCollections = JSON.parse(JSON.stringify(collections));
-    console.log(tempCollections);
+    const tempCollections = JSON.parse(JSON.stringify(collections));
 
     // Then handle the A-Z filter
     if (filter === 'A – Z (Name)') {
       tempCollections.sort((a, b) => a.title.localeCompare(b.title));
     }
+
     // Then handle the Z-A filter
     if (filter === 'Z – A (Name)') {
       tempCollections.sort((a, b) => b.title.localeCompare(a.title));
     }
+
     setFilteredCollections(tempCollections);
-  }, [filter]);
+  }, [collections, filter]);
 
   return (
     <>
