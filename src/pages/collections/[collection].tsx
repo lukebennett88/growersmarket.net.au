@@ -19,6 +19,7 @@ import {
   ITopSellingProducts,
 } from '@lib/index';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 import slugify from 'slugify';
 
@@ -34,6 +35,10 @@ function CollectionPage({
   carouselSlides,
 }: ICollectionPage): React.ReactElement {
   const { title, description, products } = collection;
+  const {
+    query: { productType },
+  } = useRouter();
+
   return (
     <>
       <NextSeo title={title} />

@@ -65,6 +65,11 @@ function Nav() {
                     subMenu={navItem.subMenu}
                     isActive={index === tabIndex}
                     closeTab={closeTab}
+                    productType={{
+                      title: navItem.title,
+                      route: navItem.route,
+                      image: navItem.image,
+                    }}
                   />
                 </TabPanel>
               )
@@ -107,7 +112,7 @@ function NavLink({ navItem, closeTab }) {
   );
 }
 
-function SubMenu({ subMenu, isActive, closeTab }) {
+function SubMenu({ subMenu, isActive, closeTab, productType }) {
   return (
     <Transition
       show={isActive}
@@ -156,34 +161,50 @@ function SubMenu({ subMenu, isActive, closeTab }) {
           <div className="py-12 pl-6 pr-8 bg-white">
             <div>
               <ul className="grid grid-cols-2 gap-12">
-                {Array.from({ length: 2 })
-                  .fill('')
-                  .map((_, index) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <li key={index} className="space-y-8">
-                      <div className="relative h-0 aspect-w-4 aspect-h-3">
-                        <a href="#" className="block">
-                          <Image
-                            src="https://burst.shopifycdn.com/photos/red-apple-against-white-background.jpg?width=373&amp;format=pjpg&amp;exif=0&amp;iptc=0"
-                            layout="fill"
-                            objectFit="cover"
-                            quality={100}
-                            className="absolute inset-0 object-contain w-full h-full"
-                          />
-                        </a>
-                      </div>
-                      <div>
-                        <Link href="/collections/apples">
-                          <a
-                            onClick={closeTab}
-                            className="w-full text-center cta"
-                          >
-                            Shop Apples
-                          </a>
-                        </Link>
-                      </div>
-                    </li>
-                  ))}
+                <li className="space-y-8">
+                  <div className="relative h-0 aspect-w-4 aspect-h-3">
+                    <Link href="/collections/specials">
+                      <a className="block">
+                        <Image
+                          src="/product-type/specials.jpg"
+                          layout="fill"
+                          objectFit="cover"
+                          quality={100}
+                          className="absolute inset-0 object-contain w-full h-full"
+                        />
+                      </a>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link href="/collections/specials">
+                      <a onClick={closeTab} className="w-full text-center cta">
+                        Shop Specials
+                      </a>
+                    </Link>
+                  </div>
+                </li>
+                <li className="space-y-8">
+                  <div className="relative h-0 aspect-w-4 aspect-h-3">
+                    <Link href={`/${productType.route as string}`}>
+                      <a className="block">
+                        <Image
+                          src={productType.image}
+                          layout="fill"
+                          objectFit="cover"
+                          quality={100}
+                          className="absolute inset-0 object-contain w-full h-full"
+                        />
+                      </a>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link href={`/${productType.route as string}`}>
+                      <a onClick={closeTab} className="w-full text-center cta">
+                        Shop {productType.title}
+                      </a>
+                    </Link>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
