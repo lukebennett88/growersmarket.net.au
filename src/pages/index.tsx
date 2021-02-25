@@ -1,16 +1,17 @@
 import { gql } from '@apollo/client';
-import {
-  Carousel,
-  Container,
-  HorizontalPadding,
-  ProductCard,
-  ProductGrid,
-} from '@components/index';
-import { apolloClient, getAllFAQs, getAllSlides } from '@lib/index';
+import { Carousel } from '@components/carousel';
+import { Container } from '@components/container';
+import { HorizontalPadding } from '@components/horizontal-padding';
+import { ProductCard } from '@components/product-card';
+import { ProductGrid } from '@components/product-grid';
+import { apolloClient } from '@lib/apollo-client';
+import { getAllFAQs } from '@lib/get-all-faqs';
+import { getAllSlides } from '@lib/get-all-slides';
 import SanityBlockContent from '@sanity/block-content-to-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
+import * as React from 'react';
 
 function HomePage({
   faqs,

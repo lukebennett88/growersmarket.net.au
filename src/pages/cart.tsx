@@ -1,19 +1,13 @@
+import { Breadcrumbs } from '@components/breadcrumbs';
+import { Carousel } from '@components/carousel';
 import { CartContent } from '@components/cart/cart-content';
-import {
-  Breadcrumbs,
-  Carousel,
-  Container,
-  HorizontalPadding,
-  TopSellingProducts,
-} from '@components/index';
+import { Container } from '@components/container';
+import { HorizontalPadding } from '@components/horizontal-padding';
+import { TopSellingProducts } from '@components/top-selling-products';
 import { CartContextProvider } from '@lib/cart-provider';
-import {
-  getAllSlides,
-  getTopSelling,
-  ISlide,
-  ITopSellingProducts,
-  useCartCount,
-} from '@lib/index';
+import { getAllSlides, ISlide } from '@lib/get-all-slides';
+import { getTopSelling, ITopSellingProducts } from '@lib/get-top-selling';
+import { useCartCount } from '@lib/hooks/use-cart-count';
 import {
   AuthAction,
   withAuthUser,

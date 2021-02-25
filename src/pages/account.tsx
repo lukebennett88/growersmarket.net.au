@@ -1,7 +1,6 @@
-/* eslint-disable consistent-return */
-import { HorizontalPadding } from '@components/index';
-import { SignInIcon } from '@components/vectors';
+import { HorizontalPadding } from '@components/horizontal-padding';
 import { PenIcon } from '@components/vectors/pen';
+import { SignInIcon } from '@components/vectors/sign-in';
 import {
   AuthAction,
   useAuthUser,

@@ -1,19 +1,16 @@
-import {
-  Breadcrumbs,
-  Carousel,
-  Container,
-  DeliverySchedule,
-  HorizontalPadding,
-  TopSellingProducts,
-} from '@components/index';
-import {
-  getAllSanityPages,
-  getAllSlides,
-  getSanityPage,
-  getTopSelling,
-} from '@lib/index';
+import { Breadcrumbs } from '@components/breadcrumbs';
+import { Carousel } from '@components/carousel';
+import { Container } from '@components/container';
+import { DeliverySchedule } from '@components/delivery-schedule';
+import { HorizontalPadding } from '@components/horizontal-padding';
+import { TopSellingProducts } from '@components/top-selling-products';
+import { getAllSanityPages } from '@lib/get-all-sanity-pages';
+import { getAllSlides } from '@lib/get-all-slides';
+import { getSanityPage } from '@lib/get-sanity-page';
+import { getTopSelling } from '@lib/get-top-selling';
 import SanityBlockContent from '@sanity/block-content-to-react';
 import { NextSeo } from 'next-seo';
+import * as React from 'react';
 
 function PageTemplate({ sanityPage, topSelling, carouselSlides }) {
   // Navigation array from Breadcrumbs

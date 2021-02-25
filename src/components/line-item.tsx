@@ -5,7 +5,7 @@ import Link from 'next/link';
 import * as React from 'react';
 
 import { QuantityPicker } from './quantity-picker';
-import { OnSaleBadge } from './vectors';
+import { OnSaleBadge } from './vectors/on-sale-badge';
 
 function LineItem({ lineItem }) {
   // Variant to add to cart

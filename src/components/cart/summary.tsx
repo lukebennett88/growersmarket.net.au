@@ -1,5 +1,5 @@
 import { useCartContext } from '@lib/cart-provider';
-import { useCart } from '@lib/index';
+import { useCart } from '@lib/hooks/use-cart';
 import Link from 'next/link';
 
 import { ProductSummary } from './product-summary';

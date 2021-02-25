@@ -1,23 +1,19 @@
+import { Breadcrumbs } from '@components/breadcrumbs';
+import { Carousel } from '@components/carousel';
+import { Container } from '@components/container';
+import { DeliverySchedule } from '@components/delivery-schedule';
+import { HorizontalPadding } from '@components/horizontal-padding';
+import { ProductCard } from '@components/product-card';
+import { ProductGrid } from '@components/product-grid';
+import { TopSellingProducts } from '@components/top-selling-products';
+import { getAllCollections } from '@lib/get-all-collections';
+import { getAllSlides, ISlide } from '@lib/get-all-slides';
 import {
-  Breadcrumbs,
-  Carousel,
-  Container,
-  DeliverySchedule,
-  HorizontalPadding,
-  ProductCard,
-  ProductGrid,
-  TopSellingProducts,
-} from '@components/index';
-import {
-  getAllCollections,
-  getAllSlides,
   getCollectionByHandle,
-  getSiteSettings,
-  getTopSelling,
   ICollectionByHandle,
-  ISlide,
-  ITopSellingProducts,
-} from '@lib/index';
+} from '@lib/get-collection-by-handle';
+import { getSiteSettings } from '@lib/get-site-settings';
+import { getTopSelling, ITopSellingProducts } from '@lib/get-top-selling';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
 import slugify from 'slugify';
@@ -34,6 +30,7 @@ function CollectionPage({
   carouselSlides,
 }: ICollectionPage): React.ReactElement {
   const { title, description, products } = collection;
+
   return (
     <>
       <NextSeo title={title} />

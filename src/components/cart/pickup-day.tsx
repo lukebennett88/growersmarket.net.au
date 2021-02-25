@@ -74,7 +74,7 @@ function Day({ index }: IDay) {
         date === isGoodFriday,
       'Lord Howe Island': isGoodFriday,
     }),
-    [dayOfWeek]
+    [date, dayOfWeek]
   );
 
   const propertyName = 'deliveryDate';

@@ -1,6 +1,6 @@
-import { HorizontalPadding } from '@components/index';
+import { HorizontalPadding } from '@components/horizontal-padding';
 import { SignInModal } from '@components/signin-modal';
-import { SignInIcon } from '@components/vectors';
+import { SignInIcon } from '@components/vectors/sign-in';
 import Link from 'next/link';
 import {
   AuthAction,

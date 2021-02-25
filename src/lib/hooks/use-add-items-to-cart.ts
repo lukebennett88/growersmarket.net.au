@@ -1,7 +1,16 @@
 import ShopifyBuy from 'shopify-buy';
 
-import { LineItemPatch } from '../../types';
 import { useShopifyContext } from '../shopify-context';
+
+export interface AttributeInput {
+  [key: string]: string;
+}
+
+interface LineItemPatch {
+  variantId: string | number;
+  quantity: number;
+  customAttributes?: AttributeInput[];
+}
 
 function useAddItemsToCart() {
   const { client, cart, setCart } = useShopifyContext();

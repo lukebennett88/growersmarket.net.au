@@ -1,6 +1,6 @@
 import 'keen-slider/keen-slider.min.css';
 
-import { ISlide } from '@lib/index';
+import { ISlide } from '@lib/get-all-slides';
 import sanityClient from '@sanity/client';
 import KeenSlider, { useKeenSlider } from 'keen-slider/react';
 import Image from 'next/image';
@@ -32,6 +32,7 @@ interface IProductSlider {
   children: React.ReactNode;
 }
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function ProductSlider({ children }: IProductSlider): React.ReactElement {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [isMounted, setIsMounted] = React.useState(false);

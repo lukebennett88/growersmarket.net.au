@@ -1,23 +1,16 @@
-import {
-  Breadcrumbs,
-  Carousel,
-  Container,
-  DeliverySchedule,
-  HorizontalPadding,
-  QuantityPicker,
-  Toast,
-  TopSellingProducts,
-} from '@components/index';
-import {
-  getAllProducts,
-  getAllSlides,
-  getProduct,
-  getTopSelling,
-  IProduct,
-  ISlide,
-  ITopSellingProducts,
-  useAddToCart,
-} from '@lib/index';
+import { Breadcrumbs } from '@components/breadcrumbs';
+import { Carousel } from '@components/carousel';
+import { Container } from '@components/container';
+import { DeliverySchedule } from '@components/delivery-schedule';
+import { HorizontalPadding } from '@components/horizontal-padding';
+import { QuantityPicker } from '@components/quantity-picker';
+import { Toast } from '@components/toast';
+import { TopSellingProducts } from '@components/top-selling-products';
+import { getAllSlides, ISlide } from '@lib/get-all-slides';
+import { getProduct, IProduct } from '@lib/get-product';
+import { getAllProducts } from '@lib/get-products';
+import { getTopSelling, ITopSellingProducts } from '@lib/get-top-selling';
+import { useAddToCart } from '@lib/hooks/use-add-to-cart';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { NextSeo, ProductJsonLd } from 'next-seo';

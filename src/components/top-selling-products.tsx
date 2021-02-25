@@ -1,8 +1,8 @@
 import {
   ITopSellingProductNode,
   ITopSellingProducts,
-  useAddToCart,
-} from '@lib/index';
+} from '@lib/get-top-selling';
+import { useAddToCart } from '@lib/hooks/use-add-to-cart';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
@@ -12,7 +12,7 @@ import slugify from 'slugify';
 
 import { HorizontalPadding } from './horizontal-padding';
 import { Toast } from './toast';
-import { OnSaleBadge } from './vectors';
+import { OnSaleBadge } from './vectors/on-sale-badge';
 
 interface TopSellingProductsProps {
   topSelling: ITopSellingProducts;
