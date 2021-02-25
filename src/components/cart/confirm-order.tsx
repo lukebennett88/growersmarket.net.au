@@ -7,6 +7,8 @@ import Link from 'next/link';
 import Router from 'next/router';
 import * as React from 'react';
 import { FaSpinner } from 'react-icons/fa';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import { ProductSummary } from './product-summary';
 
@@ -132,21 +134,26 @@ function ConfirmOrder({ authUser }): React.ReactElement {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
+  const { email } = firebase.auth().currentUser;
+
   const handleCheckout = async () => {
     setIsLoading(true);
-    try {
-      const newCheckout = await client.checkout.updateAttributes(
-        checkoutId,
-        input
-      );
-      setCart(newCheckout);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      setIsLoading(false);
-    } finally {
-      Router.push(checkoutUrl);
-    }
+    client.checkout
+      .updateAttributes(checkoutId, input)
+      .then((newCheckout) => {
+        setCart(newCheckout);
+      })
+      .then(
+        client.checkout.updateEmail(checkoutId, email).catch((error) => {
+          console.error(error);
+          setIsLoading(false);
+        })
+      )
+      .catch(function (error) {
+        console.error(error);
+        setIsLoading(false);
+      })
+      .finally(Router.push(checkoutUrl));
   };
 
   const subtotal = Number(cart?.totalPrice || 0);
