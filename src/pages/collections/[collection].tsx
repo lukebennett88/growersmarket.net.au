@@ -30,6 +30,7 @@ function CollectionPage({
   carouselSlides,
 }: ICollectionPage): React.ReactElement {
   const { title, description, products } = collection;
+
   return (
     <>
       <NextSeo title={title} />

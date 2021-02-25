@@ -231,24 +231,28 @@ async function getSiteNavigation() {
       id: '43c526b2-66b1-4522-b253-114367b3aebc',
       title: 'Fruit',
       route: 'fruit',
+      image: '/product-type/fruit.jpg',
       subMenu: await getCollectionsByProductType('Fruit'),
     },
     {
       id: 'cfd8dab3-ec0a-401a-a760-007147f218ed',
       title: 'Vegetables',
       route: 'vegetables',
+      image: '/product-type/vegetables.jpg',
       subMenu: await getCollectionsByProductType('Vegetables'),
     },
     {
       id: '93a02192-41c5-40fc-82ba-40b8bfea2c63',
       title: 'Fridge & Pantry',
       route: 'fridge-and-pantry',
+      image: '/product-type/fridge-pantry.jpg',
       subMenu: await getCollectionsByProductType('Fridge & Pantry'),
     },
     {
       id: 'f1a5589f-998f-4de3-a982-5e916c228a9f',
       title: 'Pre-Packed Boxes',
       route: 'pre-packed-boxes',
+      image: '/product-type/pre-packed-boxes.jpg',
       subMenu: await getCollectionsByProductType('Pre-Packed Boxes'),
     },
   ];
