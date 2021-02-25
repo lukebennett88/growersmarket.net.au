@@ -138,22 +138,21 @@ function ConfirmOrder({ authUser }): React.ReactElement {
 
   const handleCheckout = async () => {
     setIsLoading(true);
-    client.checkout
-      .updateAttributes(checkoutId, input)
-      .then((newCheckout) => {
-        setCart(newCheckout);
-      })
-      .then(
-        client.checkout.updateEmail(checkoutId, email).catch((error) => {
-          console.error(error);
-          setIsLoading(false);
-        })
-      )
-      .catch(function (error) {
-        console.error(error);
-        setIsLoading(false);
-      })
-      .finally(Router.push(checkoutUrl));
+    try {
+      const newCheckout = await client.checkout.updateAttributes(
+        checkoutId,
+        input
+      );
+      const updateEmail = await client.checkout.updateEmail(checkoutId, email);
+
+      setCart(newCheckout);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      setIsLoading(false);
+    } finally {
+      Router.push(checkoutUrl);
+    }
   };
 
   const subtotal = Number(cart?.totalPrice || 0);
