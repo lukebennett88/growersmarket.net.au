@@ -53,6 +53,11 @@ export default {
       type: 'array',
       of: [{ type: 'socialLinks' }],
     },
+    {
+      title: 'Delivery Schedule',
+      name: 'deliverySchedule',
+      type: 'deliverySchedule',
+    },
   ],
   preview: {
     select: {

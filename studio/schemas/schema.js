@@ -1,15 +1,18 @@
+/* eslint-disable import/no-unresolved */
 // First, we must import the schema creator
 // Then import schema types from any plugins that might expose them
-// eslint-disable-next-line import/no-unresolved
 import schemaTypes from 'all:part:@sanity/base/schema-type';
-// eslint-disable-next-line import/no-unresolved
 import createSchema from 'part:@sanity/base/schema-creator';
 
 // We import object and document schemas
 import address from './address';
 import blockContent from './blockContent';
 import carousel from './carousel';
+import closedDates from './closedDates';
 import cta from './cta';
+import deliveryDays from './deliveryDays';
+import deliveryLocation from './deliveryLocation';
+import deliverySchedule from './deliverySchedule';
 import externalPage from './externalPage';
 import footerNavSection from './footerNavSection';
 import googleMaps from './googleMaps';
@@ -18,6 +21,7 @@ import keyValuePair from './keyValuePair';
 import link from './link';
 import navigation from './navigation';
 import navItem from './navItem';
+import openHours from './openHours';
 import page from './page';
 import richText from './richText';
 import route from './route';
@@ -26,15 +30,6 @@ import siteSettings from './siteSettings';
 import slide from './slide';
 import socialLinks from './socialLinks';
 import textWithImage from './textWithImage';
-import openHours from './openHours';
-import daysClosed from './daysClosed';
-
-import * as plugs from '../plugins';
-import plugDefaultFields from '../plugins/_plugDefaultFields';
-
-const allPlugins = Object.values(plugs).map((plug) => {
-  return { ...plug, fields: plugDefaultFields.concat(plug.fields) };
-});
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -48,7 +43,11 @@ export default createSchema({
     address,
     blockContent,
     carousel,
+    closedDates,
     cta,
+    deliveryDays,
+    deliveryLocation,
+    deliverySchedule,
     externalPage,
     footerNavSection,
     googleMaps,
@@ -67,6 +66,5 @@ export default createSchema({
     // Site metadata
     navigation,
     siteSettings,
-    daysClosed,
-  ]).concat(allPlugins),
+  ]),
 });
