@@ -6,6 +6,8 @@ import * as React from 'react';
 import { Button } from './button';
 import { Section } from './section';
 
+import siteSettings from '../../data/site-settings.json';
+
 function PickupDay(): React.ReactElement {
   const { state } = useCartContext();
 
@@ -53,29 +55,36 @@ function Day({ index }: IDay) {
 
   const isGoodFriday = '2021-04-02';
 
-  // TODO: Source this information from Sanity
-  const IS_DISABLED = React.useMemo(
-    () => ({
-      'Port Macquarie': date === isGoodFriday,
-      Wauchope:
-        dayOfWeek === 'Tuesday' ||
-        dayOfWeek === 'Thursday' ||
-        date === isGoodFriday,
-      Laurieton:
-        dayOfWeek === 'Monday' ||
-        dayOfWeek === 'Wednesday' ||
-        dayOfWeek === 'Thursday' ||
-        date === isGoodFriday,
-      Kempsey:
-        dayOfWeek === 'Monday' ||
-        dayOfWeek === 'Tuesday' ||
-        dayOfWeek === 'Wednesday' ||
-        dayOfWeek === 'Thursday' ||
-        date === isGoodFriday,
-      'Lord Howe Island': isGoodFriday,
-    }),
-    [date, dayOfWeek]
-  );
+  function isDayDisabled(location, dayOfWeek, date) {
+    const index = siteSettings.deliverySchedule.deliveryLocations.findIndex(
+      (e) => e.location === location
+    );
+
+    // Lord Howe Island
+    if (index === -1) {
+      return siteSettings.deliverySchedule.datesClosed.dates.includes(date);
+    }
+
+    if (
+      siteSettings.deliverySchedule.deliveryLocations[
+        index
+      ].deliveryDays.findIndex((e) => e.day === dayOfWeek) !== -1
+    ) {
+      return siteSettings.deliverySchedule.datesClosed.dates.includes(date);
+    } else {
+      return true;
+    }
+  }
+
+  const IS_DISABLED = React.useMemo(() => {
+    return {
+      'Port Macquarie': isDayDisabled('Port Macquarie', dayOfWeek, date),
+      Wauchope: isDayDisabled('Wauchope', dayOfWeek, date),
+      Laurieton: isDayDisabled('Laurieton', dayOfWeek, date),
+      Kempsey: isDayDisabled('Kempsey', dayOfWeek, date),
+      'Lord Howe Island': isDayDisabled('Lord Howe Island', dayOfWeek, date),
+    };
+  }, [date, dayOfWeek]);
 
   const propertyName = 'deliveryDate';
 
