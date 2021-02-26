@@ -7,55 +7,83 @@ import * as React from 'react';
 import { QuantityPicker } from './quantity-picker';
 import { OnSaleBadge } from './vectors/on-sale-badge';
 
-function LineItem({ lineItem }) {
+type TLineItem = {
+  id: string;
+  title: string;
+  variant: {
+    id: string;
+    compareAtPrice: string;
+    image?: {
+      src: string;
+    };
+    price: string;
+    product: {
+      handle: string;
+    };
+  };
+  quantity: number;
+};
+
+interface ILineItem {
+  lineItem: TLineItem;
+}
+
+function LineItem({ lineItem }: ILineItem): React.ReactElement {
+  // Function to update quantity of a line item in the cart
+  const updateQuantity = useUpdateItemQuantity();
+
+  // Function to remove a line item from the cart
+  const removeFromCart = useRemoveItemFromCart();
+
+  const { id, quantity, title, variant } = lineItem;
+
   // Variant to add to cart
-  const variantId = lineItem.variant.id;
+  const variantId = variant.id;
 
-  // Number of items in cart
-  const [quantity, setQuantity] = React.useState<number>(lineItem.quantity);
-
-  // Decrement quantity
-  const decrement = (): void => {
-    if (quantity > 0) {
-      setQuantity((prevQty) => prevQty - 1);
+  // Increment quantity
+  const [isIncrementLoading, setIsIncrementLoading] = React.useState(false);
+  const increment = async () => {
+    setIsIncrementLoading(true);
+    try {
+      await updateQuantity(variantId, quantity + 1);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    } finally {
+      setIsIncrementLoading(false);
     }
   };
 
-  // Increment quantity
-  const increment = (): void => setQuantity((prevQty) => prevQty + 1);
-
-  const removeFromCart = useRemoveItemFromCart();
-  const updateQuantity = useUpdateItemQuantity();
-
-  React.useEffect(() => {
-    if (quantity <= 0) {
-      removeFromCart(variantId);
-      return;
+  // Decrement quantity
+  const [isDecrementLoading, setIsDecrementLoading] = React.useState(false);
+  const decrement = async () => {
+    setIsDecrementLoading(true);
+    try {
+      await (quantity <= 0
+        ? removeFromCart(variantId)
+        : updateQuantity(variantId, quantity - 1));
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    } finally {
+      setIsDecrementLoading(false);
     }
-    updateQuantity(variantId, quantity);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [variantId, quantity]);
+  };
 
-  React.useEffect(() => {
-    if (lineItem.quantity > quantity) {
-      setQuantity((prevQty) => prevQty + 1);
-    }
-  }, [lineItem.quantity, quantity]);
+  const price = Number(variant.price);
 
-  const price = Number(lineItem.variant.price);
-
-  const comparePrice = Number(lineItem.variant.compareAtPrice);
+  const comparePrice = Number(variant.compareAtPrice);
 
   const isOnSale = comparePrice !== 0 && comparePrice > price;
 
   return (
-    <li key={lineItem.id} className="grid max-w-md grid-cols-2 gap-6">
+    <li key={id} className="grid max-w-md grid-cols-2 gap-6">
       <div className="relative bg-white">
-        {lineItem.variant.image?.src && (
-          <Link href={`/products/${lineItem.variant.product.handle as string}`}>
+        {variant.image?.src && (
+          <Link href={`/products/${variant.product.handle}`}>
             <a aria-hidden tabIndex={-1} className="block bg-white">
               <Image
-                src={lineItem.variant.image.src}
+                src={variant.image.src}
                 height={360}
                 width={480}
                 layout="responsive"
@@ -71,9 +99,9 @@ function LineItem({ lineItem }) {
       </div>
       <div className="flex flex-col col-start-2">
         <div className="font-bold">
-          <Link href={`/products/${lineItem.variant.product.handle as string}`}>
+          <Link href={`/products/${variant.product.handle}`}>
             <a className="block">
-              <h3 className="text-sm">{lineItem.title}</h3>
+              <h3 className="text-sm">{title}</h3>
             </a>
           </Link>
           <div className="text-2xl">
@@ -84,7 +112,9 @@ function LineItem({ lineItem }) {
         <div className="pt-4 mt-auto">
           <QuantityPicker
             increment={increment}
+            isIncrementLoading={isIncrementLoading}
             decrement={decrement}
+            isDecrementLoading={isDecrementLoading}
             quantity={quantity}
             showDelete
           />
