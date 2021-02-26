@@ -38,11 +38,11 @@ function ProductPage({
   const variantId = product.variants.edges[0].node.id;
 
   // Increment quantity
-  const decrement = (): void =>
-    setQuantity((prevQty) => (prevQty > 1 ? prevQty - 1 : prevQty));
+  const increment = (): void => setQuantity((prevQty) => prevQty + 1);
 
   // Decrement quantity
-  const increment = (): void => setQuantity((prevQty) => prevQty + 1);
+  const decrement = (): void =>
+    setQuantity((prevQty) => (prevQty > 1 ? prevQty - 1 : prevQty));
 
   // State for showing add to cart toast notifications
   const [showDialog, setShowDialog] = React.useState(false);

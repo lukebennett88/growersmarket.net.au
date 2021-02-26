@@ -7,8 +7,8 @@ interface IQuantityPicker {
   decrement: () => void;
   quantity: number;
   showDelete?: boolean;
-  isIncrementLoading: boolean;
-  isDecrementLoading: boolean;
+  isIncrementLoading?: boolean;
+  isDecrementLoading?: boolean;
 }
 
 function Spinner() {
