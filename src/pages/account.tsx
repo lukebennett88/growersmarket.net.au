@@ -27,13 +27,13 @@ function AccountPage() {
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold">Personal Details</h2>
               {/* // TODO: Make this button work */}
-              <button
+              {/* <button
                 type="button"
                 className="flex items-center space-x-2 text-sm font-bold"
               >
                 <PenIcon className="w-5 h-5 fill-current" />
                 <span>Edit details</span>
-              </button>
+              </button> */}
             </div>
             <dl className="mt-2 space-y-2">
               {authUser?.firebaseUser?.displayName && (
@@ -48,16 +48,16 @@ function AccountPage() {
                 <dt className="inline font-bold">Email: </dt>
                 <dd className="inline">{authUser.email}</dd>
               </div>
-              <div>
+              {/* <div>
                 <dt className="inline font-bold">Phone number: </dt>
                 <dd className="inline">0400 000 000</dd>
-              </div>
+              </div> */}
             </dl>
           </div>
-          <div className="p-4 border">
+          {/* <div className="p-4 border">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold">Delivery Preferences</h2>
-              {/* // TODO: Make this button work */}
+              // TODO: Make this button work
               <button
                 type="button"
                 className="flex items-center space-x-2 text-sm font-bold"
@@ -74,7 +74,7 @@ function AccountPage() {
                 </dd>
               </div>
             </dl>
-          </div>
+          </div> */}
           <div className="space-y-4 text-right">
             {!!authUser.email && (
               <button type="button" onClick={authUser.signOut} className="cta">
