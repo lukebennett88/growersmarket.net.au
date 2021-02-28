@@ -1,4 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+
 import { useCartContext } from '@lib/cart-provider';
 import { useCheckoutUrl } from '@lib/hooks/use-checkout-url';
 import { useShopifyContext } from '@lib/shopify-context';
@@ -7,8 +8,6 @@ import Link from 'next/link';
 import Router from 'next/router';
 import * as React from 'react';
 import { FaSpinner } from 'react-icons/fa';
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 import { ProductSummary } from './product-summary';
 
@@ -134,7 +133,13 @@ function ConfirmOrder({ authUser }): React.ReactElement {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const { email } = firebase.auth().currentUser;
+  const addEmailToCheckout = React.useCallback(async () => {
+    client.checkout.updateEmail(checkoutId, authUser.email);
+  }, [authUser.email, checkoutId, client.checkout]);
+
+  React.useEffect(() => {
+    addEmailToCheckout();
+  }, [addEmailToCheckout]);
 
   const handleCheckout = async () => {
     setIsLoading(true);
@@ -143,7 +148,6 @@ function ConfirmOrder({ authUser }): React.ReactElement {
         checkoutId,
         input
       );
-      const updateEmail = await client.checkout.updateEmail(checkoutId, email);
 
       setCart(newCheckout);
     } catch (error) {
