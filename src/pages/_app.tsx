@@ -9,6 +9,7 @@ import { initAuth } from '@lib/init-auth';
 import { ShopifyContextProvider } from '@lib/shopify-context';
 import * as Sentry from '@sentry/node';
 import { AppProps } from 'next/app';
+import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
 import * as React from 'react';
 
@@ -44,6 +45,10 @@ function App({ Component, pageProps, err }: TAppProps) {
             images: [{ url: siteSettings.shareImage.asset.url }],
           }}
         />
+        <Head>
+          <link rel="preconnect" href="https://cdn.sanity.io" />
+          <link rel="preconnect" href="https://vitals.vercel-insights.com" />
+        </Head>
         <Layout>
           <Component {...pageProps} err={err} />
         </Layout>
