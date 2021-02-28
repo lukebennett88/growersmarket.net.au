@@ -60,7 +60,8 @@ function ProductSlider({ children }: IProductSlider): React.ReactElement {
   React.useEffect(() => {
     sliderContainerRef.current?.addEventListener(
       'touchstart',
-      preventNavigation
+      preventNavigation,
+      { passive: true }
     );
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
