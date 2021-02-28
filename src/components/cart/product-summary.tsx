@@ -5,9 +5,10 @@ function ProductSummary(): React.ReactElement {
   const lineItems = useCartItems();
   return (
     <ul className="grid gap-8 mt-12">
-      {lineItems.map((lineItem) => (
-        <LineItem key={lineItem.id} lineItem={lineItem} />
-      ))}
+      {lineItems.map(
+        (lineItem) =>
+          lineItem.variant && <LineItem key={lineItem.id} lineItem={lineItem} />
+      )}
     </ul>
   );
 }

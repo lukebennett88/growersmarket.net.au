@@ -2,13 +2,13 @@ import { LocalStorage, LocalStorageKeys } from '@lib/local-storage';
 import * as React from 'react';
 import ShopifyBuy from 'shopify-buy';
 
-// Create new React Context
 interface ShopifyContextShape {
   client: ShopifyBuy.Client | null;
   cart: ShopifyBuy.Cart | null;
   setCart: React.Dispatch<React.SetStateAction<ShopifyBuy.Cart | null>>;
 }
 
+// Create new React Context
 const ShopifyContext = React.createContext<ShopifyContextShape>({
   client: null,
   cart: null,
@@ -17,13 +17,13 @@ const ShopifyContext = React.createContext<ShopifyContextShape>({
   },
 });
 
-// Create React Provider for Shopify cart
 interface IShopifyContextProvider {
   shopName: string;
   accessToken: string;
   children: React.ReactNode;
 }
 
+// Create React Provider for Shopify cart
 function ShopifyContextProvider({
   shopName,
   accessToken,
@@ -62,7 +62,11 @@ function ShopifyContextProvider({
 
         const cartHasBeenPurchased = refreshedCart.completedAt != null;
 
-        if (cartHasBeenPurchased) {
+        const cartHasInvalidLineItems = cart.lineItems.find(
+          ({ variant }) => variant == null
+        );
+
+        if (cartHasBeenPurchased || cartHasInvalidLineItems) {
           getNewCart();
         } else {
           setCart(refreshedCart);
@@ -72,7 +76,7 @@ function ShopifyContextProvider({
         console.error(error);
       }
     },
-    [client.checkout, getNewCart]
+    [cart?.lineItems, client.checkout, getNewCart]
   );
 
   const checkCart = React.useCallback(() => {
