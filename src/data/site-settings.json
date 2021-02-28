@@ -1,1 +1,45 @@
-{"__typename":"SiteSettings","address":{"__typename":"Address","streetAddress":"138 Gordon St","suburb":"Port Macquarie, NSW, 2444","googleMaps":{"__typename":"GoogleMaps","link":"https://goo.gl/maps/Ufvdnt7zpQMZkuAv9","embed":"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3404.2250157702606!2d152.8999106162319!3d-31.435471704323067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b9dff234469c8b1%3A0xc3e1b59b93b39765!2sGrowers%20Market!5e0!3m2!1sen!2sau!4v1607553583065!5m2!1sen!2sau"}},"description":"Retail and wholesale specialists. Fresh fruit and vegetables with friendly personal service. Heaps of parking at the Growers Market Complex. For all your fruit and vegetables shop at Growers Market Port Macquarie.","faxNumber":"(02) 6584 1414","hours":[{"__typename":"OpenHours","days":"Monday – Friday","hours":"7:30am – 6:00pm"},{"__typename":"OpenHours","days":"Saturday – Sunday","hours":"7:30am – 5:00pm"}],"phoneNumber":"(02) 6583 4111","shareImage":{"__typename":"Image","asset":{"__typename":"SanityImageAsset","url":"https://cdn.sanity.io/images/l3fqvsnn/production/de88a5d1823008365912c16ac5a06c4af28352e5-1200x628.jpg"}},"siteUrl":"https://www.growersmarket.net.au","socialLinks":[{"__typename":"SocialLinks","_key":"86d49718e29c","socialNetwork":"Facebook","link":"https://www.facebook.com/GrowersMarketPortMacquarie"}],"title":"Growers Market"}
+{
+  "__typename": "SiteSettings",
+  "address": {
+    "__typename": "Address",
+    "streetAddress": "138 Gordon St",
+    "suburb": "Port Macquarie, NSW, 2444",
+    "googleMaps": {
+      "__typename": "GoogleMaps",
+      "link": "https://goo.gl/maps/Ufvdnt7zpQMZkuAv9",
+      "embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3404.2250157702606!2d152.8999106162319!3d-31.435471704323067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b9dff234469c8b1%3A0xc3e1b59b93b39765!2sGrowers%20Market!5e0!3m2!1sen!2sau!4v1607553583065!5m2!1sen!2sau"
+    }
+  },
+  "description": "Retail and wholesale specialists. Fresh fruit and vegetables with friendly personal service. Heaps of parking at the Growers Market Complex. For all your fruit and vegetables shop at Growers Market Port Macquarie.",
+  "faxNumber": "(02) 6584 1414",
+  "hours": [
+    {
+      "__typename": "OpenHours",
+      "days": "Monday – Friday",
+      "hours": "7:30am – 6:00pm"
+    },
+    {
+      "__typename": "OpenHours",
+      "days": "Saturday – Sunday",
+      "hours": "7:30am – 5:00pm"
+    }
+  ],
+  "phoneNumber": "(02) 6583 4111",
+  "shareImage": {
+    "__typename": "Image",
+    "asset": {
+      "__typename": "SanityImageAsset",
+      "url": "https://cdn.sanity.io/images/l3fqvsnn/production/de88a5d1823008365912c16ac5a06c4af28352e5-1200x628.jpg"
+    }
+  },
+  "siteUrl": "https://www.growersmarket.net.au",
+  "socialLinks": [
+    {
+      "__typename": "SocialLinks",
+      "_key": "86d49718e29c",
+      "socialNetwork": "Facebook",
+      "link": "https://www.facebook.com/GrowersMarketPortMacquarie"
+    }
+  ],
+  "title": "Growers Market"
+}
