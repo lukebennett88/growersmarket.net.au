@@ -60,7 +60,8 @@ function ProductSlider({ children }: IProductSlider): React.ReactElement {
   React.useEffect(() => {
     sliderContainerRef.current?.addEventListener(
       'touchstart',
-      preventNavigation
+      preventNavigation,
+      { passive: true }
     );
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -140,7 +141,7 @@ interface IPagingDots {
 function PagingDots({ slider, currentSlide }: IPagingDots): React.ReactElement {
   return (
     <div className="absolute inset-x-0 transform bottom-2">
-      <ul className="relative flex items-center justify-center space-x-2">
+      <ul className="relative flex items-center justify-center space-x-1">
         {[...new Array(slider.details().size).keys()].map((index) => (
           <li key={index}>
             <button
@@ -149,10 +150,15 @@ function PagingDots({ slider, currentSlide }: IPagingDots): React.ReactElement {
               onClick={() => {
                 slider.moveToSlideRelative(index);
               }}
-              className={`${
-                currentSlide !== index ? 'bg-opacity-0' : 'bg-opacity-100'
-              } bg-white h-2.5 w-2.5 rounded-full border border-white transition duration-150 ease-in-out shadow-md pointer-events-auto`}
-            />
+              className="p-0.5 rounded-full"
+            >
+              <span
+                aria-hidden
+                className={`${
+                  currentSlide !== index ? 'bg-opacity-0' : 'bg-opacity-100'
+                } bg-white block h-2.5 w-2.5 rounded-full border border-white transition duration-150 ease-in-out shadow-md pointer-events-auto`}
+              />
+            </button>
           </li>
         ))}
       </ul>
@@ -177,7 +183,8 @@ function Slide({ slide, className }: { slide: ISlide; className: string }) {
         src={src}
         loader={loader}
         layout="fill"
-        alt={slide.backgroundImage?.altText}
+        sizes="(min-width: 1920px) 1920px, 100vw"
+        alt={slide.backgroundImage?.altText || ''}
         className="absolute inset-0 object-cover w-full h-full mix-blend-mode-multiply filter-grayscale"
       />
       <Container>

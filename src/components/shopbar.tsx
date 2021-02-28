@@ -45,8 +45,11 @@ function Shopbar() {
               <button
                 type="button"
                 onClick={toggle}
+                aria-controls="mobile-search"
+                aria-expanded={isOpen}
                 className="flex items-center justify-center h-7 w-7 sm:hidden"
               >
+                <span className="sr-only">Open search</span>
                 <HiOutlineSearch className="w-6 h-6" />
               </button>
               <div className="hidden sm:block">
@@ -71,6 +74,7 @@ function Shopbar() {
       <DialogOverlay
         isOpen={isOpen}
         onDismiss={close}
+        id="mobile-search"
         className="fixed inset-0 z-40 flex items-start justify-center px-4 py-6 bg-opacity-95 bg-green-dark"
       >
         <DialogContent

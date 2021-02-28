@@ -8,6 +8,7 @@ import { apolloClient } from '@lib/apollo-client';
 import { initAuth } from '@lib/init-auth';
 import { ShopifyContextProvider } from '@lib/shopify-context';
 import { AppProps } from 'next/app';
+import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
 import * as React from 'react';
 
@@ -33,6 +34,14 @@ function App({ Component, pageProps }: AppProps) {
             images: [{ url: siteSettings.shareImage.asset.url }],
           }}
         />
+        <Head>
+          <link rel="preconnect" href="https://cdn.sanity.io" />
+          <link rel="preconnect" href="https://vitals.vercel-insights.com" />
+          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+          <link rel="manifest" href="/manifest.webmanifest" />
+        </Head>
         <Layout>
           <Component {...pageProps} />
         </Layout>

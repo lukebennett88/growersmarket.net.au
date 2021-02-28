@@ -11,8 +11,9 @@ function DeliverySchedule() {
           <Image
             src="https://burst.shopifycdn.com/photos/red-apple-against-white-background.jpg?width=1472&amp;format=pjpg&amp;exif=0&amp;iptc=0"
             layout="fill"
+            sizes="(min-width: 902px) 902px, 100vw"
             objectFit="cover"
-            quality={100}
+            alt=""
           />
           <div className="relative py-8">
             <h2 className="space-y-3">
