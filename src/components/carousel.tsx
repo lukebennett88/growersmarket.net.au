@@ -177,7 +177,7 @@ function Slide({ slide, className }: { slide: ISlide; className: string }) {
         src={src}
         loader={loader}
         layout="fill"
-        alt={slide.backgroundImage?.altText}
+        alt={slide.backgroundImage?.altText || ''}
         className="absolute inset-0 object-cover w-full h-full mix-blend-mode-multiply filter-grayscale"
       />
       <Container>
