@@ -183,6 +183,7 @@ function Slide({ slide, className }: { slide: ISlide; className: string }) {
         src={src}
         loader={loader}
         layout="fill"
+        sizes="(min-width: 1920px) 1920px, 100vw"
         alt={slide.backgroundImage?.altText || ''}
         className="absolute inset-0 object-cover w-full h-full mix-blend-mode-multiply filter-grayscale"
       />
