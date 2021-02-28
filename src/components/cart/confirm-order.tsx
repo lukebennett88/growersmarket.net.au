@@ -132,6 +132,14 @@ function ConfirmOrder({ authUser }): React.ReactElement {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
+  const addEmailToCheckout = React.useCallback(async () => {
+    client.checkout.updateEmail(checkoutId, authUser.email);
+  }, [authUser.email, checkoutId, client.checkout]);
+
+  React.useEffect(() => {
+    addEmailToCheckout();
+  }, [addEmailToCheckout]);
+
   const handleCheckout = async () => {
     setIsLoading(true);
     try {
@@ -139,6 +147,7 @@ function ConfirmOrder({ authUser }): React.ReactElement {
         checkoutId,
         input
       );
+
       setCart(newCheckout);
     } catch (error) {
       // eslint-disable-next-line no-console
