@@ -50,6 +50,20 @@ const SANITY_DATA = gql`
         link
       }
       title
+      deliverySchedule {
+        deliveryLocations {
+          _key
+          location
+          deliveryDays {
+            _key
+            day
+          }
+        }
+        datesClosed {
+          _key
+          dates
+        }
+      }
     }
   }
 `;
