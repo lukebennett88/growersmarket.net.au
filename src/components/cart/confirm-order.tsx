@@ -1,5 +1,4 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-
 import { useCartContext } from '@lib/cart-provider';
 import { useCheckoutUrl } from '@lib/hooks/use-checkout-url';
 import { useShopifyContext } from '@lib/shopify-context';
