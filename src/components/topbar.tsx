@@ -51,6 +51,8 @@ function Topbar() {
             <button
               type="button"
               onClick={toggle}
+              aria-controls="mobile-menu"
+              aria-expanded={isOpen}
               className="flex items-center p-2 mr-auto space-x-2 font-bold rounded-md md:hidden"
             >
               <span>Menu</span>
@@ -80,6 +82,7 @@ function MobileMenu({ isOpen, setIsOpen }) {
           exit="closed"
           variants={{ open: { opacity: 1 }, closed: { opacity: 0 } }}
           transition={transition}
+          id="mobile-menu"
           className="fixed inset-0 z-40 flex justify-end bg-black bg-opacity-75 pl-14"
         >
           <MotionDialogContent
