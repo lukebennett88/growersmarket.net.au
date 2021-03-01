@@ -1,6 +1,6 @@
 import { DeliveryIcon } from '@components/vectors/delivery-icon';
 import { PickupIcon } from '@components/vectors/pickup-icon';
-import { TDeliveryMethod, useCartContext } from '@lib/cart-provider';
+import { TDeliveryMethod, useCartContext } from '@lib/cart-context';
 import * as React from 'react';
 
 import { Button } from './button';

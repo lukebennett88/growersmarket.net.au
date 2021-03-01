@@ -1,6 +1,6 @@
 import { SignInModal } from '@components/signin-modal';
 import { SignInIcon } from '@components/vectors/sign-in';
-import { useCartContext } from '@lib/cart-provider';
+import { useCartContext } from '@lib/cart-context';
 import Link from 'next/link';
 import * as React from 'react';
 

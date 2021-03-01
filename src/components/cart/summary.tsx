@@ -1,4 +1,4 @@
-import { useCartContext } from '@lib/cart-provider';
+import { useCartContext } from '@lib/cart-context';
 import { useCart } from '@lib/hooks/use-cart';
 import Link from 'next/link';
 
@@ -15,7 +15,7 @@ function Summary(): React.ReactElement {
 
   return (
     <>
-      <ProductSummary />
+      {cart?.lineItems && <ProductSummary />}
       <dl className="grid mt-16 gap-y-2">
         <div className="flex justify-between">
           <dt className="font-bold">Subtotal:</dt>

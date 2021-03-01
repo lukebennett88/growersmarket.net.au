@@ -1,12 +1,14 @@
-import { gql } from '@apollo/client';
 import { Carousel } from '@components/carousel';
 import { Container } from '@components/container';
 import { HorizontalPadding } from '@components/horizontal-padding';
 import { ProductCard } from '@components/product-card';
 import { ProductGrid } from '@components/product-grid';
-import { apolloClient } from '@lib/apollo-client';
 import { getAllFAQs } from '@lib/get-all-faqs';
 import { getAllSlides } from '@lib/get-all-slides';
+import { getHomepageSpecials } from '@lib/get-homepage-specials';
+import { getHomepageTopSellingBoxes } from '@lib/get-homepage-top-selling-boxes';
+import { getHomepageTopSellingFruit } from '@lib/get-homepage-top-selling-fruit';
+import { getHomepageTopSellingVegetables } from '@lib/get-homepage-top-selling-vegetables';
 import SanityBlockContent from '@sanity/block-content-to-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,9 +18,9 @@ import * as React from 'react';
 function HomePage({
   faqs,
   specials,
-  bestSellingFruit,
-  bestSellingVegetables,
-  bestSellingBoxes,
+  topSellingFruit,
+  topSellingVegetables,
+  topSellingBoxes,
   carouselSlides,
 }) {
   return (
@@ -27,12 +29,12 @@ function HomePage({
       <Carousel slides={carouselSlides} />
       <div className="grid gap-12 pb-12 lg:grid-cols-2">
         <ThisWeeksSpecials products={specials.edges} />
-        <TopSellingFruit products={bestSellingFruit.edges} />
+        <TopSellingFruit products={topSellingFruit.edges} />
         <div className="col-span-full">
           <Container>
             <div className="grid gap-12 mx-auto lg:grid-cols-2">
-              <TopSellingVegetables products={bestSellingVegetables.edges} />
-              <TopSellingBoxes products={bestSellingBoxes.edges} />
+              <TopSellingVegetables products={topSellingVegetables.edges} />
+              <TopSellingBoxes products={topSellingBoxes.edges} />
             </div>
             <div className="grid gap-12 mt-12 lg:grid-cols-5">
               <FrequentlyAskedQuestions faqs={faqs} />
@@ -168,182 +170,23 @@ function DeliverySchedule() {
 }
 
 async function getStaticProps() {
-  const { data } = await apolloClient.query({
-    query: gql`
-      query ShopifyQuery {
-        specials: collectionByHandle(handle: "specials") {
-          products(first: 8, sortKey: CREATED) {
-            edges {
-              node {
-                id
-                compareAtPriceRange {
-                  minVariantPrice {
-                    amount
-                  }
-                }
-                handle
-                images(first: 1) {
-                  edges {
-                    node {
-                      altText
-                      id
-                      originalSrc
-                    }
-                  }
-                }
-                priceRange {
-                  minVariantPrice {
-                    amount
-                  }
-                }
-                title
-                variants(first: 1) {
-                  edges {
-                    node {
-                      id
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        bestSellingFruit: products(
-          first: 4
-          sortKey: BEST_SELLING
-          query: "product_type:Fruit, available_for_sale:true"
-        ) {
-          edges {
-            node {
-              id
-              compareAtPriceRange {
-                minVariantPrice {
-                  amount
-                }
-              }
-              handle
-              images(first: 1) {
-                edges {
-                  node {
-                    altText
-                    id
-                    originalSrc
-                  }
-                }
-              }
-              priceRange {
-                minVariantPrice {
-                  amount
-                }
-              }
-              title
-              variants(first: 1) {
-                edges {
-                  node {
-                    id
-                  }
-                }
-              }
-            }
-          }
-        }
-        bestSellingVegetables: products(
-          first: 2
-          sortKey: BEST_SELLING
-          query: "product_type:Vegetables, available_for_sale:true"
-        ) {
-          edges {
-            node {
-              id
-              compareAtPriceRange {
-                minVariantPrice {
-                  amount
-                }
-              }
-              handle
-              images(first: 1) {
-                edges {
-                  node {
-                    altText
-                    id
-                    originalSrc
-                  }
-                }
-              }
-              priceRange {
-                minVariantPrice {
-                  amount
-                }
-              }
-              title
-              variants(first: 1) {
-                edges {
-                  node {
-                    id
-                  }
-                }
-              }
-            }
-          }
-        }
-        bestSellingBoxes: products(
-          first: 2
-          sortKey: BEST_SELLING
-          query: "product_type:Pre-Packed Boxes, available_for_sale:true"
-        ) {
-          edges {
-            node {
-              id
-              compareAtPriceRange {
-                minVariantPrice {
-                  amount
-                }
-              }
-              handle
-              images(first: 1) {
-                edges {
-                  node {
-                    altText
-                    id
-                    originalSrc
-                  }
-                }
-              }
-              priceRange {
-                minVariantPrice {
-                  amount
-                }
-              }
-              title
-              variants(first: 1) {
-                edges {
-                  node {
-                    id
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `,
-    context: {
-      clientName: 'SHOPIFY',
-    },
-  });
+  const topSellingFruit = await getHomepageTopSellingFruit();
+  const topSellingVegetables = await getHomepageTopSellingVegetables();
+  const specials = await getHomepageSpecials();
+  const topSellingBoxes = await getHomepageTopSellingBoxes();
 
   const carouselSlides = await getAllSlides();
-
-  const faqs = await getAllFAQs();
+  const allFaqs = await getAllFAQs();
+  const faqs = await allFaqs.slice(0, 2);
 
   return {
     props: {
-      bestSellingBoxes: data.bestSellingBoxes,
-      bestSellingFruit: data.bestSellingFruit,
-      bestSellingVegetables: data.bestSellingVegetables,
+      specials,
+      topSellingFruit,
+      topSellingVegetables,
+      topSellingBoxes,
       carouselSlides,
-      specials: data.specials.products,
-      faqs: faqs.slice(0, 2),
+      faqs,
     },
     revalidate: 60,
   };

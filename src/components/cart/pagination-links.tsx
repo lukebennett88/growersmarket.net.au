@@ -1,4 +1,4 @@
-import { useCartContext } from '@lib/cart-provider';
+import { useCartContext } from '@lib/cart-context';
 import Link from 'next/link';
 import * as React from 'react';
 

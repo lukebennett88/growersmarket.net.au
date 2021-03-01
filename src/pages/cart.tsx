@@ -4,7 +4,7 @@ import { CartContent } from '@components/cart/cart-content';
 import { Container } from '@components/container';
 import { HorizontalPadding } from '@components/horizontal-padding';
 import { TopSellingProducts } from '@components/top-selling-products';
-import { CartContextProvider } from '@lib/cart-provider';
+import { CartContextProvider } from '@lib/cart-context';
 import { getAllSlides, ISlide } from '@lib/get-all-slides';
 import { getTopSelling, ITopSellingProducts } from '@lib/get-top-selling';
 import { useCartCount } from '@lib/hooks/use-cart-count';

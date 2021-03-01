@@ -1,4 +1,4 @@
-import { useCartContext } from '@lib/cart-provider';
+import { useCartContext } from '@lib/cart-context';
 import * as React from 'react';
 
 import { Button } from './button';

@@ -32,10 +32,7 @@ function App({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   return (
-    <ShopifyContextProvider
-      shopName={process.env.NEXT_PUBLIC_SHOPIFY_SHOP_NAME}
-      accessToken={process.env.NEXT_PUBLIC_SHOPIFY_ACCESS_TOKEN}
-    >
+    <ShopifyContextProvider>
       <ApolloProvider client={apolloClient}>
         <DefaultSeo
           titleTemplate={`%s | ${siteSettings.title}`}

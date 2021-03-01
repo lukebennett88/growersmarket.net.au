@@ -1,90 +1,90 @@
 import { LocalStorage, LocalStorageKeys } from '@lib/local-storage';
+import fetch from 'isomorphic-fetch';
 import * as React from 'react';
 import ShopifyBuy from 'shopify-buy';
 
-// Create new React Context
-interface ShopifyContextShape {
+// Destructure shop name and access token
+const {
+  NEXT_PUBLIC_SHOPIFY_SHOP_NAME,
+  NEXT_PUBLIC_SHOPIFY_ACCESS_TOKEN,
+} = process.env;
+
+const isCustomDomain = NEXT_PUBLIC_SHOPIFY_SHOP_NAME.includes('.');
+
+// Build Shopify client
+const client = ShopifyBuy.buildClient(
+  {
+    domain: isCustomDomain
+      ? NEXT_PUBLIC_SHOPIFY_SHOP_NAME
+      : `${NEXT_PUBLIC_SHOPIFY_SHOP_NAME}.myshopify.com`,
+    storefrontAccessToken: NEXT_PUBLIC_SHOPIFY_ACCESS_TOKEN,
+  },
+  fetch
+);
+
+interface IShopifyContext {
   client: ShopifyBuy.Client | null;
   cart: ShopifyBuy.Cart | null;
   setCart: React.Dispatch<React.SetStateAction<ShopifyBuy.Cart | null>>;
 }
 
-const ShopifyContext = React.createContext<ShopifyContextShape>({
-  client: null,
+const defaultValues: IShopifyContext = {
+  client,
   cart: null,
   setCart: () => {
     throw new Error('You forgot to wrap this in a Provider object');
   },
-});
+};
 
-// Create React Provider for Shopify cart
-interface IShopifyContextProvider {
-  shopName: string;
-  accessToken: string;
-  children: React.ReactNode;
-}
+// Create new React Context
+const ShopifyContext = React.createContext<IShopifyContext>(defaultValues);
 
-function ShopifyContextProvider({
-  shopName,
-  accessToken,
-  children,
-}: IShopifyContextProvider) {
-  if (shopName == null || accessToken == null) {
-    throw new Error(
-      'Unable to build shopify-buy client object. Please make sure that your access token and domain are correct.'
-    );
-  }
+const isBrowser = typeof window !== 'undefined';
 
-  const initialCart = LocalStorage.getInitialCart();
+const initialCart = LocalStorage.getInitialCart();
+
+function ShopifyContextProvider({ children }): React.ReactElement {
   const [cart, setCart] = React.useState<ShopifyBuy.Cart | null>(initialCart);
 
-  const isCustomDomain = shopName.includes('.');
-
-  const client = ShopifyBuy.buildClient({
-    storefrontAccessToken: accessToken,
-    domain: isCustomDomain ? shopName : `${shopName}.myshopify.com`,
-  });
-
-  const getNewCart = React.useCallback(async () => {
-    const newCart = await client.checkout.create();
-    setCart(newCart);
-  }, [client.checkout]);
-
-  const refreshExistingCart = React.useCallback(
-    // eslint-disable-next-line consistent-return
-    async (cartId: string) => {
-      try {
-        const refreshedCart = await client.checkout.fetch(cartId);
-
-        if (refreshedCart == null) {
-          return await getNewCart();
-        }
-
-        const cartHasBeenPurchased = refreshedCart.completedAt != null;
-
-        if (cartHasBeenPurchased) {
-          getNewCart();
-        } else {
-          setCart(refreshedCart);
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
+  const setCartItem = React.useCallback(
+    (checkout) => {
+      if (isBrowser) {
+        LocalStorage.set(LocalStorageKeys.CART, JSON.stringify(cart));
       }
+      setCart(checkout);
     },
-    [client.checkout, getNewCart]
+    [cart]
   );
 
-  const checkCart = React.useCallback(() => {
-    if (cart == null) {
-      getNewCart();
-    } else {
-      refreshExistingCart(String(cart.id));
-    }
-  }, [cart, getNewCart, refreshExistingCart]);
+  const cartHasInvalidLineItems = cart?.lineItems.some(
+    ({ variant }) => variant === null
+  );
 
   React.useEffect(() => {
-    checkCart();
+    // eslint-disable-next-line unicorn/consistent-function-scoping
+    const initializeCheckout = async () => {
+      const existingCheckoutID = isBrowser
+        ? localStorage.getItem(LocalStorageKeys.CART)
+        : null;
+
+      if (existingCheckoutID && existingCheckoutID !== 'null') {
+        try {
+          const existingCheckout = await client.checkout.fetch(
+            existingCheckoutID
+          );
+          if (!existingCheckout.completedAt || cartHasInvalidLineItems) {
+            setCartItem(existingCheckout);
+            return;
+          }
+        } catch (error) {
+          localStorage.setItem(LocalStorageKeys.CART, null);
+        }
+      }
+
+      const newCheckout = await client.checkout.create();
+      setCartItem(newCheckout);
+    };
+    initializeCheckout();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -95,6 +95,7 @@ function ShopifyContextProvider({
   return (
     <ShopifyContext.Provider
       value={{
+        ...defaultValues,
         client,
         cart,
         setCart,
