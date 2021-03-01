@@ -9,6 +9,8 @@ import { apolloClient } from '@lib/apollo-client';
 import * as gtag from '@lib/gtag';
 import { initAuth } from '@lib/init-auth';
 import { ShopifyContextProvider } from '@lib/shopify-context';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -20,6 +22,15 @@ import siteSettings from '../data/site-settings.json';
 initAuth();
 
 function App({ Component, pageProps }: AppProps) {
+  Sentry.init({
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    integrations: [new Integrations.BrowserTracing()],
+
+    // We recommend adjusting this value in production, or using tracesSampler
+    // for finer control
+    tracesSampleRate: 1,
+  });
+
   const router = useRouter();
   React.useEffect(() => {
     const handleRouteChange = (url) => {
