@@ -78,14 +78,15 @@ function ProductTypePage({
         <div className="relative grid lg:grid-cols-3">
           <div className="py-16 lg:col-span-2">
             <HorizontalPadding>
-              <div className="grid gap-12 lg:grid-cols-3">
-                <div>
-                  <h1 className="text-2xl font-bold">All {productType}</h1>
+              <div>
+                <h1 className="text-2xl font-bold">All {productType}</h1>
+                <div className="mt-2">
                   Sort by{' '}
                   <select
                     onChange={(e) => setFilter(e.target.value)}
                     name="filter_collections"
                     id="filter_collections"
+                    className="ml-1 focus:ring-1"
                   >
                     <option value="All">All Products</option>
                     <option value="A – Z (Name)">A – Z (Name)</option>
@@ -94,7 +95,7 @@ function ProductTypePage({
                 </div>
               </div>
               <div className="mt-2 border-t">
-                <ul className="grid gap-12 mt-2 lg:grid-cols-3">
+                <ul className="grid gap-12 mt-8 lg:grid-cols-3">
                   {filteredCollections.map((node) => (
                     <li key={node.id}>
                       <Link href={`/collections/${node.handle}`}>
