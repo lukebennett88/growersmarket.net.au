@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import 'typeface-montserrat';
 import 'intersection-observer';
 import '../styles/globals.css';
@@ -5,10 +6,12 @@ import '../styles/globals.css';
 import { ApolloProvider } from '@apollo/client';
 import { Layout } from '@components/layout';
 import { apolloClient } from '@lib/apollo-client';
+import * as gtag from '@lib/gtag';
 import { initAuth } from '@lib/init-auth';
 import { ShopifyContextProvider } from '@lib/shopify-context';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { DefaultSeo } from 'next-seo';
 import * as React from 'react';
 
@@ -17,6 +20,17 @@ import siteSettings from '../data/site-settings.json';
 initAuth();
 
 function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  React.useEffect(() => {
+    const handleRouteChange = (url) => {
+      gtag.pageview(url);
+    };
+    router.events.on('routeChangeComplete', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
+
   return (
     <ShopifyContextProvider
       shopName={process.env.NEXT_PUBLIC_SHOPIFY_SHOP_NAME}

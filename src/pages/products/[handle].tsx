@@ -10,6 +10,7 @@ import { getAllSlides, ISlide } from '@lib/get-all-slides';
 import { getProduct, IProduct } from '@lib/get-product';
 import { getAllProducts } from '@lib/get-products';
 import { getTopSelling, ITopSellingProducts } from '@lib/get-top-selling';
+import * as gtag from '@lib/gtag';
 import { useAddToCart } from '@lib/hooks/use-add-to-cart';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -61,6 +62,10 @@ function ProductPage({
   async function handleAddToCart() {
     try {
       setIsLoading(true);
+      gtag.event({
+        action: 'add_to_cart',
+        category: 'ecommerce',
+      });
       await addToCart();
     } catch (error) {
       // eslint-disable-next-line no-alert
