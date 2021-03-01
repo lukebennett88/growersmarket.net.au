@@ -114,7 +114,7 @@ function MobileMenu({ isOpen, setIsOpen }) {
               <nav className="flex flex-col h-full">
                 <div className="space-y-1">
                   {siteNavigation.mainNavigation.map((navItem) => (
-                    <Link key={navItem.id} href={navItem.route}>
+                    <Link key={navItem.id} href={`/${navItem.route}`}>
                       <a
                         onClick={close}
                         className={`flex items-center px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out border-l-4 border-transparent hover:border-yellow hover:bg-gray-50 hover:text-gray-900 group ${
