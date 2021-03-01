@@ -4,23 +4,20 @@
 import ShopifyBuy from 'shopify-buy';
 
 // Local storage keys so we can set and retrieve data
-const CART = 'shopify_local_store__cart';
-const CHECKOUT_ID = 'shopify_local_store__checkout_id';
-
 const LocalStorageKeys = {
-  CART,
-  CHECKOUT_ID,
+  CART: 'shopify_local_store__cart',
+  CHECKOUT_ID: 'shopify_local_store__checkout_id',
 };
 
 // Check if a value is a cart
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isCart(potentialCart: any): potentialCart is ShopifyBuy.Cart {
   return (
-    potentialCart != null &&
-    potentialCart.id != null &&
-    potentialCart.webUrl != null &&
-    potentialCart.lineItems != null &&
-    potentialCart.type != null &&
+    potentialCart !== null &&
+    potentialCart.id !== null &&
+    potentialCart.webUrl !== null &&
+    potentialCart.lineItems !== null &&
+    potentialCart.type !== null &&
     potentialCart.type.name === 'Checkout' &&
     potentialCart.type.kind === 'OBJECT'
   );
@@ -51,7 +48,7 @@ function get(key: string) {
 //
 function getInitialCart(): ShopifyBuy.Cart | null {
   const existingCartString = get(LocalStorageKeys.CART);
-  if (existingCartString == null) {
+  if (existingCartString === null) {
     return null;
   }
 
