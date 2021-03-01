@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
 import { LocalStorage, LocalStorageKeys } from '@lib/local-storage';
 import * as React from 'react';
 import ShopifyBuy from 'shopify-buy';
@@ -24,6 +26,7 @@ interface IShopifyContextProvider {
 }
 
 // Create React Provider for Shopify cart
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function ShopifyContextProvider({
   shopName,
   accessToken,
@@ -50,6 +53,39 @@ function ShopifyContextProvider({
     setCart(newCart);
   }, [client.checkout]);
 
+  const removeInvalidLineItems = React.useCallback(async () => {
+    console.log('cartHasInvalidLineItems');
+    // We don't have the id of the invalid products (since the variant property is null)
+    // So we can't use the removeLineItem method on `client.checkout`
+    // Instead, we get an array of all the valid line item ids, empty the cart,
+    // and add the valid line items back.
+    const validLineItems = JSON.stringify(
+      cart.lineItems
+        .filter(({ variant }) => variant !== null)
+        .map(({ variant, quantity }) => ({
+          variantId: variant.id,
+          quantity,
+        }))
+    );
+    console.log({ validLineItems });
+    console.log('getNewCart()');
+    return await getNewCart()
+      .catch((error) => console.error(error))
+      .then(async () => {
+        console.log({ 'adding line items': JSON.parse(validLineItems) });
+        return client.checkout.addLineItems(
+          cart.id,
+          JSON.parse(validLineItems)
+        );
+      })
+      .catch((error) => console.error(error))
+      .finally(() =>
+        alert(
+          '1 or more items are no longer available for sale and have been removed from your cart'
+        )
+      );
+  }, [cart?.id, cart?.lineItems, client.checkout, getNewCart]);
+
   const refreshExistingCart = React.useCallback(
     // eslint-disable-next-line consistent-return
     async (cartId: string) => {
@@ -57,40 +93,47 @@ function ShopifyContextProvider({
         const refreshedCart = await client.checkout.fetch(cartId);
 
         if (refreshedCart == null) {
+          console.log('refreshedCart == null');
           return await getNewCart();
         }
 
         const cartHasBeenPurchased = refreshedCart.completedAt != null;
 
-        const cartHasInvalidLineItems = cart.lineItems.find(
-          ({ variant }) => variant == null
+        if (cartHasBeenPurchased) {
+          return await getNewCart();
+        }
+
+        const cartHasInvalidLineItems = cart.lineItems.some(
+          ({ variant }) => variant === null
         );
 
-        if (cartHasBeenPurchased || cartHasInvalidLineItems) {
-          getNewCart();
-        } else {
-          setCart(refreshedCart);
+        if (cartHasInvalidLineItems) {
+          return await removeInvalidLineItems();
         }
+
+        console.log('setCart(refreshedCart)');
+        setCart(refreshedCart);
       } catch (error) {
-        // eslint-disable-next-line no-console
         console.error(error);
       }
     },
-    [cart?.lineItems, client.checkout, getNewCart]
+    [cart?.lineItems, client?.checkout, getNewCart, removeInvalidLineItems]
   );
 
   const checkCart = React.useCallback(() => {
-    if (cart == null) {
+    if (cart === null) {
+      console.log('cart === null');
       getNewCart();
     } else {
+      console.log('running refreshExistingCart');
       refreshExistingCart(String(cart.id));
     }
-  }, [cart, getNewCart, refreshExistingCart]);
+    // }, [cart, getNewCart, refreshExistingCart]);
+  }, []);
 
   React.useEffect(() => {
     checkCart();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [checkCart]);
 
   React.useEffect(() => {
     LocalStorage.set(LocalStorageKeys.CART, JSON.stringify(cart));
