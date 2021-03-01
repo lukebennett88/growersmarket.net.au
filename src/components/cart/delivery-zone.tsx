@@ -1,4 +1,4 @@
-import { TDeliveryZone, useCartContext } from '@lib/cart-provider';
+import { TDeliveryZone, useCartContext } from '@lib/cart-context';
 import * as React from 'react';
 
 import { Button } from './button';

@@ -1,6 +1,6 @@
 import { PlaneIcon } from '@components/vectors/plane-icon';
 import { ShipIcon } from '@components/vectors/ship-icon';
-import { TShippingType, useCartContext } from '@lib/cart-provider';
+import { TShippingType, useCartContext } from '@lib/cart-context';
 import * as React from 'react';
 
 import { Button } from './button';

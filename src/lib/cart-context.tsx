@@ -105,5 +105,3 @@ export type {
   TSetState,
   TShippingType,
 };
-
-// Alistair's Code here: https://gist.github.com/mrhut10/dd6e1cb539e8f0b757125fc0c301284b

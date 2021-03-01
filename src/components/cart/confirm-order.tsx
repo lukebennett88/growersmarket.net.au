@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { useCartContext } from '@lib/cart-provider';
+import { useCartContext } from '@lib/cart-context';
 import { useCheckoutUrl } from '@lib/hooks/use-checkout-url';
 import { useShopifyContext } from '@lib/shopify-context';
 import dayjs from 'dayjs';

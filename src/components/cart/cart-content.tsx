@@ -1,4 +1,4 @@
-import { useCartContext } from '@lib/cart-provider';
+import { useCartContext } from '@lib/cart-context';
 import { useAuthUser } from 'next-firebase-auth';
 import * as React from 'react';
 
