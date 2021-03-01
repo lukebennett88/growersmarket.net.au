@@ -8,9 +8,7 @@ import { Toast } from '@components/toast';
 import { TopSellingProducts } from '@components/top-selling-products';
 import { getAllSlides, ISlide } from '@lib/get-all-slides';
 import { getProduct, IProduct } from '@lib/get-product';
-import { getAllProducts } from '@lib/get-products';
 import { getTopSelling, ITopSellingProducts } from '@lib/get-top-selling';
-import * as gtag from '@lib/gtag';
 import { useAddToCart } from '@lib/hooks/use-add-to-cart';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -62,10 +60,6 @@ function ProductPage({
   async function handleAddToCart() {
     try {
       setIsLoading(true);
-      gtag.event({
-        action: 'add_to_cart',
-        category: 'ecommerce',
-      });
       await addToCart();
     } catch (error) {
       // eslint-disable-next-line no-alert
@@ -214,23 +208,13 @@ function ProductPage({
   );
 }
 
-async function getStaticPaths() {
-  const products = await getAllProducts();
-  return {
-    paths: products.map(
-      ({ node }: { node: IProduct }) => `/products/${node.handle}`
-    ),
-    fallback: false,
-  };
-}
-
 interface IParams {
   params: {
     handle: string;
   };
 }
 
-async function getStaticProps({ params }: IParams) {
+async function getServerSideProps({ params }: IParams) {
   const product: IProduct = await getProduct({
     handle: params.handle,
   });
@@ -249,8 +233,7 @@ async function getStaticProps({ params }: IParams) {
       product,
       topSelling,
     },
-    revalidate: 60,
   };
 }
 
-export { ProductPage as default, getStaticPaths, getStaticProps };
+export { ProductPage as default, getServerSideProps };
