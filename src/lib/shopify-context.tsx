@@ -22,8 +22,6 @@ const client = ShopifyBuy.buildClient(
   fetch
 );
 
-//
-
 interface IShopifyContext {
   client: ShopifyBuy.Client | null;
   cart: ShopifyBuy.Cart | null;
