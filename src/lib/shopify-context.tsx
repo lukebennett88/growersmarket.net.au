@@ -1,7 +1,12 @@
 import { LocalStorage, LocalStorageKeys } from '@lib/local-storage';
+import dotenv from 'dotenv';
 import fetch from 'isomorphic-fetch';
 import * as React from 'react';
 import ShopifyBuy from 'shopify-buy';
+
+dotenv.config({
+  path: '.env.local',
+});
 
 // Destructure shop name and access token
 const {
