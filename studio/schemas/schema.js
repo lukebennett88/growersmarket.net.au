@@ -7,6 +7,7 @@ import createSchema from 'part:@sanity/base/schema-creator';
 // We import object and document schemas
 import address from './address';
 import blockContent from './blockContent';
+import bottomCta from './bottomCta';
 import carousel from './carousel';
 import closedDates from './closedDates';
 import cta from './cta';
@@ -42,6 +43,7 @@ export default createSchema({
     // in the studio.
     address,
     blockContent,
+    bottomCta,
     carousel,
     closedDates,
     cta,

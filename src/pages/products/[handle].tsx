@@ -7,6 +7,7 @@ import { QuantityPicker } from '@components/quantity-picker';
 import { Toast } from '@components/toast';
 import { TopSellingProducts } from '@components/top-selling-products';
 import { getAllSlides, ISlide } from '@lib/get-all-slides';
+import { getBottomCta, IBottomCta } from '@lib/get-bottom-cta';
 import { getProduct, IProduct } from '@lib/get-product';
 import { getTopSelling, ITopSellingProducts } from '@lib/get-top-selling';
 import { useAddToCart } from '@lib/hooks/use-add-to-cart';
@@ -19,15 +20,17 @@ import { HiOutlineShoppingCart } from 'react-icons/hi';
 import slugify from 'slugify';
 
 interface IProductPage {
+  bottomCta: IBottomCta;
+  carouselSlides: Array<ISlide>;
   product: IProduct;
   topSelling: ITopSellingProducts;
-  carouselSlides: Array<ISlide>;
 }
 
 function ProductPage({
+  bottomCta,
+  carouselSlides,
   product,
   topSelling,
-  carouselSlides,
 }: IProductPage): React.ReactElement {
   const router = useRouter();
   // Number of items to add to cart
@@ -195,7 +198,7 @@ function ProductPage({
             productType={product.productType}
           />
         </div>
-        <DeliverySchedule />
+        <DeliverySchedule bottomCta={bottomCta} />
       </Container>
       <Toast
         title={product.title}
@@ -227,8 +230,11 @@ async function getServerSideProps({ params }: IParams) {
 
   const carouselSlides = await getAllSlides();
 
+  const bottomCta = await getBottomCta();
+
   return {
     props: {
+      bottomCta,
       carouselSlides,
       product,
       topSelling,

@@ -6,6 +6,7 @@ import { HorizontalPadding } from '@components/horizontal-padding';
 import { TopSellingProducts } from '@components/top-selling-products';
 import { getAllCollectionsByType } from '@lib/get-all-collections-by-type';
 import { getAllSlides, ISlide } from '@lib/get-all-slides';
+import { getBottomCta, IBottomCta } from '@lib/get-bottom-cta';
 import { getProductTypes } from '@lib/get-product-types';
 import { getTopSelling, ITopSellingProducts } from '@lib/get-top-selling';
 import Image from 'next/image';
@@ -29,6 +30,7 @@ interface IProductTypePage {
 
   topSelling: ITopSellingProducts;
   carouselSlides: Array<ISlide>;
+  bottomCta: IBottomCta;
 }
 
 function ProductTypePage({
@@ -36,6 +38,7 @@ function ProductTypePage({
   collections,
   topSelling,
   carouselSlides,
+  bottomCta,
 }: IProductTypePage): React.ReactElement {
   const [filter, setFilter] = React.useState('All');
   const [filteredCollections, setFilteredCollections] = React.useState(
@@ -137,7 +140,7 @@ function ProductTypePage({
             productType={productType}
           />
         </div>
-        <DeliverySchedule />
+        <DeliverySchedule bottomCta={bottomCta} />
       </Container>
     </>
   );
@@ -187,12 +190,15 @@ async function getStaticProps({ params }) {
 
   const carouselSlides = await getAllSlides();
 
+  const bottomCta = await getBottomCta();
+
   return {
     props: {
+      bottomCta,
+      carouselSlides,
       collections,
       productType,
       topSelling,
-      carouselSlides,
     },
     revalidate: 60,
   };

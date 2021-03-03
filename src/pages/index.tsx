@@ -5,27 +5,33 @@ import { ProductCard } from '@components/product-card';
 import { ProductGrid } from '@components/product-grid';
 import { getAllFAQs } from '@lib/get-all-faqs';
 import { getAllSlides } from '@lib/get-all-slides';
+import { getBottomCta, IBottomCta } from '@lib/get-bottom-cta';
 import { getHomepageSpecials } from '@lib/get-homepage-specials';
 import { getHomepageTopSellingBoxes } from '@lib/get-homepage-top-selling-boxes';
 import { getHomepageTopSellingFruit } from '@lib/get-homepage-top-selling-fruit';
 import { getHomepageTopSellingVegetables } from '@lib/get-homepage-top-selling-vegetables';
+import { configuredSanityClient } from '@lib/sanity-client';
 import SanityBlockContent from '@sanity/block-content-to-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useNextSanityImage } from 'next-sanity-image';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
+import siteSettings from 'studio/schemas/siteSettings';
 
 function HomePage({
+  bottomCta,
+  carouselSlides,
   faqs,
   specials,
+  topSellingBoxes,
   topSellingFruit,
   topSellingVegetables,
-  topSellingBoxes,
-  carouselSlides,
 }) {
   return (
     <>
       <NextSeo title="Home" />
+      <h1 className="sr-only">{siteSettings.title}</h1>
       <Carousel slides={carouselSlides} />
       <div className="grid gap-12 pb-12 lg:grid-cols-2">
         <ThisWeeksSpecials products={specials.edges} />
@@ -38,7 +44,7 @@ function HomePage({
             </div>
             <div className="grid gap-12 mt-12 lg:grid-cols-5">
               <FrequentlyAskedQuestions faqs={faqs} />
-              <DeliverySchedule />
+              <DeliverySchedule bottomCta={bottomCta} />
             </div>
           </Container>
         </div>
@@ -138,31 +144,42 @@ function FrequentlyAskedQuestions({ faqs }) {
   );
 }
 
-function DeliverySchedule() {
+function DeliverySchedule({ bottomCta }: { bottomCta: IBottomCta }) {
+  const { backgroundImage, ctaLabel, ctaSlug, heading } = bottomCta;
+  const { src, loader } = useNextSanityImage(
+    configuredSanityClient,
+    backgroundImage.asset
+  );
   return (
     <article className="relative grid items-end lg:col-span-3">
       <Image
-        src="https://burst.shopifycdn.com/photos/red-apple-against-white-background.jpg?width=1000&amp;format=pjpg&amp;exif=0&amp;iptc=0"
+        loader={loader}
+        src={src}
         layout="fill"
         objectFit="cover"
-        quality={100}
+        sizes="(min-width: 1920px) 1920px, 100vw"
+        alt={backgroundImage?.altText || ''}
       />
       <HorizontalPadding>
         <div className="relative py-8">
           <h2 className="space-y-3">
-            <span className="inline-block px-4 text-3xl font-bold leading-loose uppercase text-green-dark bg-yellow">
-              Check Out Our
-            </span>
-            <br />
-            <span className="inline-block px-4 text-3xl font-bold leading-loose uppercase text-green-dark bg-yellow">
-              Delivery Schedule
-            </span>
+            {heading.map((line, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <React.Fragment key={index}>
+                <span className="inline-block px-4 text-3xl font-bold leading-loose uppercase text-green-dark bg-yellow">
+                  {line}{' '}
+                </span>
+                {index !== heading.length - 1 && <br />}
+              </React.Fragment>
+            ))}
           </h2>
-          <div className="mt-5">
-            <Link href="/pages/delivery-schedule/">
-              <a className="cta">Find Out More</a>
-            </Link>
-          </div>
+          {ctaSlug && ctaLabel && (
+            <div className="mt-5">
+              <Link href={ctaSlug}>
+                <a className="cta">{ctaLabel}</a>
+              </Link>
+            </div>
+          )}
         </div>
       </HorizontalPadding>
     </article>
@@ -178,17 +195,19 @@ async function getStaticProps() {
   const carouselSlides = await getAllSlides();
   const allFaqs = await getAllFAQs();
   const faqs = await allFaqs.slice(0, 2);
+  const bottomCta = await getBottomCta();
 
   return {
     props: {
-      specials,
-      topSellingFruit,
-      topSellingVegetables,
-      topSellingBoxes,
+      bottomCta,
       carouselSlides,
       faqs,
+      specials,
+      topSellingBoxes,
+      topSellingFruit,
+      topSellingVegetables,
     },
-    revalidate: 60,
+    revalidate: 1,
   };
 }
 

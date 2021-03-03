@@ -8,6 +8,7 @@ import { ProductGrid } from '@components/product-grid';
 import { TopSellingProducts } from '@components/top-selling-products';
 import { getAllCollections } from '@lib/get-all-collections';
 import { getAllSlides, ISlide } from '@lib/get-all-slides';
+import { getBottomCta, IBottomCta } from '@lib/get-bottom-cta';
 import {
   getCollectionByHandle,
   ICollectionByHandle,
@@ -22,9 +23,11 @@ interface ICollectionPage {
   collection: ICollectionByHandle;
   topSelling: ITopSellingProducts;
   carouselSlides: Array<ISlide>;
+  bottomCta: IBottomCta;
 }
 
 function CollectionPage({
+  bottomCta,
   collection,
   topSelling,
   carouselSlides,
@@ -66,7 +69,7 @@ function CollectionPage({
           </div>
           <TopSellingProducts topSelling={topSelling} />
         </div>
-        <DeliverySchedule />
+        <DeliverySchedule bottomCta={bottomCta} />
       </Container>
     </>
   );
@@ -100,14 +103,18 @@ async function getStaticProps({ params }: IParams) {
   });
 
   const siteSettings = await getSiteSettings();
+
   const carouselSlides = await getAllSlides();
+
+  const bottomCta = await getBottomCta();
 
   return {
     props: {
+      bottomCta,
+      carouselSlides,
+      collection,
       siteSettings,
       topSelling,
-      collection,
-      carouselSlides,
     },
     revalidate: 60,
   };

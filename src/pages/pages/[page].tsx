@@ -6,13 +6,14 @@ import { HorizontalPadding } from '@components/horizontal-padding';
 import { TopSellingProducts } from '@components/top-selling-products';
 import { getAllSanityPages } from '@lib/get-all-sanity-pages';
 import { getAllSlides } from '@lib/get-all-slides';
+import { getBottomCta } from '@lib/get-bottom-cta';
 import { getSanityPage } from '@lib/get-sanity-page';
 import { getTopSelling } from '@lib/get-top-selling';
 import SanityBlockContent from '@sanity/block-content-to-react';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
 
-function PageTemplate({ sanityPage, topSelling, carouselSlides }) {
+function PageTemplate({ bottomCta, carouselSlides, sanityPage, topSelling }) {
   // Navigation array from Breadcrumbs
   const navigation = [
     {
@@ -48,7 +49,7 @@ function PageTemplate({ sanityPage, topSelling, carouselSlides }) {
           </div>
           <TopSellingProducts topSelling={topSelling} />
         </div>
-        <DeliverySchedule />
+        <DeliverySchedule bottomCta={bottomCta} />
       </Container>
     </>
   );
@@ -81,8 +82,11 @@ async function getStaticProps({ params }) {
 
   const carouselSlides = await getAllSlides();
 
+  const bottomCta = await getBottomCta();
+
   return {
     props: {
+      bottomCta,
       carouselSlides,
       sanityPage,
       topSelling,

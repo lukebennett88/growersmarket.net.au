@@ -6,6 +6,7 @@ import { DeliverySchedule } from '@components/delivery-schedule';
 import { HorizontalPadding } from '@components/horizontal-padding';
 import { TopSellingProducts } from '@components/top-selling-products';
 import { getAllSlides, ISlide } from '@lib/get-all-slides';
+import { getBottomCta, IBottomCta } from '@lib/get-bottom-cta';
 import { getTopSelling } from '@lib/get-top-selling';
 import { GetStaticPropsResult } from 'next';
 import { NextSeo } from 'next-seo';
@@ -13,7 +14,11 @@ import * as React from 'react';
 
 import siteSettings from '../../data/site-settings.json';
 
-function ContactPage({ topSelling, carouselSlides }): React.ReactElement {
+function ContactPage({
+  bottomCta,
+  carouselSlides,
+  topSelling,
+}): React.ReactElement {
   // Navigation array from Breadcrumbs
   const navigation = [
     {
@@ -86,7 +91,7 @@ function ContactPage({ topSelling, carouselSlides }): React.ReactElement {
           </div>
           <TopSellingProducts topSelling={topSelling} />
         </div>
-        <DeliverySchedule />
+        <DeliverySchedule bottomCta={bottomCta} />
       </Container>
     </>
   );
@@ -96,6 +101,7 @@ function ContactPage({ topSelling, carouselSlides }): React.ReactElement {
 interface ContactPageProps {
   topSelling: [];
   carouselSlides: Array<ISlide>;
+  bottomCta: IBottomCta;
 }
 
 async function getStaticProps(): Promise<
@@ -107,8 +113,11 @@ async function getStaticProps(): Promise<
 
   const carouselSlides = await getAllSlides();
 
+  const bottomCta = await getBottomCta();
+
   return {
     props: {
+      bottomCta,
       topSelling,
       carouselSlides,
     },
