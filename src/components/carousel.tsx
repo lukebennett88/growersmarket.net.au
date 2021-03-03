@@ -179,17 +179,22 @@ function Slide({ slide, className }: { slide: ISlide; className: string }) {
   );
   return (
     <li className={className}>
-      <Image
-        src={src}
-        loader={loader}
-        layout="fill"
-        sizes="(min-width: 1920px) 1920px, 100vw"
-        alt={slide.backgroundImage?.altText || ''}
-        className="absolute inset-0 object-cover w-full h-full mix-blend-mode-multiply filter-grayscale"
-      />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 lg:left-auto lg:w-1/2">
+          <Image
+            src={src}
+            loader={loader}
+            layout="fill"
+            objectFit="contain"
+            sizes="(min-width: 1920px) 1920px, 100vw"
+            alt={slide.backgroundImage?.altText || ''}
+            className="object-cover w-full h-full mix-blend-mode-multiply filter-grayscale"
+          />
+        </div>
+      </div>
       <Container>
         <HorizontalPadding variant={HorizontalPadding.variant.TRANSPARENT}>
-          <div className="max-w-lg py-12">
+          <div className="w-full max-w-lg py-12">
             <h2 className="text-5xl italic text-white">
               <span className="inline-block max-w-prose">{slide.heading}</span>
             </h2>
