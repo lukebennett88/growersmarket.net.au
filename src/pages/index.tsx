@@ -157,7 +157,7 @@ function DeliverySchedule({ bottomCta }: { bottomCta: IBottomCta }) {
         src={src}
         layout="fill"
         objectFit="cover"
-        sizes="(min-width: 1920px) 1920px, 100vw"
+        sizes="(min-width: 902px) 902px, 100vw"
         alt={backgroundImage?.altText || ''}
       />
       <HorizontalPadding>

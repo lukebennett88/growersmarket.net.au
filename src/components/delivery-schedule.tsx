@@ -21,7 +21,7 @@ function DeliverySchedule({ bottomCta }: { bottomCta: IBottomCta }) {
             loader={loader}
             src={src}
             layout="fill"
-            sizes="(min-width: 902px) 902px, 100vw"
+            sizes="(min-width: 1920px) 1920px, 100vw"
             objectFit="cover"
             alt={backgroundImage?.altText || ''}
           />
