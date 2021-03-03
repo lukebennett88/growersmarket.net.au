@@ -14,7 +14,12 @@ const round = (num) =>
 const em = (px, base) => `${round(px / base)}em`;
 
 module.exports = {
-  purge: ['./src/**/*.{js,jsx,ts,tsx}'],
+  purge: {
+    content: ['./src/**/*.{js,jsx,ts,tsx}'],
+    options: {
+      safelist: ['lg:left-auto', 'lg:w-1/2'],
+    },
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     backdropFilter: {
