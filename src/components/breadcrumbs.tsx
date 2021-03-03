@@ -45,7 +45,7 @@ function Breadcrumbs({ navigation }: IBreadcrumbs): React.ReactElement {
                               ? 'page'
                               : null
                           }
-                          className="ml-4 text-sm font-medium"
+                          className="ml-4 text-sm font-medium whitespace-nowrap"
                         >
                           {title}
                         </a>
