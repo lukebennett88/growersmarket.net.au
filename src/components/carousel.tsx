@@ -188,7 +188,7 @@ function Slide({ slide, className }: { slide: ISlide; className: string }) {
             objectFit="contain"
             sizes="(min-width: 1920px) 1920px, 100vw"
             alt={slide.backgroundImage?.altText || ''}
-            className="object-cover w-full h-full mix-blend-mode-multiply filter-grayscale"
+            className="w-full h-full mix-blend-mode-multiply filter-grayscale"
           />
         </div>
       </div>
