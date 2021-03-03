@@ -75,11 +75,11 @@ function Shopbar() {
         isOpen={isOpen}
         onDismiss={close}
         id="mobile-search"
-        className="fixed inset-0 z-40 flex items-start justify-center px-4 py-6 bg-opacity-95 bg-green-dark"
+        className="absolute inset-0 z-40 flex items-start justify-center mt-32 bg-black bg-opacity-50"
       >
         <DialogContent
           aria-label="Search for products"
-          className="w-full max-w-sm bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
+          className="w-full max-w-sm bg-white ring-1 ring-black ring-opacity-5"
         >
           <div className="p-4">
             <Searchbar />
