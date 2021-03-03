@@ -155,7 +155,7 @@ function ProductPage({
                         product.priceRange?.minVariantPrice?.amount
                       ).toFixed(2)}{' '}
                     </span>
-                    <span className="uppercase"> / each</span>
+                    {/* <span className="uppercase"> / each</span> */}
                   </div>
                   <div className="flex justify-between mt-12">
                     <QuantityPicker
