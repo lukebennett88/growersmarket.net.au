@@ -79,9 +79,9 @@ function Shopbar() {
       >
         <DialogContent
           aria-label="Search for products"
-          className="w-full max-w-sm bg-white ring-1 ring-black ring-opacity-5"
+          className="flex justify-end w-full p-4 pt-1 bg-white"
         >
-          <div className="p-4">
+          <div className="w-full">
             <Searchbar />
           </div>
         </DialogContent>
