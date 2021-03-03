@@ -119,7 +119,7 @@ function ConfirmOrder({ authUser }): React.ReactElement {
       },
       {
         key: 'Delivery Date',
-        value: state.deliveryDate,
+        value: dayjs(state.deliveryDate).format('dddd, Do MMMM'),
       },
     ];
   }
