@@ -1191,7 +1191,7 @@
 
 "@snyk/dep-graph@1.23.1", "@snyk/dep-graph@^1.23.0":
   version "1.23.1"
-  resolved "https://registry.yarnpkg.com/@snyk/dep-graph/-/dep-graph-1.23.1.tgz#c884811669983febb6685f9107b322b3c0603f42"
+  resolved "https://registry.npmjs.org/@snyk/dep-graph/-/dep-graph-1.23.1.tgz"
   integrity sha512-bSlTRVJP0PHtvoilhE463AMt0fhsf9PxCEqJ28VHCVSe5QFzIlgGdljtytV+2DheadGwu27BgLGqPDGMdTBHRQ==
   dependencies:
     lodash.clone "^4.5.0"
