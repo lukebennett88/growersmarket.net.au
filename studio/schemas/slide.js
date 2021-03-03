@@ -23,5 +23,12 @@ export default {
       name: 'backgroundImage',
       type: 'imageWithAltText',
     },
+    {
+      title: 'Hide slide',
+      description:
+        "Check this if you don't want this slide to appear on the website",
+      name: 'isHidden',
+      type: 'boolean',
+    },
   ],
 };

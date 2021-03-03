@@ -217,13 +217,15 @@ function Slide({ slide, className }: { slide: ISlide; className: string }) {
 function Carousel({ slides }: { slides: ISlide[] }): React.ReactElement {
   return (
     <ProductSlider>
-      {slides.map((slide) => (
-        <Slide
-          key={slide._key}
-          slide={slide}
-          className="relative bg-green-dark"
-        />
-      ))}
+      {slides.map((slide) =>
+        slide.isHidden ? null : (
+          <Slide
+            key={slide._key}
+            slide={slide}
+            className="relative bg-green-dark"
+          />
+        )
+      )}
     </ProductSlider>
   );
 }

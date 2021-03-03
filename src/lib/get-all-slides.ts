@@ -11,6 +11,7 @@ const GET_ALL_SLIDES = gql`
         heading
         ctaLabel
         ctaSlug
+        isHidden
         backgroundImage {
           altText
           asset {
@@ -38,6 +39,7 @@ interface ISlide {
   heading: string;
   ctaLabel: string;
   ctaSlug: string;
+  isHidden?: boolean;
   backgroundImage: {
     altText: string | null;
     asset: {
