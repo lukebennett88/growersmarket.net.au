@@ -16,12 +16,12 @@ interface IBreadcrumbs {
 function Breadcrumbs({ navigation }: IBreadcrumbs): React.ReactElement {
   return (
     <nav
-      className="flex py-2 text-white bg-green-dark"
+      className="flex py-2 overflow-hidden text-white bg-green-dark"
       aria-label="Breadcrumb navigation"
     >
       <Container>
         <HorizontalPadding>
-          <ol className="flex items-center space-x-4">
+          <ol className="flex items-center space-x-4 overflow-x-auto">
             <li>
               <div>
                 <Link href="/">
