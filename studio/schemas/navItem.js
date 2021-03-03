@@ -20,13 +20,14 @@ export default {
   ],
   preview: {
     select: {
-      sanityPageTitle: 'sanityPage.label',
-      externalPageTitle: 'externalPage.label',
+      sanityPageLabel: 'sanityPage.label',
+      sanityPageTitle: 'sanityPage.referencePage.title',
+      externalPageLabel: 'externalPage.label',
     },
     prepare(selection) {
-      const { sanityPageTitle, externalPageTitle } = selection;
+      const { sanityPageLabel, externalPageLabel, sanityPageTitle } = selection;
       return {
-        title: sanityPageTitle || externalPageTitle,
+        title: sanityPageLabel || externalPageLabel || sanityPageTitle,
       };
     },
   },

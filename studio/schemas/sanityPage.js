@@ -19,5 +19,10 @@ export default {
         'Change this if you want the text to be different to the page title',
     },
   ],
-  // TODO: label this so it looks better in the CMS
+  preview: {
+    select: {
+      pageTitle: 'referencePage',
+      label: 'label',
+    },
+  },
 };
