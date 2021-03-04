@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-import { HiArrowLeft, HiMenu, HiX } from 'react-icons/hi';
+import { HiArrowLeft, HiChevronRight, HiMenu, HiX } from 'react-icons/hi';
 
 import siteNavigation from '../data/site-navigation.json';
 import siteSettings from '../data/site-settings.json';
@@ -68,6 +68,7 @@ function Topbar() {
 }
 
 function MobileMenu({ isOpen, setIsOpen }) {
+  const router = useRouter();
   const MotionDialogOverlay = motion.custom(DialogOverlay);
   const MotionDialogContent = motion.custom(DialogContent);
   const transition = { min: 0, max: 100, bounceDamping: 9 };
@@ -112,35 +113,42 @@ function MobileMenu({ isOpen, setIsOpen }) {
                 <span className="sr-only">Close sidebar</span>
               </button>
             </div>
-            <Link href="/">
-              <a className="flex items-center flex-shrink-0 px-4">
-                <Logo className="w-auto h-16" />
-                <span className="sr-only">Growers Market</span>
-              </a>
-            </Link>
+            <div className="grid items-center grid-cols-2">
+              <Link href="/">
+                <a className="px-4">
+                  <Logo className="w-auto h-16" />
+                  <span className="sr-only">Growers Market</span>
+                </a>
+              </Link>
+              {productType && (
+                <button
+                  type="button"
+                  aria-label="Back to browse categories"
+                  onClick={() => {
+                    setProductType(null);
+                    setNavigation(siteNavigation.mainNavigation);
+                  }}
+                  className="flex items-center space-x-2 font-medium text-white"
+                >
+                  <HiArrowLeft className="text-base" />
+                  <span aria-hidden>Back</span>
+                </button>
+              )}
+            </div>
             <div className="flex-1 h-0 mt-5 overflow-y-auto">
               {productType && (
-                <>
-                  <div className="grid items-center w-full grid-cols-3 px-4 py-2 font-medium text-white border-l-4 border-transparent">
-                    <button
-                      type="button"
-                      aria-label="Back to browse categories"
-                      onClick={() => {
-                        setProductType(null);
-                        setNavigation(siteNavigation.mainNavigation);
-                      }}
-                      className="flex items-center space-x-2 font-medium"
-                    >
-                      <HiArrowLeft className="text-base" />
-                      <span aria-hidden>Back</span>
-                    </button>
-                    <Link href={productType.route}>
-                      <a onClick={close} className="col-span-2 pl-4 border-l">
-                        View all {productType.title}
-                      </a>
-                    </Link>
-                  </div>
-                </>
+                <Link href={productType.route}>
+                  <a
+                    onClick={close}
+                    className={`w-full flex items-center px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out border-l-4 border-transparent hover:border-yellow hover:bg-gray-50 hover:text-gray-900 group ${
+                      router.route === `/${String(productType.route)}`
+                        ? 'border-yellow bg-gray-50 text-gray-900'
+                        : ''
+                    }`}
+                  >
+                    View all {productType.title}
+                  </a>
+                </Link>
               )}
               <nav className="flex flex-col h-full">
                 <div className="space-y-1">
@@ -156,6 +164,7 @@ function MobileMenu({ isOpen, setIsOpen }) {
                       <NavLink
                         key={navItem.id}
                         navItem={navItem}
+                        productType={productType}
                         close={close}
                       />
                     )
@@ -190,21 +199,28 @@ function NavButton({ navItem, setNavigation, setProductType }) {
     <button
       type="button"
       onClick={handleClick}
-      className={`w-full flex items-center px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out border-l-4 border-transparent hover:border-yellow hover:bg-gray-50 hover:text-gray-900 group ${
+      className={`w-full flex justify-between space-x-2 items-center px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out border-l-4 border-transparent hover:border-yellow hover:bg-gray-50 hover:text-gray-900 group ${
         router.route === `/${String(navItem.route)}`
           ? 'border-yellow bg-gray-50 text-gray-900'
           : ''
       }`}
     >
-      {navItem.title}
+      <span>{navItem.title}</span>
+      <HiChevronRight />
     </button>
   );
 }
 
-function NavLink({ navItem, close }) {
+function NavLink({ navItem, productType, close }) {
   const router = useRouter();
   return (
-    <Link href={`/${String(navItem.route)}`}>
+    <Link
+      href={
+        productType
+          ? `/collections/${String(navItem.handle)}`
+          : `/${String(navItem.route)}`
+      }
+    >
       <a
         onClick={close}
         className={`flex items-center px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out border-l-4 border-transparent hover:border-yellow hover:bg-gray-50 hover:text-gray-900 group ${
