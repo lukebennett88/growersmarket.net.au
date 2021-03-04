@@ -9,7 +9,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const products = await getAllProducts();
 
   const fields = products.map((product) => ({
-    loc: `${siteSettings.siteUrl}/products/${String(product.handle)}`, // Absolute url
+    loc: `${siteSettings.siteUrl}/products/${String(product.node.handle)}`, // Absolute url
     lastmod: new Date().toISOString(),
   }));
 
