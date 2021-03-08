@@ -1,6 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import { usePrevious } from '@lib/hooks/use-previous';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
@@ -17,6 +18,7 @@ import { Logo } from './vectors/logo';
 function Topbar() {
   const [isOpen, setIsOpen] = React.useState(false);
   const toggle = () => setIsOpen((prev) => !prev);
+
   return (
     <div className="relative z-10 text-sm font-bold text-white bg-green-dark">
       <Container>
@@ -81,12 +83,18 @@ function MobileMenu({ isOpen, setIsOpen }) {
     setProductType(null);
     setNavigation(siteNavigation.mainNavigation);
   };
+
+  const previousNavigation = usePrevious(navigation || null);
+  const isFirstRender = previousNavigation === undefined;
+  const shouldAnimateInitialRender =
+    (isFirstRender && !navigation) || previousNavigation === null;
+
   return (
     <AnimatePresence>
       {isOpen && (
         <MotionDialogOverlay
           onDismiss={close}
-          initial="closed"
+          initial={shouldAnimateInitialRender ? 'closed' : 'open'}
           animate="open"
           exit="closed"
           variants={{ open: { opacity: 1 }, closed: { opacity: 0 } }}
@@ -96,7 +104,7 @@ function MobileMenu({ isOpen, setIsOpen }) {
         >
           <MotionDialogContent
             aria-label="Site navigation"
-            initial="closed"
+            initial={shouldAnimateInitialRender ? 'closed' : 'open'}
             animate="open"
             exit="closed"
             variants={{ open: { x: 0 }, closed: { x: '100%' } }}
