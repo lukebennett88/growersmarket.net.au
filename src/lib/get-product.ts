@@ -5,7 +5,6 @@ import { apolloClient } from './apollo-client';
 const GET_PRODUCT = gql`
   query ProductQuery($handle: String!) {
     productByHandle(handle: $handle) {
-      availableForSale
       collections(first: 1) {
         edges {
           node {
@@ -37,6 +36,7 @@ const GET_PRODUCT = gql`
           amount
         }
       }
+      availableForSale
       productType
       title
       variants(first: 1) {
@@ -78,6 +78,7 @@ interface IProduct {
       amount: string;
     };
   };
+  availableForSale: string;
   productType: string;
   title: string;
   variants: {

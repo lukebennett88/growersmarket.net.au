@@ -121,6 +121,9 @@ function ProductPage({
               product.priceRange?.minVariantPrice?.amount &&
               Number(product.priceRange.minVariantPrice.amount).toFixed(2),
             priceCurrency: 'AUD',
+            availability: product.availableForSale
+              ? 'https://schema.org/InStock'
+              : 'https://schema.org/OutOfStock',
             url: `https://www.growersmarket.net.au${router.asPath}`,
             seller: {
               name: 'Growers Market',
