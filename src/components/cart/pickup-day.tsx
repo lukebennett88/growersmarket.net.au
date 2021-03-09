@@ -34,7 +34,6 @@ function PickupDay(): React.ReactElement {
 }
 
 dayjs.extend(advancedFormat);
-
 interface IDay {
   index: number;
 }
@@ -64,11 +63,14 @@ function Day({ index }: IDay) {
 
   const { deliveryZone } = state;
 
+  const isAfterTen = dayjs().isAfter(dayjs().hour(10));
+
   const date = dayjs()
     .add(index + 1, 'day')
     .format('YYYY-MM-DD');
-
   const dayOfWeek = dayjs(date).format('dddd');
+  const nextDayIndex = dayjs().day() + 1;
+  const nextDay = dayjs().day(nextDayIndex).format('dddd');
 
   const isWeekend = dayOfWeek.includes('Sat') || dayOfWeek.includes('Sun');
 
@@ -105,6 +107,11 @@ function Day({ index }: IDay) {
 
   // Don't load weekends
   if (isWeekend) {
+    return null;
+  }
+
+  // Don't load next day if time is pass 10am
+  if (isAfterTen && nextDay === dayOfWeek) {
     return null;
   }
 
