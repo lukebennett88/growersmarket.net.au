@@ -63,7 +63,7 @@ function Day({ index }: IDay) {
 
   const { deliveryZone } = state;
 
-  const isAfterTen = dayjs().isAfter(dayjs().hour(10));
+  const isAfterTwelve = dayjs().isAfter(dayjs().hour(12).minute(0));
 
   const date = dayjs()
     .add(index + 1, 'day')
@@ -111,7 +111,7 @@ function Day({ index }: IDay) {
   }
 
   // Don't load next day if time is pass 10am
-  if (isAfterTen && nextDay === dayOfWeek) {
+  if (isAfterTwelve && nextDay === dayOfWeek) {
     return null;
   }
 
