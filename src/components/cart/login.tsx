@@ -9,9 +9,18 @@ function Login({ authUser }): React.ReactElement {
 
   const { setState } = useCartContext();
 
-  if (authUser?.clientInitialized && authUser.email) {
-    setState((prevState) => ({ ...prevState, step: 3 }));
-  }
+  // Scroll to top of page
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (authUser?.clientInitialized && authUser.email) {
+      setState((prevState) => ({ ...prevState, step: 3 }));
+    }
+  }, [authUser?.clientInitialized, authUser.email, setState]);
 
   return (
     <>

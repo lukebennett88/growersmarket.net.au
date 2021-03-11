@@ -16,9 +16,18 @@ function Delivery(): React.ReactElement {
 
   const cartTotal = Number(cart?.totalPrice || 0).toFixed(2);
 
-  if (Number(cartTotal) < 15) {
-    setState((prevState) => ({ ...prevState, step: 1 }));
-  }
+  React.useEffect(() => {
+    if (Number(cartTotal) < 15) {
+      setState((prevState) => ({ ...prevState, step: 1 }));
+    }
+  }, [cartTotal, setState]);
+
+  // Scroll to top of page
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+  }, []);
 
   return (
     <div className="grid gap-8 mt-8">
