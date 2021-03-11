@@ -18,44 +18,49 @@ function ConfirmOrder({ authUser }): React.ReactElement {
 
   const cartTotal = Number(cart?.totalPrice || 0).toFixed(2);
 
-  if (Number(cartTotal) < 15) {
-    setState((prevState) => ({ ...prevState, step: 1 }));
-  }
-
-  if (!authUser?.clientInitialized || !authUser.email) {
-    setState((prevState) => ({ ...prevState, step: 2 }));
-  }
-
-  if (state.deliveryMethod === '') {
-    setState((prevState) => ({ ...prevState, step: 3 }));
-  }
-
-  if (state.deliveryMethod === 'Pickup' && state.pickupTime === '') {
-    setState((prevState) => ({ ...prevState, step: 3 }));
-  }
-
-  if (
-    state.deliveryMethod === 'Delivery' &&
-    state.deliveryDate === '' &&
-    state.deliveryZone !== 'Lord Howe Island'
-  ) {
-    setState((prevState) => ({ ...prevState, step: 3 }));
-  }
-
-  if (
-    state.deliveryMethod === 'Delivery' &&
-    state.deliveryZone === 'Lord Howe Island' &&
-    state.shippingType === ''
-  ) {
-    setState((prevState) => ({ ...prevState, step: 3 }));
-  }
-
-  // Scroll to top of page
   React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.scrollTo(0, 0);
+    if (Number(cartTotal) < 15) {
+      setState((prevState) => ({ ...prevState, step: 1 }));
     }
-  }, []);
+
+    if (!authUser?.clientInitialized || !authUser.email) {
+      setState((prevState) => ({ ...prevState, step: 2 }));
+    }
+
+    if (state.deliveryMethod === '') {
+      setState((prevState) => ({ ...prevState, step: 3 }));
+    }
+
+    if (state.deliveryMethod === 'Pickup' && state.pickupTime === '') {
+      setState((prevState) => ({ ...prevState, step: 3 }));
+    }
+
+    if (
+      state.deliveryMethod === 'Delivery' &&
+      state.deliveryDate === '' &&
+      state.deliveryZone !== 'Lord Howe Island'
+    ) {
+      setState((prevState) => ({ ...prevState, step: 3 }));
+    }
+
+    if (
+      state.deliveryMethod === 'Delivery' &&
+      state.deliveryZone === 'Lord Howe Island' &&
+      state.shippingType === ''
+    ) {
+      setState((prevState) => ({ ...prevState, step: 3 }));
+    }
+  }, [
+    authUser?.clientInitialized,
+    authUser.email,
+    cartTotal,
+    setState,
+    state.deliveryDate,
+    state.deliveryMethod,
+    state.deliveryZone,
+    state.pickupTime,
+    state.shippingType,
+  ]);
 
   const checkoutUrl = useCheckoutUrl();
 
@@ -162,6 +167,13 @@ function ConfirmOrder({ authUser }): React.ReactElement {
 
   const shippingCost =
     state.deliveryMethod === 'Delivery' && Number(cartTotal) < 40 ? 7 : 0;
+
+  // Scroll to top of page
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+  }, []);
 
   return (
     <>
