@@ -11,7 +11,7 @@ import { FaSpinner } from 'react-icons/fa';
 import { ProductSummary } from './product-summary';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-function ConfirmOrder({ authUser }): React.ReactElement {
+function ConfirmOrder(): React.ReactElement {
   const { state, setState } = useCartContext();
 
   const { cart, client, setCart } = useShopifyContext();
@@ -23,16 +23,12 @@ function ConfirmOrder({ authUser }): React.ReactElement {
       setState((prevState) => ({ ...prevState, step: 1 }));
     }
 
-    if (!authUser?.clientInitialized || !authUser.email) {
+    if (state.deliveryMethod === '') {
       setState((prevState) => ({ ...prevState, step: 2 }));
     }
 
-    if (state.deliveryMethod === '') {
-      setState((prevState) => ({ ...prevState, step: 3 }));
-    }
-
     if (state.deliveryMethod === 'Pickup' && state.pickupTime === '') {
-      setState((prevState) => ({ ...prevState, step: 3 }));
+      setState((prevState) => ({ ...prevState, step: 2 }));
     }
 
     if (
@@ -40,7 +36,7 @@ function ConfirmOrder({ authUser }): React.ReactElement {
       state.deliveryDate === '' &&
       state.deliveryZone !== 'Lord Howe Island'
     ) {
-      setState((prevState) => ({ ...prevState, step: 3 }));
+      setState((prevState) => ({ ...prevState, step: 2 }));
     }
 
     if (
@@ -48,11 +44,9 @@ function ConfirmOrder({ authUser }): React.ReactElement {
       state.deliveryZone === 'Lord Howe Island' &&
       state.shippingType === ''
     ) {
-      setState((prevState) => ({ ...prevState, step: 3 }));
+      setState((prevState) => ({ ...prevState, step: 2 }));
     }
   }, [
-    authUser?.clientInitialized,
-    authUser.email,
     cartTotal,
     setState,
     state.deliveryDate,
@@ -137,14 +131,6 @@ function ConfirmOrder({ authUser }): React.ReactElement {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const addEmailToCheckout = React.useCallback(async () => {
-    client.checkout.updateEmail(checkoutId, authUser.email);
-  }, [authUser.email, checkoutId, client.checkout]);
-
-  React.useEffect(() => {
-    addEmailToCheckout();
-  }, [addEmailToCheckout]);
-
   const handleCheckout = async () => {
     setIsLoading(true);
     try {
@@ -178,8 +164,7 @@ function ConfirmOrder({ authUser }): React.ReactElement {
   return (
     <>
       <h2 className="mt-8 text-xl font-bold text-green-dark">
-        {authUser?.firebaseUser?.displayName}
-        &rsquo;s Order Details
+        Your Order Details
       </h2>
 
       <dl className="mt-4 space-y-4">

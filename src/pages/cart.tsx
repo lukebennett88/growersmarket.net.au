@@ -8,11 +8,6 @@ import { CartContextProvider } from '@lib/cart-context';
 import { getAllSlides, ISlide } from '@lib/get-all-slides';
 import { getTopSelling, ITopSellingProducts } from '@lib/get-top-selling';
 import { useCartCount } from '@lib/hooks/use-cart-count';
-import {
-  AuthAction,
-  withAuthUser,
-  withAuthUserTokenSSR,
-} from 'next-firebase-auth';
 import { NextSeo } from 'next-seo';
 import * as React from 'react';
 
@@ -69,28 +64,17 @@ function CartPage({
   );
 }
 
-const getServerSideProps = withAuthUserTokenSSR({
-  whenAuthed: AuthAction.RENDER,
-  whenUnauthed: AuthAction.RENDER,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-})(async ({ AuthUser }) => {
+async function getStaticProps() {
   const topSelling = await getTopSelling({
     query: `available_for_sale:true`,
   });
   const carouselSlides = await getAllSlides();
-
   return {
     props: {
       topSelling,
       carouselSlides,
     },
   };
-});
+}
 
-export { getServerSideProps };
-export default withAuthUser({
-  whenAuthed: AuthAction.RENDER,
-  whenUnauthedBeforeInit: AuthAction.RENDER,
-  whenUnauthedAfterInit: AuthAction.RENDER,
-  // @ts-ignore // TODO: fix this warning caused by newly added types in `next-firebase-auth`
-})(CartPage);
+export { CartPage as default, getStaticProps };

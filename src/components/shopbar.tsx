@@ -9,7 +9,6 @@ import { HorizontalPadding } from './horizontal-padding';
 import { Searchbar } from './search-bar';
 import { CartIcon } from './vectors/cart';
 import { Logo } from './vectors/logo';
-import { SignInIcon } from './vectors/sign-in';
 
 function Shopbar() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -55,12 +54,6 @@ function Shopbar() {
               <div className="hidden sm:block">
                 <Searchbar />
               </div>
-              <Link href="/account">
-                <a className="relative flex flex-col items-center text-xs leading-none text-center sm:flex-row sm:space-x-2">
-                  <SignInIcon className="w-7 h-7" />
-                  <span className="mt-1 sr-only sm:not-sr-only">Account</span>
-                </a>
-              </Link>
               <Link href="/cart">
                 <a className="relative flex flex-col items-center text-xs leading-none text-center sm:flex-row sm:space-x-2">
                   <CartIcon className="w-7 h-7" />
