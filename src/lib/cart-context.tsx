@@ -3,6 +3,11 @@
 
 import * as React from 'react';
 
+type User = {
+  displayName: string;
+  email: string;
+};
+
 type TDeliveryMethod = '' | 'Delivery' | 'Pickup';
 
 type TDeliveryZone =
@@ -36,6 +41,9 @@ interface InitialStateValues {
   // Time window that the customer wants to collect their order
   pickupTime: TPickupTime;
 
+  // Information about the user
+  user: User;
+
   // Customer notes to send with the order
   customerNotes: string;
 }
@@ -48,6 +56,10 @@ const initialState: InitialStateValues = {
   deliveryDate: '',
   shippingType: '',
   pickupTime: '',
+  user: {
+    email: '',
+    displayName: '',
+  },
   customerNotes: '',
 };
 

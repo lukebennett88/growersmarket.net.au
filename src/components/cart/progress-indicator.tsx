@@ -26,11 +26,10 @@ function Step({ index, children }: IStep): React.ReactElement {
 
 function ProgressIndicator(): React.ReactElement {
   return (
-    <ol className="grid mt-4 text-center sm:grid-cols-4">
+    <ol className="grid mt-4 text-center sm:grid-cols-3">
       <Step index={1}>1. Summary</Step>
-      <Step index={2}>2. Login</Step>
-      <Step index={3}>3. Delivery</Step>
-      <Step index={4}>4. Confirm Order</Step>
+      <Step index={2}>2. Delivery</Step>
+      <Step index={3}>3. Confirm Order</Step>
     </ol>
   );
 }

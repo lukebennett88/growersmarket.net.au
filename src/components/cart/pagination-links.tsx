@@ -55,7 +55,7 @@ function NextStepButton() {
     return null;
   }
 
-  const nextStep = () => setState((prevState) => ({ ...prevState, step: 4 }));
+  const nextStep = () => setState((prevState) => ({ ...prevState, step: 3 }));
 
   return (
     <button
