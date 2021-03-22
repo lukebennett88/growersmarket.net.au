@@ -74,6 +74,7 @@ async function getStaticProps() {
       topSelling,
       carouselSlides,
     },
+    revalidate: 60,
   };
 }
 

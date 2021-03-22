@@ -207,7 +207,7 @@ async function getStaticProps() {
       topSellingFruit,
       topSellingVegetables,
     },
-    revalidate: 1,
+    revalidate: 60,
   };
 }
 
