@@ -17,12 +17,7 @@ export default {
   preview: {
     select: {
       title: 'days',
-      subtitle: 'hours'
+      subtitle: 'hours',
     },
-    // prepare({ title }) {
-    //   return {
-    //     title,
-    //   };
-    // },
   },
 };
