@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import { apolloClient } from './apollo-client';
 
 const GET_FIRST_PRODUCTS = gql`
-  query {
+  query FirstProductsQuery {
     products(sortKey: TITLE, first: 250) {
       pageInfo {
         hasNextPage
@@ -12,6 +12,7 @@ const GET_FIRST_PRODUCTS = gql`
       edges {
         cursor
         node {
+          id
           handle
           description
           title
@@ -35,7 +36,7 @@ const GET_FIRST_PRODUCTS = gql`
 `;
 
 const GET_NEXT_PRODUCTS = gql`
-  query getProds($cursor: String!) {
+  query NextProductsQuery($cursor: String!) {
     products(sortKey: TITLE, first: 250, after: $cursor) {
       pageInfo {
         hasNextPage
@@ -43,6 +44,7 @@ const GET_NEXT_PRODUCTS = gql`
       edges {
         cursor
         node {
+          id
           handle
           description
           title
