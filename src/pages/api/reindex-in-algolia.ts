@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const client = algoliasearch(
-    process.env.NEXT_PUBLIC_APPLICATION_ID,
+    process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
     process.env.ALGOLIA_ADMIN_API_KEY
   );
 

@@ -7,7 +7,6 @@ import { ApolloProvider } from '@apollo/client';
 import { Layout } from '@components/layout';
 import { apolloClient } from '@lib/apollo-client';
 import * as gtag from '@lib/gtag';
-import { initAuth } from '@lib/init-auth';
 import { ShopifyContextProvider } from '@lib/shopify-context';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
@@ -18,8 +17,6 @@ import { DefaultSeo } from 'next-seo';
 import * as React from 'react';
 
 import siteSettings from '../data/site-settings.json';
-
-initAuth();
 
 function App({ Component, pageProps }: AppProps) {
   Sentry.init({
