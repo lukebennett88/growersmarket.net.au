@@ -7,9 +7,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const client = algoliasearch(
-    'V259T7DYJV',
-    '85d12cbf86544a63bcc15863065928b8'
+    process.env.NEXT_PUBLIC_APPLICATION_ID,
+    process.env.ALGOLIA_ADMIN_API_KEY
   );
+
   const products = await getAllProductsForAlgolia();
 
   const index = client.initIndex('all_shopify_products');
