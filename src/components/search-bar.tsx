@@ -285,7 +285,7 @@ const Results = connectStateResults(
                         height={44}
                         layout="responsive"
                         src={hit.image.originalSrc}
-                        alt=""
+                        alt={hit.image.altText || ''}
                         className="object-contain"
                       />
                     )}
