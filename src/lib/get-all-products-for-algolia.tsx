@@ -67,7 +67,6 @@ const GET_NEXT_PRODUCTS = gql`
 
 async function getAllProductsForAlgolia() {
   let products = [];
-  let flattened = [];
 
   async function getProductsFromQuery() {
     let newCursor = '';
@@ -117,8 +116,10 @@ async function getAllProductsForAlgolia() {
         })
       );
   }
+
   await getProductsFromQuery();
-  flattened = products.map(
+
+  return products.map(
     ({
       node: {
         handle,
