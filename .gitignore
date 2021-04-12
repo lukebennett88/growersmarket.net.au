@@ -34,3 +34,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Remove menu and site settings
+src/data/site-navigation.json
+src/data/site-settings.json
