@@ -26,7 +26,7 @@ import {
 function Searchbar() {
   return (
     <InstantSearch
-      indexName="products_recently_ordered_count_desc"
+      indexName="all_shopify_products"
       searchClient={algoliaClient}
     >
       <SearchBox />
@@ -284,8 +284,8 @@ const Results = connectStateResults(
                         width={44}
                         height={44}
                         layout="responsive"
-                        src={hit.image}
-                        alt=""
+                        src={hit.image.originalSrc}
+                        alt={hit.image.altText || ''}
                         className="object-contain"
                       />
                     )}
