@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.growersmarket.net.au
+
+# Sitemaps
+Sitemap: https://www.growersmarket.net.au/sitemap.xml
