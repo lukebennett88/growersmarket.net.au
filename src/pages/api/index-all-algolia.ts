@@ -14,10 +14,13 @@ export default async function handler(
   const products = await getAllProductsForAlgolia();
 
   const index = client.initIndex('all_shopify_products');
+
   index
     .replaceAllObjects(products, { autoGenerateObjectIDIfNotExist: true })
+    // eslint-disable-next-line no-console
     .then(({ objectIDs }) => console.log(objectIDs))
-    .catch((error) => console.log('ERROR:', error));
+    // eslint-disable-next-line no-console
+    .catch((error) => console.error({ error }));
   return res.status(200).json({
     message: 'Success',
   });
