@@ -143,14 +143,15 @@ async function getAllProductsForAlgolia() {
       productType,
       availableForSale,
       totalInventory,
-      image: {
-        id: images.edges[0].node.id,
-        originalSrc: images.edges[0].node.originalSrc,
-        altText: images.edges[0].node.altText,
-      },
+      image: images
+        ? {
+            id: images?.edges?.[0]?.node?.id,
+            originalSrc: images?.edges?.[0]?.node?.originalSrc,
+            altText: images?.edges?.[0]?.node?.altText,
+          }
+        : null,
     })
   );
-  return flattened;
 }
 
 export { getAllProductsForAlgolia };
