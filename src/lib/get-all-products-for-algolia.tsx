@@ -124,6 +124,7 @@ async function getAllProductsForAlgolia() {
   return products.map(
     ({
       node: {
+        id,
         handle,
         description,
         title,
@@ -134,6 +135,7 @@ async function getAllProductsForAlgolia() {
         images,
       },
     }) => ({
+      objectID: id,
       handle,
       description,
       title,
