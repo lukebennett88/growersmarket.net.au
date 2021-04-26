@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 const {
   NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
-  ALGOLIA_ADMIN_API_KEY,
+  ALGOLIA_WRITE_API_KEY,
 } = process.env;
 
 export default async function handler(
@@ -13,7 +13,7 @@ export default async function handler(
 ) {
   const client = algoliasearch(
     NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
-    ALGOLIA_ADMIN_API_KEY
+    ALGOLIA_WRITE_API_KEY
   );
 
   const products = await getAllProductsForAlgolia();
@@ -34,6 +34,6 @@ export default async function handler(
   return res.status(200).json({
     message: `Success:
     NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: ${typeof NEXT_PUBLIC_ALGOLIA_APPLICATION_ID}
-    ALGOLIA_ADMIN_API_KEY: ${typeof ALGOLIA_ADMIN_API_KEY}`,
+    ALGOLIA_WRITE_API_KEY: ${typeof ALGOLIA_WRITE_API_KEY}`,
   });
 }
