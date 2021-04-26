@@ -7,6 +7,24 @@ const {
   ALGOLIA_WRITE_API_KEY,
 } = process.env;
 
+interface Product {
+  objectID: string;
+  handle: string;
+  description: string;
+  title: string;
+  tags: string[];
+  productType: string;
+  availableForSale: boolean;
+  totalInventory: number;
+  image: {
+    id: string;
+    originalSrc: string;
+    altText?: string;
+  };
+}
+
+type Products = Product[];
+
 export default async function handler(
   _req: NextApiRequest,
   res: NextApiResponse
@@ -16,7 +34,7 @@ export default async function handler(
     ALGOLIA_WRITE_API_KEY
   );
 
-  const products = await getAllProductsForAlgolia();
+  const products: Products = await getAllProductsForAlgolia();
 
   const index = client.initIndex('all_shopify_products');
 
