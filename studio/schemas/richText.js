@@ -7,7 +7,7 @@ export default {
       title: 'Block Content',
       type: 'blockContent',
       name: 'blockContent',
-      display: 'blockContent'
+      display: 'blockContent',
     },
   ],
   preview: {
