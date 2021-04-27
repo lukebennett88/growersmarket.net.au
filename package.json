@@ -8,9 +8,10 @@
     "postbuild": "next-sitemap",
     "predev": "yarn run save-async-data",
     "dev": "next dev",
+    "format": "prettier . --write --ignore-unknown",
     "postdev": "next-sitemap",
-    "lint:fix": "npm run lint -- --fix",
-    "lint": "eslint --color --ext .html,.js,.json,.jsx,.md,.ts,.tsx src",
+    "eslint:fix": "npm run eslint -- --fix",
+    "eslint": "eslint --color --ext .js,.jsx,.ts,.tsx src",
     "save-async-data": "node src/lib/create-navigation.js && node src/lib/create-site-settings.js",
     "start": "next start"
   },
@@ -143,6 +144,7 @@
       "unicorn/no-new-array": 0,
       "@typescript-eslint/ban-ts-comment": 1,
       "unicorn/no-useless-undefined": 0,
+      "unicorn/prefer-module": 0,
       "unicorn/prefer-spread": 0
     }
   },
