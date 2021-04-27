@@ -2166,7 +2166,7 @@
     "@babel/runtime" "^7.7.2"
     "regenerator-runtime" "^0.13.3"
 
-"@netlify/plugin-nextjs@^3.1.0":
+"@netlify/plugin-nextjs@^3.1.0-experimental-odb.2":
   "integrity" "sha512-UJ3I69fx5j2/ZIw+ODnOGZd4GLv1ogfGBQdIticrmysbx+hHb5UjaFyy2JL8pXYyE37oDjEZJWi/PyTyTbx4lQ=="
   "resolved" "https://registry.npmjs.org/@netlify/plugin-nextjs/-/plugin-nextjs-3.1.0.tgz"
   "version" "3.1.0"
