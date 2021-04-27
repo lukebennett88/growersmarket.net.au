@@ -5,9 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
-const AnimatedDialogOverlay = motion.custom(DialogOverlay);
-const AnimatedDialogContent = motion.custom(DialogContent);
-
 const transition = { min: 0, max: 100, bounceDamping: 9 };
 
 function Toast({ showDialog, setShowDialog, image, title, quantity }) {
@@ -22,7 +19,8 @@ function Toast({ showDialog, setShowDialog, image, title, quantity }) {
   return (
     <AnimatePresence>
       {showDialog && (
-        <AnimatedDialogOverlay
+        <DialogOverlay
+          as={motion.div}
           onDismiss={close}
           initial="closed"
           animate="open"
@@ -32,7 +30,8 @@ function Toast({ showDialog, setShowDialog, image, title, quantity }) {
           className="fixed inset-0 z-10 flex flex-col px-4 py-32 bg-black bg-opacity-25 sm:px-6 backdrop-blur"
         >
           <div className="flex items-end justify-end flex-1 w-full mx-auto pointer-events-none max-w-screen-2xl">
-            <AnimatedDialogContent
+            <DialogContent
+              as={motion.div}
               aria-label="New item added to cart"
               initial="closed"
               animate="open"
@@ -106,9 +105,9 @@ function Toast({ showDialog, setShowDialog, image, title, quantity }) {
                   </div>
                 </div>
               </div>
-            </AnimatedDialogContent>
+            </DialogContent>
           </div>
-        </AnimatedDialogOverlay>
+        </DialogOverlay>
       )}
     </AnimatePresence>
   );
