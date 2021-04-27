@@ -7,21 +7,25 @@ import { FaSpinner } from 'react-icons/fa';
 import { Input } from './form-elements/input';
 import { Textarea } from './form-elements/textarea';
 
-interface DataProps {
-  email_address: string;
+interface FormData {
   full_name: string;
-  message: string;
+  email_address: string;
   subject: string;
+  message: string;
 }
 
 function ContactForm() {
-  const { handleSubmit, register, errors } = useForm({ mode: 'onBlur' });
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormData>({ mode: 'onBlur', reValidateMode: 'onChange' });
 
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const router = useRouter();
 
-  const onSubmit = async (data: DataProps, event: React.SyntheticEvent) => {
+  const onSubmit = async (data: FormData, event: React.SyntheticEvent) => {
     event.preventDefault();
 
     setIsSubmitting(true);
@@ -49,28 +53,24 @@ function ContactForm() {
       className="grid max-w-xl gap-4 mt-8"
     >
       <Input
-        name="full_name"
         label="Full Name"
-        ref={register({ required: true })}
+        {...register('full_name', { required: true })}
         errors={errors}
       />
       <Input
-        name="email_address"
         label="Email Address"
         type="email"
-        ref={register({ required: true })}
+        {...register('email_address', { required: true })}
         errors={errors}
       />
       <Input
-        name="subject"
         label="Subject"
-        ref={register({ required: true })}
+        {...register('subject', { required: true })}
         errors={errors}
       />
       <Textarea
-        name="message"
         label="Message"
-        ref={register({ required: true })}
+        {...register('message', { required: true })}
         errors={errors}
       />
       <div>
