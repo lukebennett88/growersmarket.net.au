@@ -14,6 +14,7 @@ const round = (num) =>
 const em = (px, base) => `${round(px / base)}em`;
 
 module.exports = {
+  mode: 'jit',
   purge: {
     content: ['./src/**/*.{js,jsx,ts,tsx}'],
     options: {
