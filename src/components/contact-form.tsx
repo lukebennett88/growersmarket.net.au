@@ -51,31 +51,27 @@ function ContactForm() {
       <Input
         name="full_name"
         label="Full Name"
-        register={register}
+        ref={register({ required: true })}
         errors={errors}
-        className="w-full border-gray-300 focus:ring-2 focus:ring-blue-500 focus-within:ring-opacity-50"
       />
       <Input
         name="email_address"
         label="Email Address"
         type="email"
-        register={register}
+        ref={register({ required: true })}
         errors={errors}
-        className="w-full border-gray-300 focus:ring-2 focus:ring-blue-500 focus-within:ring-opacity-50"
       />
       <Input
         name="subject"
         label="Subject"
-        register={register}
+        ref={register({ required: true })}
         errors={errors}
-        className="w-full border-gray-300 focus:ring-2 focus:ring-blue-500 focus-within:ring-opacity-50"
       />
       <Textarea
         name="message"
         label="Message"
-        register={register}
+        ref={register({ required: true })}
         errors={errors}
-        className="w-full border-gray-300 focus:ring-2 focus:ring-blue-500 focus-within:ring-opacity-50"
       />
       <div>
         <button

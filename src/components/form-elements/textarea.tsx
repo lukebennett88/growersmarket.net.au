@@ -1,65 +1,37 @@
 import * as React from 'react';
+import { DeepMap, FieldError } from 'react-hook-form';
 
-import { Error } from './error';
+import { ErrorMessage } from './error-message';
 
-interface ITextarea {
-  className?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  errors?: any;
-  label: string;
+type TextareaProps = {
   name: string;
-  placeholder?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  register: any;
-  required?: boolean;
+  label: string;
   rows?: number;
-}
+  errors: DeepMap<Record<string, unknown>, FieldError>;
+};
 
-/**
- * Reusable HTML input component
- * @param className Forwards to the className prop on the textarea element
- * @param errors Object containing any errors in the form
- * @param label Label for the textarea
- * @param name Used for both the `id` and `name` of the textarea
- * @param placeholder Placeholder text for the textarea, falls back to label if not provided
- * @param register The register function from `react-hook-form`
- * @param required Boolean for if field is required. Set to true by default
- * @param rows Number of rows that the textarea should be
- */
-
-function Textarea({
-  className,
-  errors,
-  label,
-  name,
-  placeholder,
-  register,
-  required = true,
-  rows = 6,
-}: ITextarea) {
-  return (
-    <div>
-      <label htmlFor={name}>
-        <span className="sr-only">
-          {label}
-          {required && ' *'}
-        </span>
-        <textarea
-          aria-invalid={!!errors?.[name]}
-          name={name}
-          id={name}
-          placeholder={placeholder || label}
-          required={required}
-          rows={rows}
-          ref={register({
-            required: <Error message={`${label} is a required field`} />,
-          })}
-          className={className}
-        />
-      </label>
-      {errors[name]?.message}
-    </div>
-  );
-}
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ name, label, rows = 3, errors }, ref) => {
+    const hasErrors = Boolean(errors?.[name]);
+    return (
+      <div>
+        <label htmlFor={name} className="block">
+          <span className="text-sm font-semibold tracking-wider uppercase">
+            {label}
+          </span>
+          <textarea
+            id={name}
+            name={name}
+            rows={rows}
+            ref={ref}
+            aria-invalid={hasErrors}
+            className="w-full border-gray-300 focus:ring-2 focus:ring-blue-500 focus-within:ring-opacity-50"
+          />
+        </label>
+        <ErrorMessage errors={errors} name={name} label={label} />
+      </div>
+    );
+  }
+);
 
 export { Textarea };
