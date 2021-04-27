@@ -8935,10 +8935,10 @@
     "use-callback-ref" "^1.2.1"
     "use-sidecar" "^1.0.1"
 
-"react-hook-form@^7.3.4":
-  "integrity" "sha512-xreG3NHFlbKFrN1Fs+rZUT5RN9zkx4qn0vyY+6tO1xNfhOkfgwkTYU1/PkktYsWw6GerMw16vX5CPdIZVfyB1A=="
-  "resolved" "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.3.4.tgz"
-  "version" "7.3.4"
+"react-hook-form@^6.15.7":
+  "integrity" "sha512-cfJoBCF/hEjrgfto+70pLDi/F5IBWr5hQhYDFklxb+zyttQORVs+y70OaY4Z4V3IZFeY5oN3ECzEwBaiO1tT1A=="
+  "resolved" "https://registry.npmjs.org/react-hook-form/-/react-hook-form-6.15.7.tgz"
+  "version" "6.15.7"
 
 "react-icons@^4.2.0":
   "integrity" "sha512-rmzEDFt+AVXRzD7zDE21gcxyBizD/3NqjbX6cmViAgdqfJ2UiLer8927/QhhrXQV7dEj/1EGuOTPp7JnLYVJKQ=="
