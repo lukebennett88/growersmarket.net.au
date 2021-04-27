@@ -69,8 +69,6 @@ function Topbar() {
 
 function MobileMenu({ isOpen, setIsOpen }) {
   const router = useRouter();
-  const MotionDialogOverlay = motion.custom(DialogOverlay);
-  const MotionDialogContent = motion.custom(DialogContent);
   const transition = { min: 0, max: 100, bounceDamping: 9 };
   const [navigation, setNavigation] = React.useState(
     siteNavigation.mainNavigation
@@ -84,7 +82,8 @@ function MobileMenu({ isOpen, setIsOpen }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <MotionDialogOverlay
+        <DialogOverlay
+          as={motion.div}
           onDismiss={close}
           initial="closed"
           animate="open"
@@ -94,7 +93,8 @@ function MobileMenu({ isOpen, setIsOpen }) {
           id="mobile-menu"
           className="fixed inset-0 z-40 flex justify-end bg-black bg-opacity-75 pl-14"
         >
-          <MotionDialogContent
+          <DialogContent
+            as={motion.div}
             aria-label="Site navigation"
             initial="closed"
             animate="open"
@@ -182,8 +182,8 @@ function MobileMenu({ isOpen, setIsOpen }) {
                 </div>
               </nav>
             </div>
-          </MotionDialogContent>
-        </MotionDialogOverlay>
+          </DialogContent>
+        </DialogOverlay>
       )}
     </AnimatePresence>
   );
