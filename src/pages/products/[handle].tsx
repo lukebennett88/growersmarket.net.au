@@ -225,6 +225,12 @@ async function getServerSideProps({ params }: IParams) {
     handle: params.handle,
   });
 
+  if (!product) {
+    return {
+      notFound: true,
+    };
+  }
+
   const topSelling: ITopSellingProducts = await getTopSelling({
     query: `${
       product.productType && `product_type:${product.productType}, `
