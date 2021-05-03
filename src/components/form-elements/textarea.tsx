@@ -4,30 +4,56 @@ import { DeepMap, FieldError } from 'react-hook-form';
 import { ErrorMessage } from './error-message';
 
 type TextareaProps = {
-  name: string;
-  label: string;
-  rows?: number;
   errors: DeepMap<Record<string, unknown>, FieldError>;
-};
+  label: string;
+  name: string;
+  required?: boolean;
+  rows?: number;
+} & (
+  | { description: string; descriptionId: string }
+  | { description?: never; descriptionId?: never }
+);
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ name, label, rows = 3, errors }, ref) => {
+  (
+    {
+      description,
+      descriptionId,
+      errors,
+      label,
+      name,
+      required,
+      rows = 4,
+      ...rest
+    },
+    ref
+  ) => {
     const hasErrors = Boolean(errors?.[name]);
     return (
       <div>
-        <label htmlFor={name} className="block">
-          <span className="text-sm font-semibold tracking-wider uppercase">
+        <div className="flex justify-between">
+          <label htmlFor={name} className="sr-only">
             {label}
-          </span>
+          </label>
+          {description ? (
+            <span id={descriptionId} className="text-sm text-gray-500">
+              {description}
+            </span>
+          ) : null}
+        </div>
+        <div className="mt-1">
           <textarea
+            aria-describedby={description ? descriptionId : undefined}
+            ref={ref}
             id={name}
             name={name}
+            placeholder={label}
             rows={rows}
-            ref={ref}
-            aria-invalid={hasErrors}
+            required={required}
             className="w-full border-gray-300 focus:ring-2 focus:ring-blue-500 focus-within:ring-opacity-50"
+            {...rest}
           />
-        </label>
+        </div>
         <ErrorMessage errors={errors} name={name} label={label} />
       </div>
     );
