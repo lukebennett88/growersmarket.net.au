@@ -1,6 +1,18 @@
 import { getAllProductsForAlgolia } from '@lib/get-all-products-for-algolia';
 import algoliasearch from 'algoliasearch';
+import Cors from 'cors';
 import { NextApiRequest, NextApiResponse } from 'next';
+
+import { initMiddleware } from '../../lib/init-middelware';
+
+// Initialize the CORS middleware
+const cors = initMiddleware(
+  // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
+  Cors({
+    // Only allow requests with GET, POST and OPTIONS
+    methods: ['GET', 'POST', 'OPTIONS'],
+  })
+);
 
 const {
   NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
@@ -29,6 +41,9 @@ export default async function handler(
   _req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Run cors
+  await cors(_req, res);
+
   const client = algoliasearch(
     NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
     ALGOLIA_WRITE_API_KEY
