@@ -12,6 +12,8 @@ class AppDocument extends Document {
     return (
       <Html lang="en-AU">
         <Head>
+          {/* Load polyfills */}
+          <script src="https://cdn.polyfill.io/v3/polyfill.min.js" />
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <script
             async
