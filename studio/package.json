@@ -1,34 +1,40 @@
 {
+  "name": "growersmarket",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "package.json",
   "author": "services PD <services@phirannodesigns.com.au>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "sanity build",
+    "deploy": "npm run deploy:studio && npm run deploy:graphql",
+    "deploy:graphql": "sanity graphql deploy --playground",
+    "deploy:studio": "sanity deploy",
+    "dev": "sanity start",
+    "eslint": "eslint --color --ext .js,.json,.jsx,.ts,.tsx ./schemas",
+    "eslint:fix": "npm run eslint -- --fix",
+    "format": "prettier . --write --ignore-unknown"
+  },
   "dependencies": {
-    "@sanity/base": "^2.5.0",
-    "@sanity/block-content-to-react": "^2.0.7",
+    "@sanity/base": "^2.10.2",
     "@sanity/components": "^2.2.6",
-    "@sanity/core": "^2.5.0",
-    "@sanity/default-layout": "^2.5.0",
+    "@sanity/core": "^2.10.2",
+    "@sanity/default-layout": "^2.10.2",
     "@sanity/default-login": "^2.2.6",
-    "@sanity/desk-tool": "^2.5.0",
+    "@sanity/desk-tool": "^2.10.2",
     "@sanity/vision": "^2.2.6",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0"
   },
-  "description": "",
-  "keywords": [
-    "sanity"
-  ],
-  "license": "UNLICENSED",
-  "main": "package.json",
-  "name": "growersmarket",
-  "private": true,
+  "devDependencies": {
+    "eslint-config-adjunct": "^4.11.1",
+    "eslint-config-auto": "^0.7.1"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/phirannodesigns/growersmarket.net.au.git"
-  },
-  "scripts": {
-    "build": "sanity build",
-    "start": "sanity start"
-  },
-  "version": "1.0.0"
+  }
 }
