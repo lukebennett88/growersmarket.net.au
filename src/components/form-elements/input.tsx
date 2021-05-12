@@ -10,6 +10,7 @@ type InputProps = {
   name: string;
   required?: boolean;
   type?: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel';
+  props?: unknown[];
 } & (
   | { description: string; descriptionId: string }
   | { description?: never; descriptionId?: never }
@@ -26,39 +27,36 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       name,
       required,
       type = 'text',
-      ...rest
+      ...props
     },
     ref
-  ) => {
-    const hasErrors = Boolean(errors?.[name]);
-    return (
-      <div>
-        <label htmlFor={name} className="sr-only">
-          {label}
-        </label>
-        {description ? (
-          <span id={descriptionId} className="text-sm text-gray-500">
-            {description}
-          </span>
-        ) : null}
-        <div className="w-full mt-1">
-          <input
-            aria-describedby={description ? descriptionId : undefined}
-            ref={ref}
-            id={name}
-            name={name}
-            placeholder={label}
-            type={type}
-            required={required}
-            autoComplete={autoComplete}
-            className="w-full border-gray-300 focus:ring-2 focus:ring-blue-500 focus-within:ring-opacity-50"
-            {...rest}
-          />
-        </div>
-        <ErrorMessage errors={errors} name={name} label={label} />
+  ) => (
+    <div>
+      <label htmlFor={name} className="sr-only">
+        {label}
+      </label>
+      {description ? (
+        <span id={descriptionId} className="text-sm text-gray-500">
+          {description}
+        </span>
+      ) : null}
+      <div className="w-full mt-1">
+        <input
+          aria-describedby={description ? descriptionId : undefined}
+          ref={ref}
+          id={name}
+          name={name}
+          placeholder={label}
+          type={type}
+          required={required}
+          autoComplete={autoComplete}
+          className="w-full border-gray-300 focus:ring-2 focus:ring-blue-500 focus-within:ring-opacity-50"
+          {...props}
+        />
       </div>
-    );
-  }
+      <ErrorMessage errors={errors} name={name} label={label} />
+    </div>
+  )
 );
 
 export { Input };

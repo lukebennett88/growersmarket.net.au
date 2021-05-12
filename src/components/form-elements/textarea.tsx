@@ -9,6 +9,7 @@ type TextareaProps = {
   name: string;
   required?: boolean;
   rows?: number;
+  props?: unknown[];
 } & (
   | { description: string; descriptionId: string }
   | { description?: never; descriptionId?: never }
@@ -24,40 +25,37 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       name,
       required,
       rows = 4,
-      ...rest
+      ...props
     },
     ref
-  ) => {
-    const hasErrors = Boolean(errors?.[name]);
-    return (
-      <div>
-        <div className="flex justify-between">
-          <label htmlFor={name} className="sr-only">
-            {label}
-          </label>
-          {description ? (
-            <span id={descriptionId} className="text-sm text-gray-500">
-              {description}
-            </span>
-          ) : null}
-        </div>
-        <div className="mt-1">
-          <textarea
-            aria-describedby={description ? descriptionId : undefined}
-            ref={ref}
-            id={name}
-            name={name}
-            placeholder={label}
-            rows={rows}
-            required={required}
-            className="w-full border-gray-300 focus:ring-2 focus:ring-blue-500 focus-within:ring-opacity-50"
-            {...rest}
-          />
-        </div>
-        <ErrorMessage errors={errors} name={name} label={label} />
+  ) => (
+    <div>
+      <div className="flex justify-between">
+        <label htmlFor={name} className="sr-only">
+          {label}
+        </label>
+        {description ? (
+          <span id={descriptionId} className="text-sm text-gray-500">
+            {description}
+          </span>
+        ) : null}
       </div>
-    );
-  }
+      <div className="mt-1">
+        <textarea
+          aria-describedby={description ? descriptionId : undefined}
+          ref={ref}
+          id={name}
+          name={name}
+          placeholder={label}
+          rows={rows}
+          required={required}
+          className="w-full border-gray-300 focus:ring-2 focus:ring-blue-500 focus-within:ring-opacity-50"
+          {...props}
+        />
+      </div>
+      <ErrorMessage errors={errors} name={name} label={label} />
+    </div>
+  )
 );
 
 export { Textarea };
