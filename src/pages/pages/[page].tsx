@@ -69,8 +69,9 @@ async function getStaticPaths() {
 
 async function getStaticProps({ params }) {
   const allSanityPages = await getAllSanityPages();
-  const pageId = allSanityPages.find(({ slug }) => slug.current === params.page)
-    ._id;
+  const pageId = allSanityPages.find(
+    ({ slug }) => slug.current === params.page
+  )._id;
 
   const sanityPage = await getSanityPage({
     id: pageId,

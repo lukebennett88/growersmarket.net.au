@@ -41,9 +41,8 @@ function ProductTypePage({
   bottomCta,
 }: IProductTypePage): React.ReactElement {
   const [filter, setFilter] = React.useState('All');
-  const [filteredCollections, setFilteredCollections] = React.useState(
-    collections
-  );
+  const [filteredCollections, setFilteredCollections] =
+    React.useState(collections);
 
   // Update state whenever filter changes
   React.useEffect(() => {

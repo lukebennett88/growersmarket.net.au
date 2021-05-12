@@ -106,11 +106,8 @@ function ResultsWrapper({ children }) {
 const ComboboxContext = React.createContext<ComboboxContextValue>({} as any);
 
 function Combobox({ onSelect: onSelectProp, ...props }: ComboboxProps) {
-  const {
-    addOptionData,
-    getOptionData,
-    removeOptionData,
-  } = useOptionDataFactory();
+  const { addOptionData, getOptionData, removeOptionData } =
+    useOptionDataFactory();
 
   const onSelectRef = React.useRef(onSelectProp);
   React.useEffect(() => {

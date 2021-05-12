@@ -14,10 +14,8 @@ const cors = initMiddleware(
   })
 );
 
-const {
-  NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
-  ALGOLIA_WRITE_API_KEY,
-} = process.env;
+const { NEXT_PUBLIC_ALGOLIA_APPLICATION_ID, ALGOLIA_WRITE_API_KEY } =
+  process.env;
 
 interface Product {
   objectID: string;
