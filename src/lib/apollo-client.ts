@@ -6,7 +6,7 @@ import {
 } from '@apollo/client';
 
 const sanityLink = new HttpLink({
-  uri: `https://l3fqvsnn.api.sanity.io/v1/graphql/production/default`,
+  uri: `https://l3fqvsnn.api.sanity.io/v2021-03-25/graphql/production/default`,
 });
 
 const shopifyLink = new HttpLink({
