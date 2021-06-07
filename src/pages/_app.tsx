@@ -10,6 +10,7 @@ import * as gtag from '@lib/gtag';
 import { ShopifyContextProvider } from '@lib/shopify-context';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
+import LogRocket from 'logrocket';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -17,6 +18,8 @@ import { DefaultSeo } from 'next-seo';
 import * as React from 'react';
 
 import siteSettings from '../data/site-settings.json';
+
+LogRocket.init('uelrcs/growers-market');
 
 function App({ Component, pageProps }: AppProps) {
   Sentry.init({
