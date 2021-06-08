@@ -11,6 +11,7 @@ import { ShopifyContextProvider } from '@lib/shopify-context';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import LogRocket from 'logrocket';
+import setupLogRocketReact from 'logrocket-react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -20,6 +21,7 @@ import * as React from 'react';
 import siteSettings from '../data/site-settings.json';
 
 LogRocket.init('uelrcs/growers-market');
+setupLogRocketReact(LogRocket);
 
 function App({ Component, pageProps }: AppProps) {
   Sentry.init({
