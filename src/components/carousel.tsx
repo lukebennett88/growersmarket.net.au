@@ -1,7 +1,7 @@
 import 'keen-slider/keen-slider.min.css';
 
 import { ISlide } from '@lib/get-all-slides';
-import sanityClient from '@sanity/client';
+import { configuredSanityClient } from '@lib/sanity-client';
 import KeenSlider, { useKeenSlider } from 'keen-slider/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -165,12 +165,6 @@ function PagingDots({ slider, currentSlide }: IPagingDots): React.ReactElement {
     </div>
   );
 }
-
-const configuredSanityClient = sanityClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  useCdn: true,
-});
 
 function Slide({ slide, className }: { slide: ISlide; className: string }) {
   const { src, loader } = useNextSanityImage(
