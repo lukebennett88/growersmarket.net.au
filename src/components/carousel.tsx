@@ -32,7 +32,6 @@ interface IProductSlider {
   children: React.ReactNode;
 }
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 function ProductSlider({ children }: IProductSlider): React.ReactElement {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [isMounted, setIsMounted] = React.useState(false);

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { algoliaClient } from '@lib/algolia-client';
 import type {
   ComboboxOptionProps as ReachComboboxOptionProps,

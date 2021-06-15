@@ -1,6 +1,5 @@
 #! /usr/bin/env node
 
-/* eslint-disable sonarjs/no-identical-functions */
 const dotenv = require('dotenv');
 const { gql } = require('@apollo/client');
 const fetch = require('node-fetch');

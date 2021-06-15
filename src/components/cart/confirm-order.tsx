@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { useCartContext } from '@lib/cart-context';
 import { useCheckoutUrl } from '@lib/hooks/use-checkout-url';
 import { useShopifyContext } from '@lib/shopify-context';
@@ -10,7 +9,6 @@ import { FaSpinner } from 'react-icons/fa';
 
 import { ProductSummary } from './product-summary';
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 function ConfirmOrder(): React.ReactElement {
   const { state, setState } = useCartContext();
 
