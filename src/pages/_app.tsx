@@ -1,6 +1,5 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import 'typeface-montserrat';
-import 'intersection-observer';
 import '../styles/globals.css';
 
 import { ApolloProvider } from '@apollo/client';
