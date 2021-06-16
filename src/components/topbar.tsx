@@ -134,7 +134,7 @@ function MobileMenu({ isOpen, setIsOpen }) {
             </div>
             <div className="flex-1 h-0 mt-5 overflow-y-auto">
               {productType && (
-                <Link href={productType.route}>
+                <Link href={`/${productType.route}`}>
                   <a
                     onClick={close}
                     className={`w-full flex items-center px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out border-l-4 border-transparent hover:border-yellow hover:bg-gray-50 hover:text-gray-900 group ${
