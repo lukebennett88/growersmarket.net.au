@@ -167,16 +167,6 @@ function MobileMenu({ isOpen, setIsOpen }) {
                     )
                   )}
                 </div>
-                <div className="pt-10 mt-auto space-y-1">
-                  <Link href="/account">
-                    <a
-                      onClick={close}
-                      className="flex items-center px-4 py-2 text-sm font-medium text-white rounded-md group hover:text-gray-900 hover:bg-gray-50"
-                    >
-                      Account
-                    </a>
-                  </Link>
-                </div>
               </nav>
             </div>
           </DialogContent>
