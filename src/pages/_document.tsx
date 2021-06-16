@@ -22,11 +22,11 @@ class AppDocument extends Document {
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <Script
             async
-            strategy="lazyOnload"
+            strategy="afterInteractive"
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
           />
           <Script
-            strategy="lazyOnload"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: stripIndent(`
                 window.dataLayer = window.dataLayer || [];
@@ -40,7 +40,7 @@ class AppDocument extends Document {
           />
           {/* Userback Feedback Widget */}
           <Script
-            strategy="lazyOnload"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: stripIndent(`
                 window.Userback = window.Userback || {};
