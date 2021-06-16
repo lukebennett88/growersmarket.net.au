@@ -1,6 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';

@@ -1,4 +1,3 @@
-/* eslint-disable promise/catch-or-return */
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';

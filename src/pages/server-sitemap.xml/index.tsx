@@ -17,4 +17,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 // Default export to prevent next.js errors
+// eslint-disable-next-line import/no-anonymous-default-export
 export default () => {};

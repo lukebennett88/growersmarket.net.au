@@ -27,7 +27,6 @@ interface IShopifyContextProvider {
 }
 
 // Create React Provider for Shopify cart
-// eslint-disable-next-line sonarjs/cognitive-complexity
 function ShopifyContextProvider({
   shopName,
   accessToken,
@@ -49,7 +48,6 @@ function ShopifyContextProvider({
   const [cart, setCart] = React.useState<ShopifyBuy.Cart | null>(initialCart);
 
   React.useEffect(() => {
-    // eslint-disable-next-line unicorn/consistent-function-scoping
     async function getNewCart() {
       const newCart = await client.checkout.create();
       setCart(newCart);

@@ -10,7 +10,6 @@ const LocalStorageKeys = {
 };
 
 // Check if a value is a cart
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isCart(potentialCart: any): potentialCart is ShopifyBuy.Cart {
   return (
     potentialCart !== null &&

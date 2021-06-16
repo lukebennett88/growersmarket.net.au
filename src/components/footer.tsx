@@ -7,11 +7,8 @@ import { ContactForm } from './contact-form';
 import { Logo } from './vectors/logo';
 
 function Footer() {
-  const [
-    categories,
-    information,
-    myAccount,
-  ] = siteNavigation.footerNavigation.navLinks;
+  const [categories, information, myAccount] =
+    siteNavigation.footerNavigation.navLinks;
   return (
     <footer aria-labelledby="footer-heading" className="bg-gray-light">
       <h2 id="footer-heading" className="sr-only">

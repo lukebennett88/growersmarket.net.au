@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Transition } from '@headlessui/react';
 import { useOnClickOutside } from '@lib/hooks/use-onclick-outside';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@reach/tabs';
@@ -130,7 +128,7 @@ function CTA({ closeTab, href, label, src }: CTAProps): React.ReactElement {
               onClick={closeTab}
               className="relative flex-1 block"
             >
-              <Image src={src} layout="fill" objectFit="cover" />
+              <Image src={src} layout="fill" objectFit="cover" alt="" />
             </a>
           </Link>
           <div className="relative flex mt-8">

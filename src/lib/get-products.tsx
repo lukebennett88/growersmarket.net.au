@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-identical-functions */
 import { gql } from '@apollo/client';
 
 import { apolloClient } from './apollo-client';

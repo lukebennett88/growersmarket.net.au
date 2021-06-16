@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import * as React from 'react';
 import { FaSpinner } from 'react-icons/fa';
 
