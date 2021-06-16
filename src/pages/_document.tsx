@@ -20,13 +20,11 @@ class AppDocument extends Document {
             src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"
           />
           {/* Global Site Tag (gtag.js) - Google Analytics */}
-          <Script
+          <script
             async
-            strategy="afterInteractive"
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
           />
-          <Script
-            strategy="afterInteractive"
+          <script
             dangerouslySetInnerHTML={{
               __html: stripIndent(`
                 window.dataLayer = window.dataLayer || [];
@@ -39,8 +37,7 @@ class AppDocument extends Document {
             }}
           />
           {/* Userback Feedback Widget */}
-          <Script
-            strategy="afterInteractive"
+          <script
             dangerouslySetInnerHTML={{
               __html: stripIndent(`
                 window.Userback = window.Userback || {};
