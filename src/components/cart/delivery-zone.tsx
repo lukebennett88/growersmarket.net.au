@@ -54,7 +54,11 @@ function DeliveryZone(): React.ReactElement {
         >
           <h3 className="font-bold">{heading || zone}</h3>
           <p>Delivered on: {deliveryDays}</p>
-          <p>Please place your order before 10am the day prior to delivery.</p>
+          <p>
+            Please place your order before{' '}
+            {zone === 'Port Macquarie' ? '5pm' : '10am'} the day prior to
+            delivery.
+          </p>
         </Button>
       ))}
     </Section>
