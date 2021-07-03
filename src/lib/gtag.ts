@@ -1,5 +1,5 @@
 // @ts-nocheck
-const GA_TRACKING_ID = 'G-KX5ZWLSWGB';
+const GA_TRACKING_ID = 'UA-190817483-1';
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 function pageview(url: string) {
